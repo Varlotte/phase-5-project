@@ -8,63 +8,54 @@ Enter RXGnosis: a tool that empowers patients to come to doctor's appointments w
 ## User Stories:
 * Users will be able to create a secure RXGnosis account where they'll record their current diagnoses and prescriptions. 
 * From there, they'll be able to read up on four of the most common mental health diagnoses: depression, anxiety, ptsd, and adhd.
-* Clicking into one of these conditions will show a short description and a link to RXMatch. 
-* RX Match feature works just like tinder, but for mental health care. Patients will be able to use the accessible interface to swipe through reliable information from a federal API about commonly prescribed medications for a treatment, view side effects, and save the medications that look most relevant to their needs.
-* Users will be able to show their faved meds list to providers in appointments to better advocate for their own care and be a more informed part of a greater health care conversation.
+* Clicking into one of these conditions will take users to RXMatch for that condition. 
+* RX Match feature works just like Tinder, but for mental health care. Patients will be able to use the accessible interface to swipe through reliable information from a federal API about commonly prescribed medications for a treatment, view side effects, and save the medications that look most relevant to their needs.
+* Users will be able to show their faved meds list to providers in appointments to better advocate for their own care and be a more informed part of a greater healthcare conversation.
 
 ## Caveats:
-1. This is not a diagnostic tool. There will be clear disclaimers on the side indicating that this tool is for people who already have their diagnosis from a professional. We'll also provide resources to our data sets and sources and recommend users not use WebMD.
+1. This is not a diagnostic tool. There will be clear disclaimers on the site indicating that this tool is for people who already have their diagnosis from a professional. We'll also provide resources to our data sets and sources and recommend users not use WebMD.
 2. Not all medications or treatment plans will be on here, especially off-label prescriptions. This won't be all-inclusive, and there will be disclaimers for that.
 3. There will probably need to be a disclaimer here about HIPAA if this ever goes public.
 
 ## CRUD functionality:
-* C- create user account, create my fave
+* C- create user account, create my fave, create a curr_medication, create a user condition
 * R- read my account info, read medication info, read condition info, read my faves
 * U- update my account info
-* D- delete my account, delete my fave (aka unfave)
+* D- delete my account, delete my fave (aka unfave), delete a curr_medication, delete a user condition
+* full CRUD on user object, partial CRUD on faves, curr_medications, and conditions
 
 ## Wirefame Sketches:
 ![CFECD5EA-F677-4B93-95A2-B4F06D1E241B_1_102_o](https://github.com/Varlotte/phase-5-project/assets/32116877/6db9e010-e216-43cc-9dea-2dadf265a6d7)
 
 ## API Contract: 
-tentative routing
-* GET /user/<int:id> (read my account)
-* GET /medication (full medication list for RXMatch)
-* GET /medication/<int:id> (read specific medication info)
-* GET /fave_medication (read fave medications list)
-* GET /curr_medication (read user curr medications list)
-* GET/conditions (read list of conditions)
-* GET/conditions/<int:id> (read a specific condition)
-* PATCH /user/<int:id> (update my account info)
-* PATCH /user/curr_medication/<int:id> (update specific curr_medication to reflect what user is prescribed and taking)
-* PATCH /user/condition/<int:id> (update user condition to reflect most accurate diagnosis)
-* POST /user/<int:id> (create new user account)
-* POST /user/login (login is a POST request)
-* POST /fave_medication/<int:id> (add new fave medication to user fave list)
-* DELETE /fave_medication/<int:id> (delete fave medication if user no longer wants to save it)
-* DELETE /curr_medication/<int:id> (delete specific curr_medication if user is no longer prescribed or taking it)
-* DELETE /user/<int:id> (delete account)
-* DELETE /user/condition/<int:id> (delete user condition i.e., delete a diagnosis if no longer relevant)
+tentative routing:
 
-## Frontend Components making API requests:
-1. Login/Create Acct: POST /user/<int:id>, POST /user/login 
-2. My Acct: GET /user/<int:id>, GET /fave_medication, GET /curr_medication, PATCH /user/<int:id>, PATCH /user/curr_medication/<int:id>, PATCH /user/condition/<int:id>, DELETE /fave_medication/<int:id>, DELETE /curr_medication/<int:id> DELETE /user/<int:id>, DELETE /user/condition/<int:id> 
-3. Conditions: GET/conditions and GET/conditions/<int:id>
-4. RXMatch: GET to /medication, POST /fave_medication/<int:id> (add new fave medication to user fave list), 
-5. My Faves: GET to /fave_medication, POST to /fave_medication/<int:id>, DELETE to /fave_medication/<int:id>
-6. Specific Medication Details: GET to /medication/<int:id>
-7. Resources: this one won't make requests, it'll be a static list of further resources
+* POST /users (create new user account)
+  
+* GET /users/<int:id> (read my account, also will be serialized to include reads for user's curr_meds, faves, and conditions)
+* PATCH /users/<int:id> (update my account info, including name/email and adding and removing curr_meds, faves, conditions)
+* DELETE /users/<int:id> (delete account)
+  
+* GET /medications/<int:id> (read specific medication info)
+  
+* GET /conditions (read list of conditions)
+  
+* GET /conditions/<int:id> (read a specific condition and all meds associated with it for RXMatch)
+  
+* POST /login (login is a POST request)
+* POST /logout (logout is a POST request)
+
 
 ## Data Models and Relationships:
 <img width="634" alt="Screenshot 2023-10-23 at 2 35 16 PM" src="https://github.com/Varlotte/phase-5-project/assets/32116877/4694f93a-e5a4-4191-8bc0-4e82ab19d1aa">
 
 ### Relationships:
-* Many users can fave many medications
-* Many medications can be faved by a user
-* A user has many curr medications
-* A curr medication has many users
+* A user can fave many medications
+* A medication can be faved by many users
+* A user has many current medications
+* A medication can be currently used by many users
 * A user can have many conditions
-* Many conditions can affect many users
+* A condition can affect many users
 * A medication can treat many conditions
 * A condition can be treated by many medications
 
@@ -72,7 +63,7 @@ tentative routing
 * Name must be a string longer than 0 characters.
 * Users must be older than 18.
 * Password must be longer than 12 characters.
-* Email must contain '@' symbol and '.'
+* Email must contain '@' symbol.
 
 ## Stretch Goals:
 1. Drug interactions.
@@ -85,10 +76,10 @@ tentative routing
 8. Printable/mobile-friendly version of the faved meds page.
 
 ## If Scaling Down is Necessary:
-1. Cut the swiping function and just make commonly prescribed meds a clickable list.
-2. Remove the curr meds and user conditions tables tracking current treatment/conditions and just let users focus on future doctor appointments.
+1. Remove the curr meds and user conditions tables tracking current treatment and conditions and just let users focus on future doctor appointments.
+2. Make RXMatch a list, not a Tinder-like UX swipe.
 
 ## Risks:
-* Hopefully the National Library of Medicine/National Institutes of Health APIs have everything I need.
+* Hopefully the National Library of Medicine/National Institutes of Health/FDA APIs have everything I need for drug info.
 * In the real world, this would take maneuvering for HIPAAA compatibility.
-* There might be too many relationships for this stage of the project.
+* There might be too many relationships for this stage of the project (see above for things I can cut.)
