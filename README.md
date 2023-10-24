@@ -83,3 +83,7 @@ tentative routing:
 * Hopefully the National Library of Medicine/National Institutes of Health/FDA APIs have everything I need for drug info.
 * In the real world, this would take maneuvering for HIPAAA compatibility.
 * There might be too many relationships for this stage of the project (see above for things I can cut.)
+
+## How Work Is Tracked:
+* <img width="1107" alt="Screenshot 2023-10-23 at 9 14 47 PM" src="https://github.com/Varlotte/phase-5-project/assets/32116877/722905b3-a2f6-4566-a7e8-213f5cc41c88">
+* Using Linear.app, dividing work up into weeklong sprints with tickets linked to pull requests
