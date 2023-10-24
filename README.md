@@ -9,7 +9,7 @@ Enter RXGnosis: a tool that empowers patients to come to doctor's appointments w
 * Users will be able to create a secure RXGnosis account where they'll record their current diagnoses and prescriptions. 
 * From there, they'll be able to read up on four of the most common mental health diagnoses: depression, anxiety, ptsd, and adhd.
 * Clicking into one of these conditions will take users to RXMatch for that condition. 
-* RX Match feature works just like Tinder, but for mental health care. Patients will be able to use the accessible interface to swipe through reliable information from a federal API about commonly prescribed medications for a treatment, view side effects, and save the medications that look most relevant to their needs.
+* RX Match feature works just like Tinder, but for mental health care. Patients will be able to use the accessible interface to swipe through reliable information from a federal API about commonly prescribed medications for a treatment, view side effects, and save the medications that look most relevant to their needs to bring to future doctors' appointments.
 * Users will be able to show their faved meds list to providers in appointments to better advocate for their own care and be a more informed part of a greater healthcare conversation.
 
 ## Caveats:
@@ -33,8 +33,17 @@ tentative routing:
 * POST /users (create new user account)
   
 * GET /users/<int:id> (read my account, also will be serialized to include reads for user's curr_meds, faves, and conditions)
-* PATCH /users/<int:id> (update my account info, including name/email and adding and removing curr_meds, faves, conditions)
+* PATCH /users/<int:id> (update my account info, including name/email)
 * DELETE /users/<int:id> (delete account)
+    
+* POST /users/<int:id>/faves (adds new fave to a medication)
+* DELETE/users/<int:id>/faves (unfaves a medication)
+  
+* POST /users/<int:id>/curr_meds (adds a new current medication if user is taking or prescribed it)
+* DELETE/users/<int:id>/curr_meds (removes a current medication if user is no longer taking or prescribed it)
+  
+* POST /users/<int:id>/conditions (adds a new diagnosis to reflect user's most accurate diagnoses)
+* DELETE /users/<int:id>/conditions (removes a diagnosis to reflect user's most accurate diagnoses)
   
 * GET /medications/<int:id> (read specific medication info)
   
@@ -67,17 +76,24 @@ tentative routing:
 
 ## Stretch Goals:
 1. Drug interactions.
-2. Letting users rate their experiences with their current medications.
+2. Letting users privately rate their experiences with their current medications.
 3. Including commonly prescribed dosages for medications.
 4. Including more than four conditions.
-5. Tracking side effects.
-6. Allowing users to leave notes and ratings about providers.
+5. Tracking side effects privately.
+6. Allowing users to leave private notes and ratings about providers.
 7. Allowing users to search by active medications (with a link to Medlineplus.)
 8. Printable/mobile-friendly version of the faved meds page.
 
 ## If Scaling Down is Necessary:
-1. Remove the curr meds and user conditions tables tracking current treatment and conditions and just let users focus on future doctor appointments.
+1. Remove the curr meds and user conditions tables tracking users' current treatment and conditions to instead prioritize developing RXMatch (faved medications.) (If this ends up being done, models used will be Medication, User, Condition, with Faved Med, and Treatment as intermediate tables.) Curr_meds and User Conditions can then be added back in as stretch goals.
 2. Make RXMatch a list, not a Tinder-like UX swipe.
+
+## External APIs:
+(tentative, still reviewing which ones will be most useful)
+* https://open.fda.gov/apis/drug/drugsfda/ (FDA API containing most drug products approved since 1998. Huge data set, no public key needed, but might be hard to navigate.)
+* https://lhncbc.nlm.nih.gov/RxNav/APIs/api-RxNorm.getDrugs.html (National Library of Medicine API- this one has an exhaustive list of drugs by brand name and generic)
+* https://lhncbc.nlm.nih.gov/RxNav/APIs/api-Interaction.findDrugInteractions.html (National Library of Medicine API- this is for tracking drug interactions, which is a stretch goal)
+* https://www.goodrx.com/developer/documentation (GoodRX API, tracks names (both generic and brand) but is more focused on price than anything else and is a private company so less reliable.)
 
 ## Risks:
 * Hopefully the National Library of Medicine/National Institutes of Health/FDA APIs have everything I need for drug info.
