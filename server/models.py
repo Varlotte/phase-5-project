@@ -15,8 +15,6 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String)
     password = db.Column(db.String)
     birthday = db.Column(db.Date)
-    pronouns = db.Column(db.String)
-    #do I need this?
 
     #relationships with faves
     faves = db.relationship(
@@ -56,9 +54,10 @@ class User(db.Model, SerializerMixin):
         difference= today - birthday
         age_in_days=difference.days
         if birthday and age_in_days >= 6570:
+            #6570 is the number of days in 18 years
             return birthday
         else:
-            raise ValueError("Must have valid birthday attribute")
+            raise ValueError("Users must be over 18 years old.")
         
 
 #faves as the intermediate between med and user
@@ -67,10 +66,11 @@ class Fave(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     faved_on = db.Column(db.Date)
+    #can this be set as a default to "today?"
     unfaved_on = db.Column(db.Date)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    medication_id = db.Column(db.Integer, db.ForeignKey('medication.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    medication_id = db.Column(db.Integer, db.ForeignKey('medications.id'))
 
     #serialize rules
     serialize_rules = ("-user.faves", "-medication.faves")
@@ -84,15 +84,16 @@ class Medication(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name_generic = db.Column(db.String)
     name_brand = db.Column(db.String)
-    #maybe more stuff, like a description, depending on what is in the APIs
+    #maybe more stuff later, like a description of side effects, depending on what is in the APIs
 
     #adding a relationship to faves and treatments
     faves = db.relationship(
         "Fave", backref="medication", cascade="all, delete-orphan")
     
-    #serializing other users' medications (others needed here?)
-    serialize_rules = ("-users.medication",)
+    #serializing other faved medications (others needed here?)
+    serialize_rules = ("-faves.medication",)
     
+    #relationship with treatments
     treatments = db.relationship(
         "Treatment", backref="medication", cascade="all, delete-orphan")
     
@@ -124,9 +125,10 @@ class Treatment(db.Model, SerializerMixin):
     medication_id = db.Column(db.Integer, db.ForeignKey("medications.id"))
 
     #dosage_id = db.Column(db.Integer, db.ForeignKey("dosage.id"))
+    #dosage is a stretch goal for later
 
     #I think this serializes logically?
-    serialize_rules = ("-medication.treatments","-conditions.treatments")
+    serialize_rules = ("-medication.treatments","-condition.treatments")
 
 
 class Condition(db.Model, SerializerMixin):
