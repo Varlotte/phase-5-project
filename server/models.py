@@ -62,7 +62,7 @@ class User(db.Model, SerializerMixin):
 
 #faves as the intermediate between med and user
 class Fave(db.Model, SerializerMixin):
-    __table_name__ = 'faves'
+    __tablename__ = 'faves'
 
     id = db.Column(db.Integer, primary_key=True)
     faved_on = db.Column(db.Date)
@@ -82,8 +82,13 @@ class Medication(db.Model, SerializerMixin):
     __tablename__ = 'medications'
 
     id = db.Column(db.Integer, primary_key=True)
-    name_generic = db.Column(db.String)
     name_brand = db.Column(db.String)
+    name_generic = db.Column(db.String)
+    drug_class = db.Column(db.String)
+    prescribed_for = db.Column(db.String)
+    side_effects = db.Column(db.String)
+    pill_image= db.Column(db.String)
+    
     #maybe more stuff later, like a description of side effects, depending on what is in the APIs
 
     #adding a relationship to faves and treatments
@@ -132,7 +137,7 @@ class Treatment(db.Model, SerializerMixin):
 
 
 class Condition(db.Model, SerializerMixin):
-    __table_name__ = "conditions"
+    __tablename__ = "conditions"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
