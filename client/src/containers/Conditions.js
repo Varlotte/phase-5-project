@@ -1,8 +1,31 @@
 //for the four conditions to go into rxmatch
 import React, { useEffect, useState, createContext } from "react";
+import ConditionsCard from "../components/ConditionsCards";
+
+const conditionsAPI = "http://localhost:3000/conditions";
 
 function Conditions() {
-  return <div>Wow, conditions!</div>;
+  const [conditionsData, setConditionsData] = useState([]);
+
+  useEffect(() => {
+    fetch(conditionsAPI)
+      .then((r) => r.json())
+      .then((data) => {
+        setConditionsData(data);
+      });
+  }, []);
+
+  const renderConditions = conditionsData.map((condition) => {
+    return <ConditionsCard key={condition.id} condition={condition} />;
+  });
+
+  return (
+    <div>
+      Click on a condition to see which meds are commonly prescribed for it
+      <ul className="cards">{renderConditions}</ul>
+    </div>
+  );
 }
+
 //import conditions cards here
 export default Conditions;

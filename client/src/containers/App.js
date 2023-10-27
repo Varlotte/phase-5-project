@@ -16,7 +16,7 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <Switch>
-          <Route path="/conditions:id">
+          <Route path="/conditions/:id">
             <RXMatch />
           </Route>
           <Route path="/conditions">
