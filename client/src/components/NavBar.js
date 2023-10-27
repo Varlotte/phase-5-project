@@ -5,7 +5,9 @@ function NavBar() {
   //session storage or usecontext here for curr user
   return (
     <div className="navbar">
-      <Link to="/conditions">Conditions</Link>
+      <Link className="font-bold" to="/conditions">
+        Conditions
+      </Link>
       <Link to="/">Sign Up</Link>
       {/* {!currentUser ? (
         <Link to="/login">Log In</Link>
