@@ -7,6 +7,7 @@ import Account from "./Account";
 import Resources from "./Resources";
 import RXMatch from "./RXMatch";
 import NavBar from "../components/NavBar";
+import Login from "../components/LogIn";
 
 function App() {
   return (
@@ -26,6 +27,9 @@ function App() {
           </Route>
           <Route path="/account">
             <Account />
+          </Route>
+          <Route path="/login">
+            <Login />
           </Route>
           <Route path="/">
             <LandingPage />

@@ -34,7 +34,7 @@ class User(db.Model, SerializerMixin):
     
     @validates('password')
     def validate_password(self, key, password):
-        if password and len(password) >=9:
+        if password and len(password) >=12:
             return password
         else:
             raise ValueError("Must have valid password")
