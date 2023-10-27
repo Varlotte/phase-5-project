@@ -6,12 +6,14 @@ import Conditions from "./Conditions";
 import Account from "./Account";
 import Resources from "./Resources";
 import RXMatch from "./RXMatch";
+import NavBar from "../components/NavBar";
 
 function App() {
   return (
     <div>
       <h1>Project!</h1>
       <BrowserRouter>
+        <NavBar />
         <Switch>
           <Route path="/conditions:id">
             <RXMatch />
