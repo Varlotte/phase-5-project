@@ -136,7 +136,7 @@ class MedicationsById(Resource):
     def get(self, id):
         medication = Medication.query.filter_by(id=id).first()
         if medication:
-            return make_response(medication.to_dict(rules=("-medication.faves","-medication.treatments")), 200)
+            return make_response(medication.to_dict(rules=("-faves","-treatments")), 200)
         else:
             return make_response({"error": "No medication was found"},404)
         
@@ -155,7 +155,8 @@ class ConditionsById(Resource):
     def get(self, id):
         condition = Condition.query.filter_by(id=id).first()
         if condition:
-            return make_response(condition.to_dict(), 200)
+            #will I ever want to get rid of this dict rule and see affiliated treatments?
+            return make_response(condition.to_dict(rules=("-treatments",)), 200)
         else:
             return make_response({"error": "No condition was found"},404)
         

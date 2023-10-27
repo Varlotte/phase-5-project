@@ -96,14 +96,11 @@ class Medication(db.Model, SerializerMixin):
         "Fave", backref="medication", cascade="all, delete-orphan")
     
     #serializing other faved medications (others needed here?)
-    serialize_rules = ("-faves.medication",)
+    serialize_rules = ("-faves.medication", "-treatments.medication")
     
     #relationship with treatments
     treatments = db.relationship(
         "Treatment", backref="medication", cascade="all, delete-orphan")
-    
-    #serializing out other treatments' medication (others needed here?)
-    serialize_rules = ("-treatments.medication",)
 
 #validate for generic and name brand attributes
     @validates('name_generic')
@@ -146,6 +143,8 @@ class Condition(db.Model, SerializerMixin):
     #relationship with treatment
     treatments = db.relationship(
         "Treatment", backref="condition", cascade="all, delete-orphan")
+    
+    serialize_rules = ("-treatments.condition",)
     
     #do I need a validation for this?
     @validates('name')
