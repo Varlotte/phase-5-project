@@ -16,7 +16,7 @@ export default function Login() {
           padding: "10px",
         }}
       >
-        Login
+        Make sure to log in!
       </h1>
       <Formik
         initialValues={{ email: "", password: "" }}

@@ -10,12 +10,11 @@ function NavBar() {
     gap: "25px",
     justifyContent: "center",
     alignItems: "center",
+    fontWeight: "bold",
   };
   return (
     <div className="navbar" style={navBarStyle}>
-      <Link className="font-bold" to="/conditions">
-        Conditions
-      </Link>
+      <Link to="/conditions">Conditions</Link>
       <Link to="/">Sign Up</Link>
       {/* {!currentUser ? (
         <Link to="/login">Log In</Link>
@@ -24,6 +23,7 @@ function NavBar() {
       )} */}
       <Link to="/login">Log In</Link>
       <Link to="/account">Account</Link>
+      <Link to="/logout">Log Out</Link>
     </div>
   );
 }
