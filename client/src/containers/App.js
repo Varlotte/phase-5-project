@@ -8,6 +8,7 @@ import Resources from "./Resources";
 import RXMatch from "./RXMatch";
 import NavBar from "../components/NavBar";
 import Login from "../components/LogIn";
+import SignUp from "../components/SignUp";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
           </Route>
           <Route path="/conditions">
             <Conditions />
+          </Route>
+          <Route path="/signup">
+            <SignUp />
           </Route>
           <Route path="/resources">
             <Resources />

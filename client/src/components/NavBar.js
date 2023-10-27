@@ -15,7 +15,7 @@ function NavBar() {
   return (
     <div className="navbar" style={navBarStyle}>
       <Link to="/conditions">Conditions</Link>
-      <Link to="/">Sign Up</Link>
+      <Link to="/signup">Sign Up</Link>
       {/* {!currentUser ? (
         <Link to="/login">Log In</Link>
       ) : (
