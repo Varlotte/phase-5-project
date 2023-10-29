@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, make_response, jsonify
+from flask import request, make_response, session
 from flask_restful import Resource
 
 # Local imports
@@ -13,7 +13,8 @@ from models import User, Fave, Medication, Condition, Treatment
 from datetime import datetime, date
 
 # Views go here!
-
+#secret key for session stuff
+app.secret_key = b'hWUZ1t4PZpdp0fCvPbN8'
 #POST to login
 class Login(Resource):
     def post(self):
@@ -24,6 +25,7 @@ class Login(Resource):
         elif user.password != data["password"]:
             return make_response({"error": "incorrect password"}, 403)
         else:
+            session['id'] = user.id
             return make_response({"id": user.id}, 200)
 
 api.add_resource(Login, '/login')
@@ -31,6 +33,7 @@ api.add_resource(Login, '/login')
 #POST to logout, add session cookies/auth things here 
 class Logout(Resource):
     def post(self):
+        session.pop('id', None)
         return make_response("Logout successful", 200)
 
 api.add_resource(Logout, '/logout')
@@ -63,14 +66,17 @@ api.add_resource(Users, '/users')
 #users by ID stuff (check to make sure this will auto return user faves since not excluded from to_dict)
 class UsersByID(Resource):
     def get(self, id):
+        if not "id" in session or session["id"] != user.id:
+            return make_response ({"error": "Unathorized"}, 403)         
         user = User.query.filter_by(id=id).first()
         if user:
             return make_response(user.to_dict(), 200)
         else:
             return make_response({"error": "No user was found"}, 404)
 
-#what would patching email/password look like here instead?
     def patch(self, id):
+        if not "id" in session or session["id"] != user.id:
+            return make_response ({"error": "Unathorized"}, 403)  
         user = User.query.filter_by(id=id).first()
         if user is None:
             return make_response({"error": "No user was found"}, 404)
@@ -89,6 +95,8 @@ class UsersByID(Resource):
                 return make_response({"errors": ["validation errors"]}, 400)
 
     def delete(self, id):
+        if not "id" in session or session["id"] != user.id:
+            return make_response ({"error": "Unathorized"}, 403)  
         user = User.query.filter_by(id=id).first()
         if user:
             db.session.delete(user)
@@ -100,10 +108,12 @@ class UsersByID(Resource):
 
 api.add_resource(UsersByID, '/users/<int:id>')
 
-#POST and DELETE user faves
+#POST and DELETE user faves, protected to only add faves to your own account
 class AddFave(Resource):
     def post(self, id):
         data = request.json
+        if not "id" in session or session["id"] != data["user_id"]:
+            return make_response ({"error": "Unathorized"}, 403)          
         try:
             new_fave = Fave(
                 user_id=data["user_id"],
@@ -119,9 +129,12 @@ class AddFave(Resource):
 
 api.add_resource(AddFave, '/faves')
 
+#can't delete a fave if it's not your account!
 class DeleteFave(Resource):
     def delete(self, id):
         fave = Fave.query.filter_by(id=id).first()
+        if not "id" in session or session["id"] != fave["user_id"]:
+            return make_response ({"error": "Unathorized"}, 403)               
         if fave:
             db.session.delete(fave)
             db.session.commit()
