@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { CurrentUserContext } from "../utils";
 
 function NavBar() {
   //session storage or usecontext here for curr user
+  const { currentUser } = useContext(CurrentUserContext);
   const navBarStyle = {
     padding: "14px",
     height: "60px",
@@ -15,15 +17,18 @@ function NavBar() {
   return (
     <div className="navbar" style={navBarStyle}>
       <Link to="/conditions">Conditions</Link>
-      <Link to="/signup">Sign Up</Link>
-      {/* {!currentUser ? (
-        <Link to="/login">Log In</Link>
+
+      {!currentUser ? (
+        <>
+          <Link to="/signup">Sign Up</Link>
+          <Link to="/login">Log In</Link>
+        </>
       ) : (
-        <Link to="/account"> My Account</Link>
-      )} */}
-      <Link to="/login">Log In</Link>
-      <Link to="/account">Account</Link>
-      <Link to="/logout">Log Out</Link>
+        <>
+          <Link to="/account"> My Account</Link>
+          <Link to="/logout">Log Out</Link>
+        </>
+      )}
     </div>
   );
 }

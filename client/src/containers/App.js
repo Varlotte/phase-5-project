@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route, useHistory } from "react-router-dom";
 
 import LandingPage from "./LandingPage";
@@ -8,38 +8,51 @@ import Resources from "./Resources";
 import RXMatch from "./RXMatch";
 import NavBar from "../components/NavBar";
 import Login from "../components/LogIn";
+import Logout from "./Logout";
 import SignUp from "../components/SignUp";
+import { CurrentUserContext } from "../utils";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
   return (
     <div>
-      <h1>Project!</h1>
-      <BrowserRouter>
-        <NavBar />
-        <Switch>
-          <Route path="/conditions/:id">
-            <RXMatch />
-          </Route>
-          <Route path="/conditions">
-            <Conditions />
-          </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Route path="/resources">
-            <Resources />
-          </Route>
-          <Route path="/account">
-            <Account />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/">
-            <LandingPage />
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      <CurrentUserContext.Provider
+        value={{
+          currentUser,
+          setCurrentUser,
+        }}
+      >
+        <h1>Project!</h1>
+        <BrowserRouter>
+          <NavBar />
+          <Switch>
+            <Route path="/conditions/:id">
+              <RXMatch />
+            </Route>
+            <Route path="/conditions">
+              <Conditions />
+            </Route>
+            <Route path="/signup">
+              <SignUp />
+            </Route>
+            <Route path="/resources">
+              <Resources />
+            </Route>
+            <Route path="/account">
+              <Account />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/logout">
+              <Logout />
+            </Route>
+            <Route path="/">
+              <LandingPage />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </CurrentUserContext.Provider>
     </div>
   );
 }
