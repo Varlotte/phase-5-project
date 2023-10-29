@@ -5,6 +5,7 @@
 # Remote library imports
 from flask import request, make_response, session
 from flask_restful import Resource
+from flask_cors import CORS
 
 # Local imports
 from config import app, db, api
@@ -15,6 +16,13 @@ from datetime import datetime, date
 # Views go here!
 #secret key for session stuff
 app.secret_key = b'hWUZ1t4PZpdp0fCvPbN8'
+# app.config["SESSION_COOKIE_SAMESITE"] = "None"
+# app.config["SESSION_COOKIE_SECURE"] = True
+app.config['SESSION_COOKIE_DOMAIN'] = '127.0.0.1'
+app.config['SESSION_COOKIE_HTTPONLY'] = False
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://127.0.0.1:3000"}})
+
 #POST to login
 class Login(Resource):
     def post(self):
@@ -26,6 +34,7 @@ class Login(Resource):
             return make_response({"error": "incorrect password"}, 403)
         else:
             session['id'] = user.id
+            session['domain'] = '127.0.0.1'
             return make_response({"id": user.id}, 200)
 
 api.add_resource(Login, '/login')
@@ -65,10 +74,12 @@ api.add_resource(Users, '/users')
 #GET, PATCH, and DELETE user accts
 #users by ID stuff (check to make sure this will auto return user faves since not excluded from to_dict)
 class UsersByID(Resource):
-    def get(self, id):
-        if not "id" in session or session["id"] != user.id:
-            return make_response ({"error": "Unathorized"}, 403)         
+    def get(self, id):       
         user = User.query.filter_by(id=id).first()
+        print (session.get("id"))
+        print (user.id)
+        if not "id" in session or session["id"] != user.id:
+            return make_response ({"error": "Unathorized"}, 403)          
         if user:
             return make_response(user.to_dict(), 200)
         else:
