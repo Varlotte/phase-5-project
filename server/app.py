@@ -85,12 +85,12 @@ class UsersByID(Resource):
             return make_response({"error": "No user was found"}, 404)
 
     def patch(self, id):
-        if not "id" in session or session["id"] != user.id:
-            return make_response ({"error": "Unathorized"}, 403)  
         user = User.query.filter_by(id=id).first()
+        data = request.json
         if user is None:
             return make_response({"error": "No user was found"}, 404)
-        data = request.json
+        if not "id" in session or session["id"] != user.id:
+            return make_response ({"error": "Unathorized"}, 403)  
         try:
             if data.get("email"):
                 setattr(user,"email", data["email"]) 
@@ -99,6 +99,7 @@ class UsersByID(Resource):
                 
             db.session.add(user)
             db.session.commit()
+            print (user.id)
             return make_response(user.to_dict(), 201)
                 
         except ValueError:

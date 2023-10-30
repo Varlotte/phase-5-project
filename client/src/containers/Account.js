@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { CurrentUserContext } from "../utils";
+import EmailForm from "../components/EmailForm";
 
 function Account() {
   const { currentUser } = useContext(CurrentUserContext);
@@ -28,7 +29,32 @@ function Account() {
   }
   if (!accountData) return null;
 
-  return <div>This is my account email = {accountData.email}</div>;
+  const addEmail = (newEmail) => {
+    fetch(`http://127.0.0.1:5555/users/${currentUser}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newEmail),
+      credentials: "include",
+      mode: "cors",
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        setAccountData((prevAccount) => ({
+          ...prevAccount,
+          ...data,
+        }));
+      });
+  };
+
+  return (
+    <div>
+      <h1>Welcome to your account page!</h1>
+      <p>Your account email is: {accountData.email}</p>{" "}
+      <EmailForm addEmail={addEmail} />
+      <p>Your faved meds are: {accountData.faves}</p>
+      <button>Delete Account</button>
+    </div>
+  );
 }
 
 export default Account;
