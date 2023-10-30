@@ -14,7 +14,7 @@ import { CurrentUserContext } from "../utils";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(
-    window.sessionStorage.getItem("currentUser")
+    parseInt(window.sessionStorage.getItem("currentUser"))
   );
   return (
     <div>

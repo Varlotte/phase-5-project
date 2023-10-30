@@ -7,7 +7,7 @@ export default function ConditionsCard({ condition }) {
   const { name, description } = condition;
 
   function handleClick() {
-    history.push(`/conditions/:${condition.id}`);
+    history.push(`/conditions/${condition.id}`);
     console.log("hi");
   }
   return (

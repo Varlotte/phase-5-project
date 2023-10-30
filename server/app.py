@@ -119,8 +119,9 @@ api.add_resource(UsersByID, '/users/<int:id>')
 
 #POST and DELETE user faves, protected to only add faves to your own account
 class AddFave(Resource):
-    def post(self, id):
+    def post(self):
         data = request.json
+        print(data["user_id"], session["id"], data["user_id"] == session["id"])
         if not "id" in session or session["id"] != data["user_id"]:
             return make_response ({"error": "Unathorized"}, 403)          
         try:
@@ -178,7 +179,7 @@ class ConditionsById(Resource):
         condition = Condition.query.filter_by(id=id).first()
         if condition:
             #will I ever want to get rid of this dict rule and see affiliated treatments?
-            return make_response(condition.to_dict(rules=("-treatments",)), 200)
+            return make_response(condition.to_dict(), 200)
         else:
             return make_response({"error": "No condition was found"},404)
         

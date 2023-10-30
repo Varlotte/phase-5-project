@@ -2,13 +2,13 @@
 import React, { useEffect, useState, createContext } from "react";
 import ConditionsCard from "../components/ConditionsCards";
 
-const conditionsAPI = "http://localhost:3000/conditions";
+const conditionsAPI = "http://127.0.0.1:5555/conditions";
 
 function Conditions() {
   const [conditionsData, setConditionsData] = useState([]);
 
   useEffect(() => {
-    fetch(conditionsAPI)
+    fetch(conditionsAPI, { credentials: "include", mode: "cors" })
       .then((r) => r.json())
       .then((data) => {
         setConditionsData(data);

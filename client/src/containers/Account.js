@@ -50,6 +50,9 @@ function Account() {
   };
 
   const handleDeleteAccount = () => {
+    const shouldDelete = window.confirm("Are you sure you want to delete?");
+
+    if (!shouldDelete) return;
     console.log(currentUser);
     fetch(`http://127.0.0.1:5555/users/${currentUser}`, {
       method: "DELETE",
@@ -69,11 +72,19 @@ function Account() {
       <p>Your account email is: {accountData.email}</p>{" "}
       <EmailForm addEmail={addEmail} />
       {accountData.faves.length ? (
-        <p>Your faved meds are: {accountData.faves}</p>
+        <>
+          <p>Your faved meds are: </p>
+          <ul>
+            {accountData.faves.map((fave) => (
+              <li>{fave.medication.name_generic}</li>
+              //throw in a link to the medications here if you feel ambitious
+            ))}
+          </ul>
+        </>
       ) : (
         <p>
           You don't have any faved meds yet- want to check out{" "}
-          <Link to="/conditions/:id">RXMatch?</Link>
+          <Link to="/conditions/">some conditions?</Link>
         </p>
       )}
       <button onClick={handleDeleteAccount}>Delete Account</button>

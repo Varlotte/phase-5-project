@@ -11,6 +11,8 @@ export default function Logout() {
     fetch("http://127.0.0.1:5555/logout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      mode: "cors",
       body: "",
     }).then(() => {
       setCurrentUser(null);
