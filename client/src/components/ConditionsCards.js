@@ -11,9 +11,9 @@ export default function ConditionsCard({ condition }) {
     console.log("hi");
   }
   return (
-    <li className="card">
-      <h4>{name}</h4>
-      <p>{description}</p>
+    <li className="card" style={{ display: "flex", textAlign: "left" }}>
+      <h4 style={{ padding: "3%" }}>{name}</h4>
+      <p style={{ padding: "3%" }}>{description}</p>
       <button className="selectCondition" onClick={handleClick}>
         Select Condition
       </button>

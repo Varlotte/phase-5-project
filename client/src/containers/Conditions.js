@@ -20,7 +20,7 @@ function Conditions() {
   });
 
   return (
-    <div>
+    <div style={{ textAlign: "center" }}>
       Click on a condition to see which meds are commonly prescribed for it
       <ul className="cards">{renderConditions}</ul>
     </div>
