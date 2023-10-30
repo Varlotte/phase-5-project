@@ -75,14 +75,12 @@ api.add_resource(Users, '/users')
 class UsersByID(Resource):
     def get(self, id):       
         user = User.query.filter_by(id=id).first()
-        print (session.get("id"))
-        print (user.id)
+        if user is None:
+            return make_response({"error": "No user was found"}, 404)
         if not "id" in session or session["id"] != user.id:
             return make_response ({"error": "Unathorized"}, 403)          
-        if user:
-            return make_response(user.to_dict(), 200)
         else:
-            return make_response({"error": "No user was found"}, 404)
+            return make_response(user.to_dict(), 200)
 
     def patch(self, id):
         user = User.query.filter_by(id=id).first()
@@ -106,13 +104,13 @@ class UsersByID(Resource):
                 return make_response({"errors": ["validation errors"]}, 400)
 
     def delete(self, id):
+        user = User.query.filter_by(id=id).first()
         if not "id" in session or session["id"] != user.id:
             return make_response ({"error": "Unathorized"}, 403)  
-        user = User.query.filter_by(id=id).first()
         if user:
             db.session.delete(user)
             db.session.commit()
-
+            session.pop('id', None)
             return make_response({"message": "user was successfully deleted"}, 204)
         else:
             return make_response({"error": "No user was found"}, 404)
