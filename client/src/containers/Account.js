@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { CurrentUserContext, clearCurrentUser } from "../utils";
 import EmailForm from "../components/EmailForm";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function Account() {
   const { currentUser } = useContext(CurrentUserContext);
@@ -67,7 +68,14 @@ function Account() {
       <h1>Welcome to your account page!</h1>
       <p>Your account email is: {accountData.email}</p>{" "}
       <EmailForm addEmail={addEmail} />
-      <p>Your faved meds are: {accountData.faves}</p>
+      {accountData.faves.length ? (
+        <p>Your faved meds are: {accountData.faves}</p>
+      ) : (
+        <p>
+          You don't have any faved meds yet- want to check out{" "}
+          <Link to="/conditions/:id">RXMatch?</Link>
+        </p>
+      )}
       <button onClick={handleDeleteAccount}>Delete Account</button>
     </div>
   );
