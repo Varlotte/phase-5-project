@@ -94,7 +94,7 @@ export default function SignUp() {
           <label htmlFor="birthday">Birthday</label>
           <Field
             name="birthday"
-            type="birthday"
+            type="date"
             style={{
               width: "200px",
               margin: "10px 10px",
