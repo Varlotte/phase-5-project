@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Switch, Route, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import LandingPage from "./LandingPage";
 import Conditions from "./Conditions";
@@ -13,7 +13,9 @@ import SignUp from "../components/SignUp";
 import { CurrentUserContext } from "../utils";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(
+    window.sessionStorage.getItem("currentUser")
+  );
   return (
     <div>
       <CurrentUserContext.Provider

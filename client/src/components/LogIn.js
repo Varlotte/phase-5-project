@@ -32,16 +32,18 @@ export default function Login() {
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
             fetch("http://127.0.0.1:5555/login", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
+              credentials: "include",
+              mode: "cors",
               body: JSON.stringify(values),
             })
               .then((res) => res.json())
               .then((data) => {
-                console.log(data);
+                // console.log(data);
                 if (data.id) {
                   window.sessionStorage.setItem("currentUser", data.id);
                   setCurrentUser(data.id);

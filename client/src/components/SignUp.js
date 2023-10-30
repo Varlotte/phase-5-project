@@ -31,7 +31,7 @@ export default function SignUp() {
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 5));
+            // alert(JSON.stringify(values, null, 5));
             setSubmitting(false);
             fetch("http://127.0.0.1:5555/users", {
               method: "POST",
@@ -40,7 +40,7 @@ export default function SignUp() {
             })
               .then((res) => res.json())
               .then((data) => {
-                console.log(data);
+                // console.log(data);
                 if (data.id) {
                   //   window.sessionStorage.setItem("currentUser", data.id);
                   //   setCurrentUser(data.id);

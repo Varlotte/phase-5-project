@@ -16,12 +16,11 @@ from datetime import datetime, date
 # Views go here!
 #secret key for session stuff
 app.secret_key = b'hWUZ1t4PZpdp0fCvPbN8'
-# app.config["SESSION_COOKIE_SAMESITE"] = "None"
-# app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_SECURE"] = True
 app.config['SESSION_COOKIE_DOMAIN'] = '127.0.0.1'
 app.config['SESSION_COOKIE_HTTPONLY'] = False
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": "http://127.0.0.1:3000"}})
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+CORS(app, supports_credentials=True)
 
 #POST to login
 class Login(Resource):
