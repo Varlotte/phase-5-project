@@ -87,7 +87,6 @@ export default function Login() {
               width: "200px",
               margin: "10px 15px",
             }}
-            // onClick={success}
           >
             Submit
           </button>

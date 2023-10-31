@@ -11,6 +11,7 @@ import Login from "../components/LogIn";
 import Logout from "./Logout";
 import SignUp from "../components/SignUp";
 import { CurrentUserContext } from "../utils";
+import MedicationPage from "./MedicationPage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(
@@ -24,7 +25,7 @@ function App() {
           setCurrentUser,
         }}
       >
-        <h1>RXGnosis: Take Control of your Appointment</h1>
+        <h1>RXGnosis</h1>
         <BrowserRouter>
           <NavBar />
           <Switch>
@@ -36,6 +37,9 @@ function App() {
             </Route>
             <Route path="/signup">
               <SignUp />
+            </Route>
+            <Route path="/medications/:id">
+              <MedicationPage />
             </Route>
             <Route path="/resources">
               <Resources />

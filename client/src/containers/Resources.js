@@ -10,11 +10,13 @@ function Resources() {
         Note: RXMatch is not a diagnostic tool. Only a professional can diagnose
         you. Please discuss all medications seen on RXGnosis with your provider.
         Not all medications have the same side effects for all people. For more
-        medication information, please visit{" "}
+        medication information, including more detailed and updated side
+        effects, please visit{" "}
         <a href="http://www.medlineplus.gov" target="_blank">
           www.medlineplus.gov
         </a>
-        . From there, you can search for medications in greater detail.
+        . From there, you can search for medications, conditions, and treatments
+        in greater detail.
       </p>
       <p>
         All information available on RXMatch was made available through Medline
@@ -23,15 +25,13 @@ function Resources() {
         National Institutes of Health.
       </p>
       <p>
-        Please do not attempt to diagnose yourself, or prescribe yourself with
-        unreliable tools like WebMD, which are not peer reviewed, and really
-        just exist to make patients feel scared.
+        Reliable public health information is out there- RXGnosis recommends
+        using tools from the NLM, NIH, and FDA. Don't use WebMd!
       </p>
       <p>
-        The National Library of medicine also has a ton of cool free APIs for
-        developers, which you can find at
+        Are you a developer looking for free public health databases? Check out{" "}
         <a href="https://www.lhncbc.nlm.nih.gov/RxNav/APIs/" target="_blank">
-          their website.
+          the National Library of Medicine's public APIs.
         </a>
       </p>
     </div>

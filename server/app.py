@@ -63,6 +63,8 @@ class Users(Resource):
 
             db.session.add(new_user)
             db.session.commit()
+            session['id'] = new_user.id
+            session['domain'] = '127.0.0.1'
 
             return make_response(new_user.to_dict(), 201)
         except ValueError:

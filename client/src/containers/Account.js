@@ -6,9 +6,8 @@ import EmailForm from "../components/EmailForm";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function Account() {
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [accountData, setAccountData] = useState(null);
-  const { setCurrentUser } = useContext(CurrentUserContext);
   const history = useHistory();
 
   console.log("load account with id:", currentUser);
@@ -85,16 +84,19 @@ function Account() {
 
   return (
     <div>
-      <h1>Welcome to your account page!</h1>
+      <h1>Welcome to your account page, {accountData.name}!</h1>
       <p>Your account email is: {accountData.email}</p>{" "}
       <EmailForm addEmail={addEmail} />
-      {accountData.faves.length ? (
+      {accountData.faves?.length ? (
         <>
           <p>Your faved meds are: </p>
           <ul>
             {accountData.faves.map((fave) => (
               <li key={fave.medication.id}>
-                {fave.medication.name_generic}
+                {/* why does this link not work aaa? */}
+                <Link to={`/medications/${fave.medication.id}`}>
+                  {fave.medication.name_generic}
+                </Link>
                 <button
                   className="unFave"
                   onClick={() => handleUnFaveClick(fave.id)}

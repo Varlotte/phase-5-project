@@ -1,11 +1,14 @@
 //signup form
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
+import { CurrentUserContext } from "../utils";
 
 export default function SignUp() {
   const history = useHistory();
+  const { setCurrentUser } = useContext(CurrentUserContext);
+
   return (
     <div>
       <h1
@@ -44,8 +47,8 @@ export default function SignUp() {
               .then((data) => {
                 // console.log(data);
                 if (data.id) {
-                  //   window.sessionStorage.setItem("currentUser", data.id);
-                  //   setCurrentUser(data.id);
+                  window.sessionStorage.setItem("currentUser", data.id);
+                  setCurrentUser(data.id);
                   //this passes current user to context
                   //sets current logged in user id so any other component can use it
                   //user id for the rest of the app is going to be sessionStorage.getItem('currentUser')

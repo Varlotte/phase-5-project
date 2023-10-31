@@ -39,11 +39,11 @@ export default function MedicationsCard({ medication, setIndex }) {
 
   return (
     <li className="card" style={{ display: "flex", textAlign: "left" }}>
-      <h4 style={{ padding: "3%" }}>{name_brand}</h4>
-      <h4 style={{ padding: "3%" }}>{name_generic}</h4>
-      <h5 style={{ padding: "3%" }}>{drug_class}</h5>
-      <h5 style={{ padding: "3%" }}>{prescribed_for}</h5>
-      <p style={{ padding: "3%" }}>{side_effects}</p>
+      <h4 style={{ padding: "3%" }}>Brand Name: {name_brand}</h4>
+      <h4 style={{ padding: "3%" }}>Generic Name: {name_generic}</h4>
+      <h5 style={{ padding: "3%" }}>Drug Class: {drug_class}</h5>
+      <h5 style={{ padding: "3%" }}>Also Treats:{prescribed_for}</h5>
+      <p style={{ padding: "3%" }}>Common Side Effects:{side_effects}</p>
       <img
         src={pill_image}
         alt={name_generic}
