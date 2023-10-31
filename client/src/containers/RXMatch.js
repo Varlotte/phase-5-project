@@ -21,6 +21,17 @@ function RXMatch() {
   return (
     <div style={{ textAlign: "center" }}>
       Fave a medication to discuss it with your doctor
+      <p>
+        {" "}
+        Note: RXMatch is not a diagnostic tool. Please discuss all medications
+        seen on RXGnosis with your provider. Not all medications have the same
+        side effects for all people. For more medication information, please
+        visit{" "}
+        <a href="http://www.medlineplus.gov" target="_blank">
+          www.medlineplus.gov
+        </a>
+      </p>
+      .
       <ul className="cards">
         {treatmentsData.map((treatment, i) => {
           const medication = treatment.medication;

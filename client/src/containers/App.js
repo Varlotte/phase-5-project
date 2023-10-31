@@ -24,7 +24,7 @@ function App() {
           setCurrentUser,
         }}
       >
-        <h1>Project!</h1>
+        <h1>RXGnosis: Take Control of your Appointment</h1>
         <BrowserRouter>
           <NavBar />
           <Switch>

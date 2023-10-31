@@ -32,12 +32,10 @@ export default function MedicationsCard({ medication, setIndex }) {
   //setIndex to index +1
   //index is array.length,show "no more meds to display"
 
-  //   function handleUnfaveClick() {
-  //     //no API call for now
-  //     //setIndex to index +1
-  //     //index is array.length,show "no more meds to display"
-  //     console.log("unfaved");
-  //   }
+  const handleIgnoreClick = () => {
+    setIndex((prevIndex) => prevIndex + 1);
+    console.log("ignored");
+  };
 
   return (
     <li className="card" style={{ display: "flex", textAlign: "left" }}>
@@ -54,9 +52,9 @@ export default function MedicationsCard({ medication, setIndex }) {
       <button className="faveheart" onClick={handleFaveClick}>
         Fave This Med
       </button>
-      {/* <button className="unfave" onClick={handleUnfaveClick}>
-        Unfave This Med
-      </button> */}
+      <button className="ignore" onClick={handleIgnoreClick}>
+        Ignore This Med
+      </button>
     </li>
   );
 }
