@@ -29,6 +29,7 @@ function NavBar() {
           <Link to="/logout">Log Out</Link>
         </>
       )}
+      <Link to="/resources">Resources</Link>
     </div>
   );
 }

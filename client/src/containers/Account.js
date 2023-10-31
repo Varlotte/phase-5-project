@@ -66,6 +66,23 @@ function Account() {
     history.push("/");
   };
 
+  const handleUnFaveClick = (faveId) => {
+    console.log("UnFaved");
+    fetch(`http://127.0.0.1:5555/faves/${faveId}`, {
+      method: "DELETE",
+      credentials: "include",
+      mode: "cors",
+    })
+      .then(() => alert("unfave successful"))
+      .then(() => {
+        setAccountData((prevAccount) => ({
+          ...prevAccount,
+          faves: prevAccount.faves.filter((fave) => fave.id !== faveId),
+        }));
+      })
+      .catch((error) => console.error("Error deleting fave", error));
+  };
+
   return (
     <div>
       <h1>Welcome to your account page!</h1>
@@ -76,7 +93,15 @@ function Account() {
           <p>Your faved meds are: </p>
           <ul>
             {accountData.faves.map((fave) => (
-              <li>{fave.medication.name_generic}</li>
+              <li key={fave.medication.id}>
+                {fave.medication.name_generic}
+                <button
+                  className="unFave"
+                  onClick={() => handleUnFaveClick(fave.id)}
+                >
+                  Unfave Med
+                </button>
+              </li>
               //throw in a link to the medications here if you feel ambitious
             ))}
           </ul>

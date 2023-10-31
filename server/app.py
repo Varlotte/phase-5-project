@@ -143,14 +143,14 @@ api.add_resource(AddFave, '/faves')
 class DeleteFave(Resource):
     def delete(self, id):
         fave = Fave.query.filter_by(id=id).first()
-        if not "id" in session or session["id"] != fave["user_id"]:
+        if fave is None:
+            return make_response({"error": "No fave was found"}, 404)
+        elif not "id" in session or session["id"] != fave.user_id:
             return make_response ({"error": "Unathorized"}, 403)               
-        if fave:
+        else:
             db.session.delete(fave)
             db.session.commit()
             return make_response({"message": "successfully unfaved"}, 204)
-        else:
-            return make_response({"error": "No fave was found"}, 404)
 
 api.add_resource(DeleteFave, '/faves/<int:id>')
 
