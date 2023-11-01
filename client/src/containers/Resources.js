@@ -1,40 +1,40 @@
 //static page linking to sources
-import React, { useEffect, useState, createContext } from "react";
+import React from "react";
+import Link from "../components/Link";
+import { Heading, Text, Stack } from "@chakra-ui/react";
 
 function Resources() {
   return (
-    <div>
-      <h1>Resources</h1>{" "}
-      <p>
-        {" "}
+    <Stack spacing={3}>
+      <Heading as="h1">Resources</Heading>
+
+      <Text>
         Note: RXMatch is not a diagnostic tool. Only a professional can diagnose
         you. Please discuss all medications seen on RXGnosis with your provider.
         Not all medications have the same side effects for all people. For more
         medication information, including more detailed and updated side
         effects, please visit{" "}
-        <a href="http://www.medlineplus.gov" target="_blank">
-          www.medlineplus.gov
-        </a>
-        . From there, you can search for medications, conditions, and treatments
-        in greater detail.
-      </p>
-      <p>
+        <Link href="http://www.medlineplus.gov">www.medlineplus.gov</Link>. From
+        there, you can search for medications, conditions, and treatments in
+        greater detail.
+      </Text>
+      <Text>
         All information available on RXMatch was made available through Medline
         Plus, a free public health information resource for patients and
         providers from the National Library of Medicine, a subsidiary of the
         National Institutes of Health.
-      </p>
-      <p>
+      </Text>
+      <Text>
         Reliable public health information is out there- RXGnosis recommends
         using tools from the NLM, NIH, and FDA. Don't use WebMd!
-      </p>
-      <p>
+      </Text>
+      <Text>
         Are you a developer looking for free public health databases? Check out{" "}
-        <a href="https://www.lhncbc.nlm.nih.gov/RxNav/APIs/" target="_blank">
+        <Link href="https://www.lhncbc.nlm.nih.gov/RxNav/APIs/">
           the National Library of Medicine's public APIs.
-        </a>
-      </p>
-    </div>
+        </Link>
+      </Text>
+    </Stack>
   );
 }
 

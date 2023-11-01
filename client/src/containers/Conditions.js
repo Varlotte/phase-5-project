@@ -1,6 +1,7 @@
 //for the four conditions to go into rxmatch
-import React, { useEffect, useState, createContext } from "react";
+import React, { useEffect, useState } from "react";
 import ConditionsCard from "../components/ConditionsCards";
+import { Heading, Text, Stack, Accordion } from "@chakra-ui/react";
 
 const conditionsAPI = "http://127.0.0.1:5555/conditions";
 
@@ -20,12 +21,12 @@ function Conditions() {
   });
 
   return (
-    <div style={{ textAlign: "center" }}>
-      Click on a condition to see which meds are commonly prescribed for it
-      <ul className="cards">{renderConditions}</ul>
-    </div>
+    <Stack spacing={3}>
+      <Heading as="h1">Conditions</Heading>
+      <Text>Click on a condition to learn more and enter RXMatch.</Text>
+      <Accordion allowMultiple>{renderConditions}</Accordion>
+    </Stack>
   );
 }
 
-//import conditions cards here
 export default Conditions;

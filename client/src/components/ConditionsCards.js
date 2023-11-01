@@ -1,6 +1,16 @@
 //conditions cards to pull into conditions list
 import React from "react";
 import { useHistory } from "react-router-dom";
+import {
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Box,
+  Button,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 
 export default function ConditionsCard({ condition }) {
   const history = useHistory();
@@ -11,12 +21,21 @@ export default function ConditionsCard({ condition }) {
     console.log("hi");
   }
   return (
-    <li className="card" style={{ display: "flex", textAlign: "left" }}>
-      <h4 style={{ padding: "3%" }}>{name}</h4>
-      <p style={{ padding: "3%" }}>{description}</p>
-      <button className="selectCondition" onClick={handleClick}>
-        Select Condition
-      </button>
-    </li>
+    <AccordionItem>
+      <h2>
+        <AccordionButton>
+          <Box as="span" flex="1" textAlign="left">
+            {name}
+          </Box>
+          <AccordionIcon />
+        </AccordionButton>
+      </h2>
+      <AccordionPanel pb={4}>
+        <Stack>
+          <Text>{description}</Text>
+          <Button onClick={handleClick}>Select Condition</Button>
+        </Stack>
+      </AccordionPanel>
+    </AccordionItem>
   );
 }
