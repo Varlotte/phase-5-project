@@ -109,3 +109,7 @@ tentative routing:
 
 - <img width="1107" alt="Screenshot 2023-10-23 at 9 14 47 PM" src="https://github.com/Varlotte/phase-5-project/assets/32116877/722905b3-a2f6-4566-a7e8-213f5cc41c88">
 - Using Linear.app, dividing work up into weeklong sprints with tickets linked to pull requests
+
+## A Quick Note:
+
+-If the python shell is having trouble with flask-restful and won't run the command "python server/app.py", try running it with "pipenv run python server/app.py"
