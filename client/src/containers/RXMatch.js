@@ -1,12 +1,14 @@
 //displays rx match
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, Redirect } from "react-router-dom";
 import MedicationsCard from "../components/MedicationsCard";
+import { CurrentUserContext } from "../utils";
 
 function RXMatch() {
   let { id } = useParams();
   console.log(id);
   const conditionAPI = `http://127.0.0.1:5555/conditions/${id}`;
+  const { currentUser } = useContext(CurrentUserContext);
   const [treatmentsData, setTreatmentsData] = useState([]);
   const [index, setIndex] = useState(0);
 
@@ -17,6 +19,10 @@ function RXMatch() {
         setTreatmentsData(data.treatments);
       });
   }, [conditionAPI]);
+
+  if (!currentUser) {
+    return <Redirect to="/login" />;
+  }
 
   return (
     <div style={{ textAlign: "center" }}>

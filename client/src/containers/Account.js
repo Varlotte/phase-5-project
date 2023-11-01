@@ -1,9 +1,8 @@
 //displays account information
 import React, { useEffect, useState, useContext } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, Link } from "react-router-dom";
 import { CurrentUserContext, clearCurrentUser } from "../utils";
 import EmailForm from "../components/EmailForm";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function Account() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
