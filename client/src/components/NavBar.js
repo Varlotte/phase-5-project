@@ -16,6 +16,7 @@ function NavBar() {
   };
   return (
     <div className="navbar" style={navBarStyle}>
+      <Link to="/">RXGnosis Home</Link>
       <Link to="/conditions">Conditions</Link>
 
       {!currentUser ? (

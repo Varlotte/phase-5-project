@@ -25,7 +25,6 @@ function App() {
           setCurrentUser,
         }}
       >
-        <h1>RXGnosis</h1>
         <BrowserRouter>
           <NavBar />
           <Switch>
