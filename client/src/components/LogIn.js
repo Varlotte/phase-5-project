@@ -73,7 +73,7 @@ export default function Login() {
           <Input
             id="password"
             placeholder="password"
-            type="password "
+            type="password"
             {...register("password", {
               required: "This is required",
               minLength: {
