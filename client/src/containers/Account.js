@@ -93,7 +93,6 @@ function Account() {
           <ul>
             {accountData.faves.map((fave) => (
               <li key={fave.medication.id}>
-                {/* why does this link not work aaa? */}
                 <Link to={`/medications/${fave.medication.id}`}>
                   {fave.medication.name_generic}
                 </Link>
@@ -104,7 +103,6 @@ function Account() {
                   Unfave Med
                 </button>
               </li>
-              //throw in a link to the medications here if you feel ambitious
             ))}
           </ul>
         </>
