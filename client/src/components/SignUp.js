@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { CurrentUserContext } from "../utils";
 
 export default function SignUp() {
@@ -117,6 +117,9 @@ export default function SignUp() {
           </button>
         </Form>
       </Formik>
+      <p>
+        Already have an account? Sign up <Link to="/login">here!</Link>
+      </p>
     </div>
   );
 }
