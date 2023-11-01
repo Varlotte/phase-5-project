@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import NavBar from "./NavBar";
 import { CurrentUserContext } from "../utils";
 //create a function for user context and import it here
@@ -92,6 +92,9 @@ export default function Login() {
           </button>
         </Form>
       </Formik>
+      <p>
+        Don't have an account yet? Make one <Link to="/signup">here!</Link>
+      </p>
     </div>
   );
 }
