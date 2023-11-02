@@ -1,43 +1,59 @@
 import React, { useState } from "react";
+import {
+  FormErrorMessage,
+  FormLabel,
+  FormControl,
+  Input,
+  Button,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
 
-function EmailForm({ addEmail }) {
-  const [email, setEmail] = useState("");
+export default function EmailForm({ addEmail, email }) {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: { email: email },
+  });
 
-  const handleChange = (fieldName) => {
-    return (e) => {
-      const val = e.target.value;
-      switch (fieldName) {
-        case "email":
-          setEmail(val);
-          break;
-        default:
-          return;
-      }
-    };
-  };
-  console.log(email);
   return (
-    <div>
-      <h2>Update your email!</h2>
+    <Stack spacing={4}>
+      <Text fontWeight={"bold"}>Update your email:</Text>
       <form
-        onSubmit={() => {
-          const newEmail = {
-            email,
-          };
-          addEmail(newEmail);
-        }}
+        onSubmit={handleSubmit((values) => {
+          addEmail(values);
+        })}
       >
-        <input
-          type="text"
-          email="email"
-          placeholder="enter a valid email address"
-          value={email}
-          onChange={handleChange("email")}
-        />
-        <button type="Submit"> Update Email</button>
+        <FormControl mt={0} isInvalid={errors.email}>
+          <FormLabel htmlFor="email">Email Address</FormLabel>
+          <Input
+            id="email"
+            placeholder="email address"
+            {...register("email", {
+              required: "This is required",
+              pattern: {
+                value: /.+@.+/,
+                message: "Make sure to enter a valid email!",
+              },
+            })}
+          />
+          <FormErrorMessage>
+            {errors.email && errors.email.message}
+          </FormErrorMessage>
+        </FormControl>
+
+        <Button
+          mt={4}
+          colorScheme="teal"
+          isLoading={isSubmitting}
+          type="submit"
+        >
+          Update
+        </Button>
       </form>
-    </div>
+    </Stack>
   );
 }
-
-export default EmailForm;
