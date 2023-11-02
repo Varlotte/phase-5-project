@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
 # Local imports
-from app import app
+from config import app
 from models import db, Medication, Treatment, Condition
 import yaml
 import os
 
 current_folder = os.path.dirname(__file__)
-with open(f'{current_folder}/seeds.yml', 'r') as file:
+with open('seeds.yml', 'r') as file:
   seed_data = yaml.safe_load(file)
 
 def create_condition(condition_name):
