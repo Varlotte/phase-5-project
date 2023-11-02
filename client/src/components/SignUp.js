@@ -130,7 +130,7 @@ export default function Login() {
         </Button>
       </form>
       <Text>
-        Don't have an account yet? Make one <Link to="/signup">here!</Link>
+        Already have an account? Log in <Link to="/login">here!</Link>
       </Text>
     </Stack>
   );
