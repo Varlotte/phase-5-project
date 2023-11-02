@@ -49,7 +49,12 @@ export default function MedicationPage() {
       <Text>{prescribed_for}</Text>
       <Text fontWeight="bold">Common Side Effects Include:</Text>
       <Text>{side_effects}</Text>
-      <Image src={pill_image} alt={name_generic} boxSize="150px" />
+      <Image
+        src={pill_image}
+        alt={name_generic}
+        boxSize="150px"
+        borderRadius="full"
+      />
     </Stack>
   );
 }
