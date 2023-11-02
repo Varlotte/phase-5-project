@@ -18,7 +18,6 @@ export default function ConditionsCard({ condition }) {
 
   function handleClick() {
     history.push(`/conditions/${condition.id}`);
-    console.log("hi");
   }
   return (
     <AccordionItem>
