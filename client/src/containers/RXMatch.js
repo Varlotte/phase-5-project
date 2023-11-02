@@ -30,7 +30,7 @@ function RXMatch() {
     <Stack textAlign="center">
       <Heading as="h1">RXMatch</Heading>
       <Text fontWeight="bold">Fave a med to save it to your account!</Text>
-      <Text>
+      <Text fontSize="xs">
         Note: RXMatch is not a diagnostic tool. Please discuss all medications
         seen on RXGnosis with your provider. Not all medications have the same
         side effects for all people. For more medication information and a more
