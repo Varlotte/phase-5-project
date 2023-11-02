@@ -3,6 +3,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams, Redirect } from "react-router-dom";
 import MedicationsCard from "../components/MedicationsCard";
 import { CurrentUserContext } from "../utils";
+import Link from "../components/Link";
+import { Heading, Text, Stack } from "@chakra-ui/react";
 
 function RXMatch() {
   let { id } = useParams();
@@ -25,18 +27,18 @@ function RXMatch() {
   }
 
   return (
-    <div style={{ textAlign: "center" }}>
-      Fave a medication to discuss it with your doctor
-      <p>
-        {" "}
+    <Stack textAlign="center">
+      <Heading as="h1">RXMatch</Heading>
+      <Text fontWeight="bold">Fave a med to save it to your account!</Text>
+      <Text>
         Note: RXMatch is not a diagnostic tool. Please discuss all medications
         seen on RXGnosis with your provider. Not all medications have the same
-        side effects for all people. For more medication information, please
-        visit{" "}
-        <a href="http://www.medlineplus.gov" target="_blank">
-          www.medlineplus.gov
-        </a>
-      </p>
+        side effects for all people. For more medication information and a more
+        exhaustive list of side effects, please look up your medication at{" "}
+        <Link href="http://www.medlineplus.gov" target="_blank">
+          www.medlineplus.gov.
+        </Link>
+      </Text>
       .
       <ul className="cards">
         {treatmentsData.map((treatment, i) => {
@@ -50,10 +52,8 @@ function RXMatch() {
           ) : null;
         })}
       </ul>
-    </div>
+    </Stack>
   );
 }
-
 //faving or canceling needs to change the index value, if index is array.length,show "no more meds to display" update index with setIndex
-//import medications cards here
 export default RXMatch;
