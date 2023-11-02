@@ -64,6 +64,7 @@ export default function MedicationsCard({ medication, setIndex }) {
             alt={name_generic}
             boxSize="150px"
             borderRadius="full"
+            padding={2}
           />
         </Center>
         <IconButton
@@ -71,6 +72,7 @@ export default function MedicationsCard({ medication, setIndex }) {
           onClick={handleIgnoreClick}
           icon={<FcDislike />}
           margin={2}
+          size="lg"
         >
           Ignore This Med
         </IconButton>
@@ -78,6 +80,7 @@ export default function MedicationsCard({ medication, setIndex }) {
           className="faveheart"
           onClick={handleFaveClick}
           margin={2}
+          size="lg"
           icon={<FcLike />}
         >
           Fave This Med
