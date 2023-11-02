@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import LandingPage from "./LandingPage";
 import Conditions from "./Conditions";
@@ -18,7 +19,7 @@ function App() {
     parseInt(window.sessionStorage.getItem("currentUser"))
   );
   return (
-    <div>
+    <ChakraProvider>
       <CurrentUserContext.Provider
         value={{
           currentUser,
@@ -27,38 +28,40 @@ function App() {
       >
         <BrowserRouter>
           <NavBar />
-          <Switch>
-            <Route path="/conditions/:id">
-              <RXMatch />
-            </Route>
-            <Route path="/conditions">
-              <Conditions />
-            </Route>
-            <Route path="/signup">
-              <SignUp />
-            </Route>
-            <Route path="/medications/:id">
-              <MedicationPage />
-            </Route>
-            <Route path="/resources">
-              <Resources />
-            </Route>
-            <Route path="/account">
-              <Account />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/logout">
-              <Logout />
-            </Route>
-            <Route path="/">
-              <LandingPage />
-            </Route>
-          </Switch>
+          <main className="page-wrapper">
+            <Switch>
+              <Route path="/conditions/:id">
+                <RXMatch />
+              </Route>
+              <Route path="/conditions">
+                <Conditions />
+              </Route>
+              <Route path="/signup">
+                <SignUp />
+              </Route>
+              <Route path="/medications/:id">
+                <MedicationPage />
+              </Route>
+              <Route path="/resources">
+                <Resources />
+              </Route>
+              <Route path="/account">
+                <Account />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/logout">
+                <Logout />
+              </Route>
+              <Route path="/">
+                <LandingPage />
+              </Route>
+            </Switch>
+          </main>
         </BrowserRouter>
       </CurrentUserContext.Provider>
-    </div>
+    </ChakraProvider>
   );
 }
 

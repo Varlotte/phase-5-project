@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import MedicationsCard from "../components/MedicationsCard";
 import { useParams } from "react-router-dom";
+import Link from "../components/Link";
+import { Heading, Text, Stack, Image } from "@chakra-ui/react";
 
 export default function MedicationPage() {
   let { id } = useParams();
@@ -29,28 +31,30 @@ export default function MedicationPage() {
   } = medication;
 
   return (
-    <div style={{ textAlign: "center" }}>
-      Fave a medication to discuss it with your doctor
-      <p>
-        {" "}
+    <Stack align="center">
+      <Text fontSize="xs">
         Note: RXMatch is not a diagnostic tool. Please discuss all medications
         seen on RXGnosis with your provider. Not all medications have the same
-        side effects for all people. For more medication information, please
-        visit{" "}
-        <a href="http://www.medlineplus.gov" target="_blank">
+        side effects for all people. For more medication information and more
+        detailed side effects listings, please look up your medication on{" "}
+        <Link a href="http://www.medlineplus.gov" target="_blank">
           www.medlineplus.gov
-        </a>
-      </p>
-      <h4 style={{ padding: "3%" }}>Brand Name: {name_brand}</h4>
-      <h4 style={{ padding: "3%" }}>Generic Name: {name_generic}</h4>
-      <h5 style={{ padding: "3%" }}>Drug Class: {drug_class}</h5>
-      <h5 style={{ padding: "3%" }}>Also Treats:{prescribed_for}</h5>
-      <p style={{ padding: "3%" }}>Common Side Effects:{side_effects}</p>
-      <img
+        </Link>
+      </Text>
+      <Heading as="h1">Generic Name: {name_generic}</Heading>
+      <Heading as="h2">Brand Name: {name_brand}</Heading>
+      <Text fontWeight="bold">Drug Class:</Text>
+      <Text> {drug_class}</Text>
+      <Text fontWeight="bold">Also Treats:</Text>
+      <Text>{prescribed_for}</Text>
+      <Text fontWeight="bold">Common Side Effects Include:</Text>
+      <Text>{side_effects}</Text>
+      <Image
         src={pill_image}
         alt={name_generic}
-        style={{ maxHeight: "80px", maxWidth: "80px" }}
+        boxSize="150px"
+        borderRadius="full"
       />
-    </div>
+    </Stack>
   );
 }

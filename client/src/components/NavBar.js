@@ -1,21 +1,19 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import Link from "./Link";
 import { CurrentUserContext } from "../utils";
+import { Flex } from "@chakra-ui/react";
 
 function NavBar() {
   //session storage or usecontext here for curr user
   const { currentUser } = useContext(CurrentUserContext);
-  const navBarStyle = {
-    padding: "14px",
-    height: "60px",
-    display: "flex",
-    gap: "25px",
-    justifyContent: "center",
-    alignItems: "center",
-    fontWeight: "bold",
-  };
   return (
-    <div className="navbar" style={navBarStyle}>
+    <Flex
+      as="nav"
+      className="page-wrapper"
+      align="center"
+      justify="center"
+      gap="4"
+    >
       <Link to="/">RXGnosis Home</Link>
       <Link to="/conditions">Conditions</Link>
 
@@ -31,7 +29,7 @@ function NavBar() {
         </>
       )}
       <Link to="/resources">Resources</Link>
-    </div>
+    </Flex>
   );
 }
 

@@ -1,6 +1,19 @@
 //medications cards to pull into faves and rx match
 import React, { useContext } from "react";
 import { CurrentUserContext } from "../utils";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  IconButton,
+  Stack,
+  Center,
+  Text,
+  Image,
+  Button,
+} from "@chakra-ui/react";
+import { FcDislike, FcLike } from "react-icons/fc";
 
 export default function MedicationsCard({ medication, setIndex }) {
   const { currentUser } = useContext(CurrentUserContext);
@@ -38,23 +51,41 @@ export default function MedicationsCard({ medication, setIndex }) {
   };
 
   return (
-    <li className="card" style={{ display: "flex", textAlign: "left" }}>
-      <h4 style={{ padding: "3%" }}>Brand Name: {name_brand}</h4>
-      <h4 style={{ padding: "3%" }}>Generic Name: {name_generic}</h4>
-      <h5 style={{ padding: "3%" }}>Drug Class: {drug_class}</h5>
-      <h5 style={{ padding: "3%" }}>Also Treats:{prescribed_for}</h5>
-      <p style={{ padding: "3%" }}>Common Side Effects:{side_effects}</p>
-      <img
-        src={pill_image}
-        alt={name_generic}
-        style={{ maxHeight: "80px", maxWidth: "80px" }}
-      />
-      <button className="faveheart" onClick={handleFaveClick}>
-        Fave This Med
-      </button>
-      <button className="ignore" onClick={handleIgnoreClick}>
-        Ignore This Med
-      </button>
-    </li>
+    <Card>
+      <CardBody>
+        <Text>Brand Name: {name_brand}</Text>
+        <Text>Generic Name: {name_generic}</Text>
+        <Text fontSize="smaller">Drug Class: {drug_class}</Text>
+        <Text fontSize="small">Also Treats: {prescribed_for}</Text>
+        <Text fontSize="small">Common Side Effects: {side_effects}</Text>
+        <Center>
+          <Image
+            src={pill_image}
+            alt={name_generic}
+            boxSize="150px"
+            borderRadius="full"
+            padding={2}
+          />
+        </Center>
+        <IconButton
+          className="ignore"
+          onClick={handleIgnoreClick}
+          icon={<FcDislike />}
+          margin={2}
+          size="lg"
+        >
+          Ignore This Med
+        </IconButton>
+        <IconButton
+          className="faveheart"
+          onClick={handleFaveClick}
+          margin={2}
+          size="lg"
+          icon={<FcLike />}
+        >
+          Fave This Med
+        </IconButton>
+      </CardBody>
+    </Card>
   );
 }

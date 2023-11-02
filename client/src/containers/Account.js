@@ -1,8 +1,10 @@
 //displays account information
 import React, { useEffect, useState, useContext } from "react";
-import { Redirect, useHistory, Link } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { CurrentUserContext, clearCurrentUser } from "../utils";
 import EmailForm from "../components/EmailForm";
+import Link from "../components/Link";
+import { Heading, Text, Stack, Button, ButtonGroup } from "@chakra-ui/react";
 
 function Account() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
@@ -82,10 +84,12 @@ function Account() {
   };
 
   return (
-    <div>
-      <h1>Welcome to your account page, {accountData.name}!</h1>
-      <p>Your account email is: {accountData.email}</p>{" "}
-      <EmailForm addEmail={addEmail} />
+    <Stack>
+      <Heading as="h1">
+        Welcome to your account page, {accountData.name}!
+      </Heading>
+      <Text>Your account email is: {accountData.email}</Text>{" "}
+      <EmailForm addEmail={addEmail} email={accountData.email} />
       {accountData.faves?.length ? (
         <>
           <p>Your faved meds are: </p>
@@ -94,13 +98,16 @@ function Account() {
               <li key={fave.medication.id}>
                 <Link to={`/medications/${fave.medication.id}`}>
                   {fave.medication.name_generic}
-                </Link>
-                <button
+                </Link>{" "}
+                <Button
+                  mt={0}
+                  colorScheme="teal"
+                  size="xs"
                   className="unFave"
                   onClick={() => handleUnFaveClick(fave.id)}
                 >
                   Unfave Med
-                </button>
+                </Button>
               </li>
             ))}
           </ul>
@@ -111,8 +118,15 @@ function Account() {
           <Link to="/conditions/">some conditions?</Link>
         </p>
       )}
-      <button onClick={handleDeleteAccount}>Delete Account</button>
-    </div>
+      <Button
+        colorScheme="pink"
+        width={150}
+        size="s"
+        onClick={handleDeleteAccount}
+      >
+        Delete Account
+      </Button>
+    </Stack>
   );
 }
 

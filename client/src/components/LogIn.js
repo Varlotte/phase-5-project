@@ -1,100 +1,104 @@
 import React, { useState, useContext } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { useHistory, Link } from "react-router-dom";
-import NavBar from "./NavBar";
 import { CurrentUserContext } from "../utils";
-//create a function for user context and import it here
+import { useForm } from "react-hook-form";
+import Link from "./Link";
+import { useHistory } from "react-router-dom";
+import {
+  FormErrorMessage,
+  FormLabel,
+  FormControl,
+  Input,
+  Button,
+  Stack,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 
 export default function Login() {
   const history = useHistory();
   const { setCurrentUser } = useContext(CurrentUserContext);
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  function onSubmit(values) {
+    fetch("http://127.0.0.1:5555/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      mode: "cors",
+      body: JSON.stringify(values),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.id) {
+          window.sessionStorage.setItem("currentUser", data.id);
+          setCurrentUser(data.id);
+          //this passes current user to context
+          //sets current logged in user id so any other component can use it
+          //user id for the rest of the app is going to be sessionStorage.getItem('currentUser')
+          history.push("/account");
+        } else {
+          alert("Login is bad.");
+        }
+      });
+  }
+
   return (
-    <div>
-      <h1
-        style={{
-          margin: "10px 10px",
-          textAlign: "center",
-          padding: "10px",
-        }}
-      >
-        Make sure to log in!
-      </h1>
-      <Formik
-        initialValues={{ email: "", password: "" }}
-        validationSchema={Yup.object({
-          email: Yup.string()
-            .email("Invalid email address")
-            .required("Required"),
-          password: Yup.string()
-            .min(12, "Must be 12 characters")
-            .required("Required"),
-        })}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            // alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-            fetch("http://127.0.0.1:5555/login", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              credentials: "include",
-              mode: "cors",
-              body: JSON.stringify(values),
-            })
-              .then((res) => res.json())
-              .then((data) => {
-                // console.log(data);
-                if (data.id) {
-                  window.sessionStorage.setItem("currentUser", data.id);
-                  setCurrentUser(data.id);
-                  //this passes current user to context
-                  //sets current logged in user id so any other component can use it
-                  //user id for the rest of the app is going to be sessionStorage.getItem('currentUser')
-                  history.push("/account");
-                } else {
-                  alert("Login is bad.");
-                }
-              });
-          }, 400);
-        }}
-      >
-        <Form>
-          <label htmlFor="email">Email Address</label>
-          <Field
-            name="email"
-            type="email"
-            style={{
-              width: "200px",
-              margin: "10px 15px",
-            }}
+    <Stack spacing={4}>
+      <Heading as="h1">Login</Heading>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl mt={3} isInvalid={errors.email}>
+          <FormLabel htmlFor="email">Email Address</FormLabel>
+          <Input
+            id="email"
+            placeholder="email address"
+            {...register("email", {
+              required: "This is required",
+              pattern: {
+                value: /.+@.+/,
+                message: "Make sure to enter a valid email!",
+              },
+            })}
           />
-          <ErrorMessage name="email" />
+          <FormErrorMessage>
+            {errors.email && errors.email.message}
+          </FormErrorMessage>
+        </FormControl>
 
-          <label htmlFor="password">Password</label>
-          <Field
-            name="password"
+        <FormControl mt={3} isInvalid={errors.password}>
+          <FormLabel htmlFor="password">Password</FormLabel>
+          <Input
+            id="password"
+            placeholder="password"
             type="password"
-            style={{
-              width: "200px",
-              margin: "10px 10px",
-            }}
+            {...register("password", {
+              required: "This is required",
+              minLength: {
+                value: 12,
+                message: "Password must be longer than 12 characters!",
+              },
+            })}
           />
-          <ErrorMessage name="password" />
+          <FormErrorMessage>
+            {errors.password && errors.password.message}
+          </FormErrorMessage>
+        </FormControl>
 
-          <button
-            type="submit"
-            style={{
-              width: "200px",
-              margin: "10px 15px",
-            }}
-          >
-            Submit
-          </button>
-        </Form>
-      </Formik>
-      <p>
+        <Button
+          mt={4}
+          colorScheme="teal"
+          isLoading={isSubmitting}
+          type="submit"
+        >
+          Submit
+        </Button>
+      </form>
+      <Text>
         Don't have an account yet? Make one <Link to="/signup">here!</Link>
-      </p>
-    </div>
+      </Text>
+    </Stack>
   );
 }
