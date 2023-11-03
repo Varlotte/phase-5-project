@@ -5,8 +5,6 @@ from datetime import *
 
 from config import db
 
-# Models go here!
-
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
@@ -20,8 +18,11 @@ class User(db.Model, SerializerMixin):
     faves = db.relationship(
         "Fave", backref="user", cascade="all, delete-orphan")
     
-    #serializing so we don't see other faves' associated users
-    serialize_rules =("-faves.user",)
+    #Association proxy (named faved_meds so I could do curr_meds later with minimal refactoring)
+    faved_medications = association_proxy("faves", "medication")
+
+    #serializing so we don't see other faves' associated users, fave join table, or user password (yikes)
+    serialize_rules =("-faves", "faved_medications", "-password")
 
     #validations for name, password, email, birthday
     @validates('name')
@@ -94,13 +95,20 @@ class Medication(db.Model, SerializerMixin):
     #adding a relationship to faves and treatments
     faves = db.relationship(
         "Fave", backref="medication", cascade="all, delete-orphan")
-    
-    #serializing other faved medications (others needed here?)
-    serialize_rules = ("-faves.medication", "-treatments.medication")
-    
+
     #relationship with treatments
     treatments = db.relationship(
         "Treatment", backref="medication", cascade="all, delete-orphan")
+    
+    #Association proxy for faves
+    faved_by_users = association_proxy("faves", "user")
+    
+    #Association proxy for treatments
+    conditions = association_proxy("treatments", "condition")
+
+    #serializing other faved medications (others needed here?)
+    serialize_rules = ("-faves", "-faved_by_users", "-treatments", "conditions", "-conditions.medications")
+    
 
 #validate for generic and name brand attributes
     @validates('name_generic')
@@ -144,7 +152,10 @@ class Condition(db.Model, SerializerMixin):
     treatments = db.relationship(
         "Treatment", backref="condition", cascade="all, delete-orphan")
     
-    serialize_rules = ("-treatments.condition",)
+    serialize_rules = ("medications", "-treatments","-medications.condition",)
+
+    #Association proxy for treatments
+    medications = association_proxy("treatments", "medication")
     
     #do I need a validation for this?
     @validates('name')

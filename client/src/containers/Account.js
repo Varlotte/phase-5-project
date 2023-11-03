@@ -75,10 +75,13 @@ function Account() {
     })
       .then(() => alert("unfave successful"))
       .then(() => {
-        setAccountData((prevAccount) => ({
-          ...prevAccount,
-          faves: prevAccount.faves.filter((fave) => fave.id !== faveId),
-        }));
+        console.log("this med is history!");
+        setAccountData({
+          ...accountData,
+          faved_medications: accountData.faved_medications.filter(
+            (medication) => medication.id !== faveId
+          ),
+        });
       })
       .catch((error) => console.error("Error deleting fave", error));
   };
@@ -92,22 +95,22 @@ function Account() {
         Your current account email is: {accountData.email}
       </Text>{" "}
       <EmailForm align="center" addEmail={addEmail} email={accountData.email} />
-      {accountData.faves?.length ? (
+      {accountData.faved_medications.length ? (
         <>
           <Text align="center">Your faved meds are: </Text>
           <Center>
             <ul>
-              {accountData.faves.map((fave) => (
-                <li key={fave.medication.id}>
-                  <Link to={`/medications/${fave.medication.id}`}>
-                    {fave.medication.name_generic}
+              {accountData.faved_medications.map((medication) => (
+                <li key={medication.id}>
+                  <Link to={`/medications/${medication.id}`}>
+                    {medication.name_generic}
                   </Link>{" "}
                   <Button
                     mt={0}
                     colorScheme="teal"
                     size="xs"
                     className="unFave"
-                    onClick={() => handleUnFaveClick(fave.id)}
+                    onClick={() => handleUnFaveClick(medication.id)}
                   >
                     Unfave Med
                   </Button>

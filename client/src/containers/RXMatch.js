@@ -11,14 +11,15 @@ function RXMatch() {
   console.log(id);
   const conditionAPI = `http://127.0.0.1:5555/conditions/${id}`;
   const { currentUser } = useContext(CurrentUserContext);
-  const [treatmentsData, setTreatmentsData] = useState([]);
+  const [medicationsData, setMedicationsData] = useState([]);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     fetch(conditionAPI, { credentials: "include", mode: "cors" })
       .then((r) => r.json())
       .then((data) => {
-        setTreatmentsData(data.treatments);
+        setMedicationsData(data.medications);
+        console.log(data);
       });
   }, [conditionAPI]);
 
@@ -41,8 +42,8 @@ function RXMatch() {
       </Text>
       .
       <ul className="cards">
-        {treatmentsData.map((treatment, i) => {
-          const medication = treatment.medication;
+        {medicationsData.map((medication, i) => {
+          console.log(medication);
           return index === i ? (
             <MedicationsCard
               key={medication.id}

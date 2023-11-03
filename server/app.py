@@ -144,7 +144,7 @@ api.add_resource(AddFave, '/faves')
 #can't delete a fave if it's not your account!
 class DeleteFave(Resource):
     def delete(self, id):
-        fave = Fave.query.filter_by(id=id).first()
+        fave = Fave.query.filter(Fave.user_id==session["id"]and Fave.medication_id==id).first()
         if fave is None:
             return make_response({"error": "No fave was found"}, 404)
         elif not "id" in session or session["id"] != fave.user_id:
