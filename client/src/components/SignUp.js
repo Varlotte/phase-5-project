@@ -12,6 +12,7 @@ import {
   Stack,
   Heading,
   Text,
+  Center,
 } from "@chakra-ui/react";
 
 export default function Login() {
@@ -48,90 +49,95 @@ export default function Login() {
   }
 
   return (
-    <Stack spacing={4}>
-      <Heading as="h1">Create An Account</Heading>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl mt={3} isInvalid={errors.name}>
-          <FormLabel htmlFor="name">Name</FormLabel>
-          <Input
-            id="name"
-            placeholder="name"
-            {...register("name", {
-              required: "This is required",
-              minLength: {
-                value: 2,
-                message: "Name must be longer than two characters!",
-              },
-            })}
-          />
-          <FormErrorMessage>
-            {errors.name && errors.name.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl mt={3} isInvalid={errors.email}>
-          <FormLabel htmlFor="email">Email Address</FormLabel>
-          <Input
-            id="email"
-            placeholder="email address"
-            {...register("email", {
-              required: "This is required",
-              pattern: {
-                value: /.+@.+/,
-                message: "Make sure to enter a valid email!",
-              },
-            })}
-          />
-          <FormErrorMessage>
-            {errors.email && errors.email.message}
-          </FormErrorMessage>
-        </FormControl>
+    <Center>
+      <Stack spacing={4}>
+        <Heading as="h1">Create An Account</Heading>
+        <Center>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FormControl mt={3} isInvalid={errors.name}>
+              <FormLabel htmlFor="name">Name</FormLabel>
+              <Input
+                id="name"
+                placeholder="name"
+                {...register("name", {
+                  required: "This is required",
+                  minLength: {
+                    value: 2,
+                    message: "Name must be longer than two characters!",
+                  },
+                })}
+              />
+              <FormErrorMessage>
+                {errors.name && errors.name.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl mt={3} isInvalid={errors.email}>
+              <FormLabel htmlFor="email">Email Address</FormLabel>
+              <Input
+                id="email"
+                placeholder="email address"
+                {...register("email", {
+                  required: "This is required",
+                  pattern: {
+                    value: /.+@.+/,
+                    message: "Make sure to enter a valid email!",
+                  },
+                })}
+              />
+              <FormErrorMessage>
+                {errors.email && errors.email.message}
+              </FormErrorMessage>
+            </FormControl>
 
-        <FormControl mt={3} isInvalid={errors.password}>
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <Input
-            id="password"
-            placeholder="password"
-            type="password"
-            {...register("password", {
-              required: "This is required",
-              minLength: {
-                value: 12,
-                message: "Password must be longer than 12 characters!",
-              },
-            })}
-          />
-          <FormErrorMessage>
-            {errors.password && errors.password.message}
-          </FormErrorMessage>
-        </FormControl>
+            <FormControl mt={3} isInvalid={errors.password}>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <Input
+                id="password"
+                placeholder="password"
+                type="password"
+                {...register("password", {
+                  required: "This is required",
+                  minLength: {
+                    value: 12,
+                    message: "Password must be longer than 12 characters!",
+                  },
+                })}
+              />
+              <FormErrorMessage>
+                {errors.password && errors.password.message}
+              </FormErrorMessage>
+            </FormControl>
 
-        <FormControl mt={3} isInvalid={errors.birthday}>
-          <FormLabel htmlFor="birthday">Birthday</FormLabel>
-          <Input
-            id="birthday"
-            placeholder="birthday"
-            type="date"
-            {...register("birthday", {
-              required: "This is required",
-            })}
-          />
-          <FormErrorMessage>
-            {errors.birthday && errors.birthday.message}
-          </FormErrorMessage>
-        </FormControl>
-
-        <Button
-          mt={4}
-          colorScheme="teal"
-          isLoading={isSubmitting}
-          type="submit"
-        >
-          Submit
-        </Button>
-      </form>
-      <Text>
-        Already have an account? Log in <Link to="/login">here!</Link>
-      </Text>
-    </Stack>
+            <FormControl mt={3} isInvalid={errors.birthday}>
+              <FormLabel htmlFor="birthday">Birthday</FormLabel>
+              <Input
+                id="birthday"
+                placeholder="birthday"
+                type="date"
+                {...register("birthday", {
+                  required: "This is required",
+                })}
+              />
+              <FormErrorMessage>
+                {errors.birthday && errors.birthday.message}
+              </FormErrorMessage>
+            </FormControl>
+            <Center>
+              <Button
+                mt={4}
+                colorScheme="teal"
+                isLoading={isSubmitting}
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Center>
+          </form>
+        </Center>
+        <Text>
+          Already have an account? Log in <Link to="/login">here!</Link>
+        </Text>
+      </Stack>
+    </Center>
   );
 }

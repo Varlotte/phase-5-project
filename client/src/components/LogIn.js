@@ -12,6 +12,7 @@ import {
   Stack,
   Heading,
   Text,
+  Center,
 } from "@chakra-ui/react";
 
 export default function Login() {
@@ -47,58 +48,63 @@ export default function Login() {
   }
 
   return (
-    <Stack spacing={4}>
-      <Heading as="h1">Login</Heading>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl mt={3} isInvalid={errors.email}>
-          <FormLabel htmlFor="email">Email Address</FormLabel>
-          <Input
-            id="email"
-            placeholder="email address"
-            {...register("email", {
-              required: "This is required",
-              pattern: {
-                value: /.+@.+/,
-                message: "Make sure to enter a valid email!",
-              },
-            })}
-          />
-          <FormErrorMessage>
-            {errors.email && errors.email.message}
-          </FormErrorMessage>
-        </FormControl>
+    <Center>
+      <Stack spacing={4}>
+        <Heading align="center" as="h1">
+          Login
+        </Heading>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl mt={3} isInvalid={errors.email}>
+            <FormLabel htmlFor="email">Email Address</FormLabel>
+            <Input
+              id="email"
+              placeholder="email address"
+              {...register("email", {
+                required: "This is required",
+                pattern: {
+                  value: /.+@.+/,
+                  message: "Make sure to enter a valid email!",
+                },
+              })}
+            />
+            <FormErrorMessage>
+              {errors.email && errors.email.message}
+            </FormErrorMessage>
+          </FormControl>
 
-        <FormControl mt={3} isInvalid={errors.password}>
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <Input
-            id="password"
-            placeholder="password"
-            type="password"
-            {...register("password", {
-              required: "This is required",
-              minLength: {
-                value: 12,
-                message: "Password must be longer than 12 characters!",
-              },
-            })}
-          />
-          <FormErrorMessage>
-            {errors.password && errors.password.message}
-          </FormErrorMessage>
-        </FormControl>
-
-        <Button
-          mt={4}
-          colorScheme="teal"
-          isLoading={isSubmitting}
-          type="submit"
-        >
-          Submit
-        </Button>
-      </form>
-      <Text>
-        Don't have an account yet? Make one <Link to="/signup">here!</Link>
-      </Text>
-    </Stack>
+          <FormControl mt={3} isInvalid={errors.password}>
+            <FormLabel htmlFor="password">Password</FormLabel>
+            <Input
+              id="password"
+              placeholder="password"
+              type="password"
+              {...register("password", {
+                required: "This is required",
+                minLength: {
+                  value: 12,
+                  message: "Password must be longer than 12 characters!",
+                },
+              })}
+            />
+            <FormErrorMessage>
+              {errors.password && errors.password.message}
+            </FormErrorMessage>
+          </FormControl>
+          <Center>
+            <Button
+              mt={4}
+              colorScheme="teal"
+              isLoading={isSubmitting}
+              type="submit"
+            >
+              Submit
+            </Button>
+          </Center>
+        </form>
+        <Text>
+          Don't have an account yet? Make one <Link to="/signup">here!</Link>
+        </Text>
+      </Stack>
+    </Center>
   );
 }

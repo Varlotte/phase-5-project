@@ -53,11 +53,17 @@ export default function MedicationsCard({ medication, setIndex }) {
   return (
     <Card>
       <CardBody>
-        <Text>Brand Name: {name_brand}</Text>
-        <Text>Generic Name: {name_generic}</Text>
-        <Text fontSize="smaller">Drug Class: {drug_class}</Text>
-        <Text fontSize="small">Also Treats: {prescribed_for}</Text>
-        <Text fontSize="small">Common Side Effects: {side_effects}</Text>
+        <Text margin={1}>Brand Name: {name_brand}</Text>
+        <Text margin={1}>Generic Name: {name_generic}</Text>
+        <Text margin={1} fontSize="smaller">
+          Drug Class: {drug_class}
+        </Text>
+        <Text margin={1} fontSize="small">
+          Also Treats: {prescribed_for}
+        </Text>
+        <Text margin={1} fontSize="small">
+          Common Side Effects: {side_effects}
+        </Text>
         <Center>
           <Image
             src={pill_image}
@@ -71,7 +77,7 @@ export default function MedicationsCard({ medication, setIndex }) {
           className="ignore"
           onClick={handleIgnoreClick}
           icon={<FcDislike />}
-          margin={2}
+          margin={1}
           size="lg"
         >
           Ignore This Med
@@ -79,7 +85,7 @@ export default function MedicationsCard({ medication, setIndex }) {
         <IconButton
           className="faveheart"
           onClick={handleFaveClick}
-          margin={2}
+          margin={1}
           size="lg"
           icon={<FcLike />}
         >

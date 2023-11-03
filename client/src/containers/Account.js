@@ -4,7 +4,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import { CurrentUserContext, clearCurrentUser } from "../utils";
 import EmailForm from "../components/EmailForm";
 import Link from "../components/Link";
-import { Heading, Text, Stack, Button, ButtonGroup } from "@chakra-ui/react";
+import { Heading, Text, Stack, Button, Center } from "@chakra-ui/react";
 
 function Account() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
@@ -85,11 +85,13 @@ function Account() {
 
   return (
     <Stack>
-      <Heading as="h1">
+      <Heading margin={2} align="center" as="h1">
         Welcome to your account page, {accountData.name}!
       </Heading>
-      <Text>Your account email is: {accountData.email}</Text>{" "}
-      <EmailForm addEmail={addEmail} email={accountData.email} />
+      <Text align="center">
+        Your current account email is: {accountData.email}
+      </Text>{" "}
+      <EmailForm align="center" addEmail={addEmail} email={accountData.email} />
       {accountData.faves?.length ? (
         <>
           <p>Your faved meds are: </p>
@@ -113,19 +115,21 @@ function Account() {
           </ul>
         </>
       ) : (
-        <p>
+        <Text align="center">
           You don't have any faved meds yet- want to check out{" "}
           <Link to="/conditions/">some conditions?</Link>
-        </p>
+        </Text>
       )}
-      <Button
-        colorScheme="pink"
-        width={150}
-        size="s"
-        onClick={handleDeleteAccount}
-      >
-        Delete Account
-      </Button>
+      <Center>
+        <Button
+          colorScheme="pink"
+          width={150}
+          size="s"
+          onClick={handleDeleteAccount}
+        >
+          Delete Account
+        </Button>
+      </Center>
     </Stack>
   );
 }

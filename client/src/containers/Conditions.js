@@ -22,8 +22,12 @@ function Conditions() {
 
   return (
     <Stack spacing={3}>
-      <Heading as="h1">Conditions</Heading>
-      <Text>Click on a condition to learn more and enter RXMatch.</Text>
+      <Heading align="center" as="h1">
+        Conditions
+      </Heading>
+      <Text align="center">
+        Click on a condition to learn more and enter RXMatch.
+      </Text>
       <Accordion allowMultiple>{renderConditions}</Accordion>
     </Stack>
   );
