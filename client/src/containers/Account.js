@@ -94,25 +94,27 @@ function Account() {
       <EmailForm align="center" addEmail={addEmail} email={accountData.email} />
       {accountData.faves?.length ? (
         <>
-          <p>Your faved meds are: </p>
-          <ul>
-            {accountData.faves.map((fave) => (
-              <li key={fave.medication.id}>
-                <Link to={`/medications/${fave.medication.id}`}>
-                  {fave.medication.name_generic}
-                </Link>{" "}
-                <Button
-                  mt={0}
-                  colorScheme="teal"
-                  size="xs"
-                  className="unFave"
-                  onClick={() => handleUnFaveClick(fave.id)}
-                >
-                  Unfave Med
-                </Button>
-              </li>
-            ))}
-          </ul>
+          <Text align="center">Your faved meds are: </Text>
+          <Center>
+            <ul>
+              {accountData.faves.map((fave) => (
+                <li key={fave.medication.id}>
+                  <Link to={`/medications/${fave.medication.id}`}>
+                    {fave.medication.name_generic}
+                  </Link>{" "}
+                  <Button
+                    mt={0}
+                    colorScheme="teal"
+                    size="xs"
+                    className="unFave"
+                    onClick={() => handleUnFaveClick(fave.id)}
+                  >
+                    Unfave Med
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </Center>
         </>
       ) : (
         <Text align="center">
@@ -122,6 +124,7 @@ function Account() {
       )}
       <Center>
         <Button
+          margin={3}
           colorScheme="pink"
           width={150}
           size="s"
