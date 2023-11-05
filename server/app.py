@@ -123,9 +123,11 @@ api.add_resource(UsersByID, '/users/<int:id>')
 class AddFave(Resource):
     def post(self):
         data = request.json
-        print(data["user_id"], session["id"], data["user_id"] == session["id"])
         if not "id" in session or session["id"] != data["user_id"]:
-            return make_response ({"error": "Unathorized"}, 403)          
+            return make_response ({"error": "Unathorized"}, 403)   
+        existing_fave = Fave.query.filter_by(user_id=data["user_id"]).filter_by(medication_id=data["medication_id"]).first()
+        if existing_fave is not None:
+            return make_response({"error": "Fave already exists"}, 400)       
         try:
             new_fave = Fave(
                 user_id=data["user_id"],
@@ -144,11 +146,13 @@ api.add_resource(AddFave, '/faves')
 #can't delete a fave if it's not your account!
 class DeleteFave(Resource):
     def delete(self, id):
-        fave = Fave.query.filter(Fave.user_id==session["id"]and Fave.medication_id==id).first()
+        if not "id" in session:
+            return make_response ({"error": "Unathorized"}, 403)
+        
+        fave = Fave.query.filter_by(user_id=session["id"]).filter_by(medication_id=id).first()
+        print(fave.user_id, session["id"], fave.medication_id)
         if fave is None:
-            return make_response({"error": "No fave was found"}, 404)
-        elif not "id" in session or session["id"] != fave.user_id:
-            return make_response ({"error": "Unathorized"}, 403)               
+            return make_response({"error": "No fave was found"}, 404)            
         else:
             db.session.delete(fave)
             db.session.commit()

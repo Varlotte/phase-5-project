@@ -33,7 +33,7 @@ function Account() {
       });
   }, [currentUser]);
 
-  console.log("account data:", accountData);
+  // console.log("account data:", accountData);
 
   if (!currentUser) {
     return <Redirect to="/login" />;
@@ -68,7 +68,7 @@ function Account() {
     const shouldDelete = window.confirm("Are you sure you want to delete?");
 
     if (!shouldDelete) return;
-    console.log(currentUser);
+    // console.log(currentUser);
     fetch(`http://127.0.0.1:5555/users/${currentUser}`, {
       method: "DELETE",
       credentials: "include",
@@ -81,8 +81,8 @@ function Account() {
     history.push("/");
   };
 
-  const handleUnFaveClick = (faveId) => {
-    fetch(`http://127.0.0.1:5555/faves/${faveId}`, {
+  const handleUnFaveClick = (medicationId) => {
+    fetch(`http://127.0.0.1:5555/faves/${medicationId}`, {
       method: "DELETE",
       credentials: "include",
       mode: "cors",
@@ -100,7 +100,7 @@ function Account() {
         setAccountData({
           ...accountData,
           faved_medications: accountData.faved_medications.filter(
-            (medication) => medication.id !== faveId
+            (medication) => medication.id !== medicationId
           ),
         });
       })
@@ -124,7 +124,7 @@ function Account() {
               {accountData.faved_medications.map((medication) => (
                 <li key={medication.id}>
                   <Link to={`/medications/${medication.id}`}>
-                    {medication.name_generic}
+                    {medication.name_generic} ({medication.name_brand})
                   </Link>{" "}
                   <Button
                     mt={0}

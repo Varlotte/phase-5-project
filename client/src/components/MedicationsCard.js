@@ -32,7 +32,6 @@ export default function MedicationsCard({ medication, setIndex }) {
 
   const handleFaveClick = () => {
     const newFave = { user_id: currentUser, medication_id: medication.id };
-    console.log(newFave);
     fetch("http://127.0.0.1:5555/faves", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -42,14 +41,25 @@ export default function MedicationsCard({ medication, setIndex }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setIndex((prevIndex) => prevIndex + 1);
-        toast({
-          title: "Medication Faved.",
-          description: "Check your account to see your faves.",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
+        if (data.error) {
+          toast({
+            title: "Medication Already Faved.",
+            description: "Can't fave the same med twice.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+          setIndex((prevIndex) => prevIndex + 1);
+        } else {
+          setIndex((prevIndex) => prevIndex + 1);
+          toast({
+            title: "Medication Faved.",
+            description: "Check your account to see your faves.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
       });
   };
   //setIndex to index +1

@@ -8,7 +8,7 @@ import { Heading, Text, Stack } from "@chakra-ui/react";
 
 function RXMatch() {
   let { id } = useParams();
-  console.log(id);
+  // console.log(id);
   const conditionAPI = `http://127.0.0.1:5555/conditions/${id}`;
   const { currentUser } = useContext(CurrentUserContext);
   const [medicationsData, setMedicationsData] = useState([]);
@@ -19,7 +19,7 @@ function RXMatch() {
       .then((r) => r.json())
       .then((data) => {
         setMedicationsData(data.medications);
-        console.log(data);
+        // console.log(data);
       });
   }, [conditionAPI]);
 
@@ -42,7 +42,7 @@ function RXMatch() {
       .
       <ul className="cards">
         {medicationsData.map((medication, i) => {
-          console.log(medication);
+          // console.log(medication);
           return index === i ? (
             <MedicationsCard
               key={medication.id}
