@@ -12,8 +12,10 @@ import {
   Text,
   Image,
   Button,
+  Flex,
+  useToast,
 } from "@chakra-ui/react";
-import { FcDislike, FcLike } from "react-icons/fc";
+import { GrLike, GrDislike } from "react-icons/gr";
 
 export default function MedicationsCard({ medication, setIndex }) {
   const { currentUser } = useContext(CurrentUserContext);
@@ -25,6 +27,8 @@ export default function MedicationsCard({ medication, setIndex }) {
     side_effects,
     pill_image,
   } = medication;
+
+  const toast = useToast();
 
   const handleFaveClick = () => {
     const newFave = { user_id: currentUser, medication_id: medication.id };
@@ -39,7 +43,13 @@ export default function MedicationsCard({ medication, setIndex }) {
       .then((res) => res.json())
       .then((data) => {
         setIndex((prevIndex) => prevIndex + 1);
-        console.log("faved");
+        toast({
+          title: "Medication Faved.",
+          description: "Check your account to see your faves.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
       });
   };
   //setIndex to index +1
@@ -47,21 +57,27 @@ export default function MedicationsCard({ medication, setIndex }) {
 
   const handleIgnoreClick = () => {
     setIndex((prevIndex) => prevIndex + 1);
-    console.log("ignored");
+    toast({
+      title: "Medication Ignored.",
+      description: "Keep exploring new meds.",
+      status: "info",
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   return (
     <Card>
       <CardBody>
-        <Text margin={1}>Brand Name: {name_brand}</Text>
-        <Text margin={1}>Generic Name: {name_generic}</Text>
+        <Text>Brand Name: {name_brand}</Text>
+        <Text>Generic Name: {name_generic}</Text>
         <Text margin={1} fontSize="smaller">
           Drug Class: {drug_class}
         </Text>
         <Text margin={1} fontSize="small">
           Also Treats: {prescribed_for}
         </Text>
-        <Text margin={1} fontSize="small">
+        <Text margin={4} fontSize="small">
           Common Side Effects: {side_effects}
         </Text>
         <Center>
@@ -73,24 +89,26 @@ export default function MedicationsCard({ medication, setIndex }) {
             padding={2}
           />
         </Center>
-        <IconButton
-          className="ignore"
-          onClick={handleIgnoreClick}
-          icon={<FcDislike />}
-          margin={1}
-          size="lg"
-        >
-          Ignore This Med
-        </IconButton>
-        <IconButton
-          className="faveheart"
-          onClick={handleFaveClick}
-          margin={1}
-          size="lg"
-          icon={<FcLike />}
-        >
-          Fave This Med
-        </IconButton>
+        <Flex display={"block"}>
+          <IconButton
+            className="ignore"
+            onClick={handleIgnoreClick}
+            icon={<GrDislike />}
+            margin={3}
+            size="lg"
+          >
+            Ignore This Med
+          </IconButton>
+          <IconButton
+            className="faveheart"
+            onClick={handleFaveClick}
+            margin={3}
+            size="lg"
+            icon={<GrLike />}
+          >
+            Fave This Med
+          </IconButton>
+        </Flex>
       </CardBody>
     </Card>
   );

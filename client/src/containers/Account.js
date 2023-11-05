@@ -4,12 +4,20 @@ import { Redirect, useHistory } from "react-router-dom";
 import { CurrentUserContext, clearCurrentUser } from "../utils";
 import EmailForm from "../components/EmailForm";
 import Link from "../components/Link";
-import { Heading, Text, Stack, Button, Center } from "@chakra-ui/react";
+import {
+  Heading,
+  Text,
+  Stack,
+  Button,
+  Center,
+  useToast,
+} from "@chakra-ui/react";
 
 function Account() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [accountData, setAccountData] = useState(null);
   const history = useHistory();
+  const toast = useToast();
 
   console.log("load account with id:", currentUser);
 
@@ -47,6 +55,13 @@ function Account() {
           ...data,
         }));
       });
+    toast({
+      title: "Email updated.",
+      description: "Thanks for updating your account!",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   const handleDeleteAccount = () => {
@@ -67,15 +82,21 @@ function Account() {
   };
 
   const handleUnFaveClick = (faveId) => {
-    console.log("UnFaved");
     fetch(`http://127.0.0.1:5555/faves/${faveId}`, {
       method: "DELETE",
       credentials: "include",
       mode: "cors",
     })
-      .then(() => alert("unfave successful"))
+      .then(() =>
+        toast({
+          title: "Medication Unfaved.",
+          description: "Thank you for updating your faves!",
+          status: "info",
+          duration: 3000,
+          isClosable: true,
+        })
+      )
       .then(() => {
-        console.log("this med is history!");
         setAccountData({
           ...accountData,
           faved_medications: accountData.faved_medications.filter(
