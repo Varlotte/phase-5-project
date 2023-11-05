@@ -17,7 +17,12 @@ import {
 } from "@chakra-ui/react";
 import { GrLike, GrDislike } from "react-icons/gr";
 
-export default function MedicationsCard({ medication, setIndex }) {
+export default function MedicationsCard({
+  medication,
+  setIndex,
+  index,
+  total,
+}) {
   const { currentUser } = useContext(CurrentUserContext);
   const {
     name_brand,
@@ -29,6 +34,14 @@ export default function MedicationsCard({ medication, setIndex }) {
   } = medication;
 
   const toast = useToast();
+  const positions = [
+    "top",
+    "top-right",
+    "top-left",
+    "bottom",
+    "bottom-right",
+    "bottom-left",
+  ];
 
   const handleFaveClick = () => {
     const newFave = { user_id: currentUser, medication_id: medication.id };
@@ -46,7 +59,8 @@ export default function MedicationsCard({ medication, setIndex }) {
             title: "Medication Already Faved.",
             description: "Can't fave the same med twice.",
             status: "error",
-            duration: 3000,
+            duration: 2000,
+            position: "bottom-left",
             isClosable: true,
           });
           setIndex((prevIndex) => prevIndex + 1);
@@ -56,7 +70,8 @@ export default function MedicationsCard({ medication, setIndex }) {
             title: "Medication Faved.",
             description: "Check your account to see your faves.",
             status: "success",
-            duration: 3000,
+            duration: 2000,
+            position: "bottom-right",
             isClosable: true,
           });
         }
@@ -71,7 +86,8 @@ export default function MedicationsCard({ medication, setIndex }) {
       title: "Medication Ignored.",
       description: "Keep exploring new meds.",
       status: "info",
-      duration: 3000,
+      duration: 2000,
+      position: "bottom-left",
       isClosable: true,
     });
   };
@@ -119,6 +135,9 @@ export default function MedicationsCard({ medication, setIndex }) {
             Fave This Med
           </IconButton>
         </Flex>
+        <Text>
+          {index}/{total}
+        </Text>
       </CardBody>
     </Card>
   );

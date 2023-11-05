@@ -19,7 +19,7 @@ function Account() {
   const history = useHistory();
   const toast = useToast();
 
-  console.log("load account with id:", currentUser);
+  // console.log("load account with id:", currentUser);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -92,7 +92,8 @@ function Account() {
           title: "Medication Unfaved.",
           description: "Thank you for updating your faves!",
           status: "info",
-          duration: 3000,
+          duration: 2000,
+          position: "bottom-left",
           isClosable: true,
         })
       )

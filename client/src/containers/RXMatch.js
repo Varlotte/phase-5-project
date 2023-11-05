@@ -39,7 +39,7 @@ function RXMatch() {
           www.medlineplus.gov.
         </Link>
       </Text>
-      .
+
       <ul className="cards">
         {medicationsData.map((medication, i) => {
           // console.log(medication);
@@ -48,10 +48,18 @@ function RXMatch() {
               key={medication.id}
               medication={medication}
               setIndex={setIndex}
+              total={medicationsData.length}
+              index={index + 1}
             />
           ) : null;
         })}
       </ul>
+      {index >= medicationsData.length ? (
+        <Text as="h1">
+          That's all we have for now! Check your current faves in{" "}
+          <Link to="/account/">your account!</Link>
+        </Text>
+      ) : null}
     </Stack>
   );
 }

@@ -42,7 +42,7 @@ export default function Login() {
           //user id for the rest of the app is going to be sessionStorage.getItem('currentUser')
           history.push("/account");
         } else {
-          alert("Login is bad.");
+          alert("Login failed.");
         }
       });
   }
