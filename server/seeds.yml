@@ -120,7 +120,7 @@ medications:
     class: Central Nervous System Stimulant
     prescribed_for: Narcolepsy
     side_effects: Nervousness, irritability, difficulty sleeping, dizziness, nausea, vomiting, loss of appetite, weight loss, stomach pain, diarrhea, heartburn, dry mouth, headache, muscle tightness, drowsiness, uncontrollable movement of a body part, restlessness, decreased sex drive, heavy sweating, and back pain.
-    image: https://grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_27598.JPG
+    image: https://www.drugs.com/images/pills/fio/NVR04411/ritalin.JPG
     conditions:
       - adhd
   - name_brand: Qelbree
@@ -136,21 +136,21 @@ conditions:
   depression:
     name: Depression
     description: |
-      Depression is a serious medical illness. It's more than just a feeling of being sad for a few days. If you are one of the more than 19 million teens and adults in the United States who have depression, the feelings do not go away. They persist and interfere with your everyday life. 
-      Symptoms can include: feeling sad or "empty", loss of interest in favorite activities,overeating, or not wanting to eat at all,not being able to sleep, or sleeping too much,feeling very tired,feeling hopeless, irritable, anxious, or guilty, aches or pains, headaches, cramps, or digestive problems, and thoughts of death or suicide.                                                                               
-      Depression is a disorder of the brain. There are a variety of causes, including genetic, biological, environmental, and psychological factors. Depression can happen at any age, but it often begins in teens and young adults. It is much more common in women. Women can also get postpartum depression after the birth of a baby. Some people get seasonal affective disorder in the winter. Depression is one part of bipolar disorder.
+      <p> Depression is a serious medical illness. It's more than just a feeling of being sad for a few days. If you are one of the more than 19 million teens and adults in the United States who have depression, the feelings do not go away. They persist and interfere with your everyday life. </p>
+      <p> Symptoms can include: <ul> <li>feeling sad or "empty"</li> <li>loss of interest in favorite activities </li> <li> overeating, or not wanting to eat at all </li> <li> not being able to sleep, or sleeping too much </li> <li> feeling very tired </li> <li>feeling hopeless, irritable, anxious, or guilty</li> <li> aches or pains </li> <li>digestive problems</li> <li> and thoughts of death or suicide.</li> </ul> </p>                                                                             
+      <p> Depression is a disorder of the brain. There are a variety of causes, including genetic, biological, environmental, and psychological factors. Depression can happen at any age, but it often begins in teens and young adults. It is much more common in women. Women can also get postpartum depression after the birth of a baby. Some people get seasonal affective disorder in the winter. Depression is one part of bipolar disorder.</p>
   anxiety:
     name: Anxiety
     description: |
-      Anxiety is a feeling of fear, dread, and uneasiness. It might cause you to sweat, feel restless and tense, and have a rapid heartbeat. It can be a normal reaction to stress. For example, you might feel anxious when faced with a difficult problem at work, before taking a test, or before making an important decision. It can help you to cope. The anxiety may give you a boost of energy or help you focus. But for people with anxiety disorders, the fear is not temporary and can be overwhelming.
-      Anxiety disorders are conditions in which you have anxiety that does not go away and can get worse over time. The symptoms can interfere with daily activities such as job performance, schoolwork, and relationships.
+      <p> Anxiety is a feeling of fear, dread, and uneasiness. It might cause you to sweat, feel restless and tense, and have a rapid heartbeat. </p> <p>It can be a normal reaction to stress. For example, you might feel anxious when faced with a difficult problem at work, before taking a test, or before making an important decision. The anxiety may give you a boost of energy or help you focus.</p> <p> But for people with anxiety disorders, the fear is not temporary and can be overwhelming.
+      Anxiety disorders are conditions in which you have anxiety that does not go away and can get worse over time. The symptoms can interfere with daily activities such as job performance, schoolwork, and relationships.</p>
   ptsd:
     name: Post-Traumatic Stress Disorder (PTSD)
     description: |
-      Post-traumatic stress disorder (PTSD) is a mental health disorder that can be developed at any age. Some people develop it after they experience or see a traumatic event. The traumatic event may be life-threatening, but the event is not necessarily a physically dangerous one. 
-      It's normal to feel afraid during and after a traumatic situation. The fear triggers a "fight-or-flight" response. This is your body's way of helping to protect itself from possible harm. It causes changes in your body such as the release of certain hormones and increases in alertness, blood pressure, heart rate, and breathing.
-      In time, most people recover from this naturally. But people with PTSD don't feel better. They feel stressed and frightened long after the trauma is over. In some cases, the PTSD symptoms may start later on. They might also come and go over time.
+      <p>Post-traumatic stress disorder (PTSD) is a mental health disorder that can be developed at any age. Some people develop it after they experience or see a traumatic event. The traumatic event may be life-threatening, but the event is not necessarily a physically dangerous one.</p> 
+      <p>It's normal to feel afraid during and after a traumatic situation. The fear triggers a "fight-or-flight" response. This is your body's way of helping to protect itself from possible harm. It causes changes in your body such as the release of certain hormones and increases in alertness, blood pressure, heart rate, and breathing.</p>
+      <p>In time, most people recover from this naturally. But people with PTSD don't feel better. They feel stressed and frightened long after the trauma is over. In some cases, the PTSD symptoms may start later on. They might also come and go over time.</p>
   adhd:
     name: Attention Deficit Hyperactivity Disorder (ADHD)
     description: |
-      ADHD is a neurodevelopmental disorder. It is usually first diagnosed in childhood and often lasts into adulthood. But some people don't get diagnosed with ADHD until they are adults. ADHD symptoms can include having trouble paying attention (inattention), having trouble controlling impulsive behaviors (impulsivity), and being overly active (hyperactivity.)
+      <p>ADHD is a neurodevelopmental disorder. It is usually first diagnosed in childhood and often lasts into adulthood. But some people don't get diagnosed with ADHD until they are adults.</p> <p> ADHD symptoms can include: <ul> <li> having trouble paying attention (inattention)</li> <li> having trouble controlling impulsive behaviors (impulsivity)</li>  <li>and being overly active (hyperactivity.)</li> </ul> </p>

@@ -31,7 +31,10 @@ export default function ConditionsCard({ condition }) {
       </h2>
       <AccordionPanel pb={4}>
         <Stack>
-          <Text>{description}</Text>
+          <Text
+            className="conditionDesc"
+            dangerouslySetInnerHTML={{ __html: description }}
+          ></Text>
           <Button onClick={handleClick}>Select Condition</Button>
         </Stack>
       </AccordionPanel>

@@ -14,3 +14,11 @@
   align-items: center;
   font-weight: bold;
 }
+
+.conditionDesc p {
+  margin-bottom: 10px;
+}
+
+.conditionDesc li {
+  margin-left: 16px;
+}
