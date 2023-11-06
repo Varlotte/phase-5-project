@@ -50,6 +50,7 @@ tentative backend routing:
 - POST /users/<int:id>/conditions (adds a new diagnosis to reflect user's most accurate diagnoses)
 - DELETE /users/<int:id>/conditions (removes a diagnosis to reflect user's most accurate diagnoses)
 - GET /medications/<int:id> (read specific medication info)
+- GET /medications (search for a medication by either brand or generic name)
 - GET /conditions (read list of conditions)
 - GET /conditions/<int:id> (read a specific condition and all meds associated with it for RXMatch)
 - POST /login (login is a POST request)
