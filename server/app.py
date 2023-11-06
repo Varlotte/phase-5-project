@@ -171,6 +171,19 @@ class MedicationsById(Resource):
         
 api.add_resource(MedicationsById, '/medications/<int:id>')
 
+#GET medication by name for search
+class MedicationsByName(Resource):
+    def get(self):
+        query= request.args.get("q")
+        medications = Medication.query.filter(
+            Medication.name_brand.ilike(f"%{query}%")
+            | Medication.name_generic.ilike(f"%{query}%")
+        ).all()
+        return make_response([medication.to_dict(rules=("-faves","-treatments", "-conditions")) for medication in medications], 200)  
+
+api.add_resource(MedicationsByName, '/medications')  
+
+
 #GET for all conditions
 class Conditions(Resource):
     def get(self):
