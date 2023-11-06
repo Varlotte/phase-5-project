@@ -49,12 +49,12 @@ export default function Login() {
 
   return (
     <Center>
-      <Stack spacing={4}>
+      <Stack spacing={2}>
         <Heading align="center" as="h1">
           Login
         </Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl mt={3} isInvalid={errors.email}>
+          <FormControl mt={4} isInvalid={errors.email}>
             <FormLabel htmlFor="email" textAlign={"center"}>
               Email Address:
             </FormLabel>
@@ -74,7 +74,7 @@ export default function Login() {
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl mt={3} isInvalid={errors.password}>
+          <FormControl mt={4} isInvalid={errors.password}>
             <FormLabel htmlFor="password" textAlign={"center"}>
               Password:
             </FormLabel>
