@@ -16,6 +16,7 @@ export default function MedSearch() {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { isSubmitting },
   } = useForm({
     defaultValues: { query: "" },
@@ -24,6 +25,7 @@ export default function MedSearch() {
   return (
     <form
       onSubmit={handleSubmit((values) => {
+        reset();
         history.push(`/medications?q=${values.query}`);
       })}
     >
