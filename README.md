@@ -89,10 +89,10 @@ tentative backend routing:
 - "/conditions/:id" shows the list of treatments for this condition (aka RXMatch)
 - "/resources" a list of resources and sources used in the creation of the site
 - "/signup" a signup page
-- "login" a login page
+- "/login" a login page
 - "/logout" logs the user out
-- "medications?q={query}" displays the medications card(s) matching search criteria
-- "medications/id" displays the information for a specific medication (clickable from the faves list)
+- "/medications?q={query}" displays the medications card(s) matching search criteria
+- "/medications/id" displays the information for a specific medication (clickable from the faves list)
 
 ## Stretch Goals:
 
