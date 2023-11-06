@@ -29,7 +29,9 @@ export default function EmailForm({ addEmail, email }) {
         })}
       >
         <FormControl mt={0} isInvalid={errors.email}>
-          <FormLabel htmlFor="email">Email Address</FormLabel>
+          <FormLabel htmlFor="email" textAlign={"center"}>
+            Email Address:
+          </FormLabel>
           <Input
             id="email"
             placeholder="email address"
