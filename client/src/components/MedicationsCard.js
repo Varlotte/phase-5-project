@@ -3,15 +3,11 @@ import React, { useContext } from "react";
 import { CurrentUserContext } from "../utils";
 import {
   Card,
-  CardHeader,
   CardBody,
-  CardFooter,
   IconButton,
-  Stack,
   Center,
   Text,
   Image,
-  Button,
   Flex,
   useToast,
 } from "@chakra-ui/react";
@@ -34,14 +30,6 @@ export default function MedicationsCard({
   } = medication;
 
   const toast = useToast();
-  const positions = [
-    "top",
-    "top-right",
-    "top-left",
-    "bottom",
-    "bottom-right",
-    "bottom-left",
-  ];
 
   const handleFaveClick = () => {
     const newFave = { user_id: currentUser, medication_id: medication.id };
@@ -63,9 +51,9 @@ export default function MedicationsCard({
             position: "bottom-left",
             isClosable: true,
           });
-          setIndex((prevIndex) => prevIndex + 1);
+          setIndex && setIndex((prevIndex) => prevIndex + 1);
         } else {
-          setIndex((prevIndex) => prevIndex + 1);
+          setIndex && setIndex((prevIndex) => prevIndex + 1);
           toast({
             title: "Medication Faved.",
             description: "Check your account to see your faves.",
@@ -81,7 +69,7 @@ export default function MedicationsCard({
   //index is array.length,show "no more meds to display"
 
   const handleIgnoreClick = () => {
-    setIndex((prevIndex) => prevIndex + 1);
+    setIndex && setIndex((prevIndex) => prevIndex + 1);
     toast({
       title: "Medication Ignored.",
       description: "Keep exploring new meds.",
@@ -135,9 +123,11 @@ export default function MedicationsCard({
             Fave This Med
           </IconButton>
         </Flex>
-        <Text>
-          {index}/{total}
-        </Text>
+        {index && total ? (
+          <Text>
+            {index}/{total}
+          </Text>
+        ) : null}
       </CardBody>
     </Card>
   );

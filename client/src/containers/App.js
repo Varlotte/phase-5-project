@@ -13,6 +13,7 @@ import Logout from "./Logout";
 import SignUp from "../components/SignUp";
 import { CurrentUserContext } from "../utils";
 import MedicationPage from "./MedicationPage";
+import SearchPage from "./SearchPage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(
@@ -41,6 +42,9 @@ function App() {
               </Route>
               <Route path="/medications/:id">
                 <MedicationPage />
+              </Route>
+              <Route path="/medications">
+                <SearchPage />
               </Route>
               <Route path="/resources">
                 <Resources />
