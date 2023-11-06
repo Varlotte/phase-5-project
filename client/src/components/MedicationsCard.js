@@ -105,6 +105,7 @@ export default function MedicationsCard({
         </Center>
         <Flex display={"block"}>
           <IconButton
+            aria-label="Ignore Medication"
             className="ignore"
             onClick={handleIgnoreClick}
             icon={<GrDislike />}
@@ -115,6 +116,7 @@ export default function MedicationsCard({
             Ignore This Med
           </IconButton>
           <IconButton
+            aria-label="Fave Medication"
             className="faveheart"
             onClick={handleFaveClick}
             margin={3}

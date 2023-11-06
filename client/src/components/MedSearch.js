@@ -38,6 +38,7 @@ export default function MedSearch() {
           width="120px"
         />
         <IconButton
+          aria-label="Search database"
           icon={<GrSearch />}
           isLoading={isSubmitting}
           type="submit"
