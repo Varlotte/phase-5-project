@@ -8,11 +8,13 @@ Enter RXGnosis: a tool that empowers patients to come to doctor's appointments w
 
 ## User Stories:
 
-- Users will be able to create a secure RXGnosis account where they'll record their current diagnoses and prescriptions.
+- Users will be able to create a secure RXGnosis account where their email and faved medications will be saved.
 - From there, they'll be able to read up on four of the most common mental health diagnoses: depression, anxiety, ptsd, and adhd.
 - Clicking into one of these conditions will take users to RXMatch for that condition.
-- RX Match feature works just like Tinder, but for mental health care. Patients will be able to use the accessible interface to swipe through reliable information from a federal API about commonly prescribed medications for a treatment, view side effects, and save the medications that look most relevant to their needs to bring to future doctors' appointments.
+- RX Match feature works just like Tinder, but for mental health care. Patients will be able to use the accessible interface to swipe through reliable information from a federal API about commonly prescribed medications for a treatment, view common side effects, and save the medications that look most relevant to their needs to bring to future doctors' appointments.
 - Users will be able to show their faved meds list to providers in appointments to better advocate for their own care and be a more informed part of a greater healthcare conversation.
+- Users can remove faves from their saved faves list in their account.
+- Users can use the seach tool in the RXGNosis navbar to search for a medication by name (generic or brand name) regardless of whether or not they are logged in. If the user is logged in, they can also save medications to their account from this named search.
 
 ## Caveats:
 
@@ -22,11 +24,11 @@ Enter RXGnosis: a tool that empowers patients to come to doctor's appointments w
 
 ## CRUD functionality:
 
-- C- create user account, create my fave, create a curr_medication, create a user condition
-- R- read my account info, read medication info, read condition info, read my faves
-- U- update my account info
-- D- delete my account, delete my fave (aka unfave), delete a curr_medication, delete a user condition
-- full CRUD on user object, partial CRUD on faves, curr_medications, and conditions
+- C- create user account, create a fave
+- R- read account info, read medication info, read condition info, read my faves
+- U- update account info
+- D- delete account, delete a fave (aka unfave)
+- full CRUD on user object, partial CRUD on faves
 
 ## Wirefame Sketches:
 
@@ -34,7 +36,8 @@ Enter RXGnosis: a tool that empowers patients to come to doctor's appointments w
 
 ## API Contract:
 
-tentative routing:
+tentative backend routing:
+(note: curr_medications and curr_conditions are currently stretch goals )
 
 - POST /users (create new user account)
 - GET /users/<int:id> (read my account, also will be serialized to include reads for user's curr_meds, faves, and conditions)
@@ -54,9 +57,13 @@ tentative routing:
 
 ## Data Models and Relationships:
 
+(note: curr_medications and curr_conditions are currently stretch goals)
+
 <img width="634" alt="Screenshot 2023-10-23 at 2 35 16 PM" src="https://github.com/Varlotte/phase-5-project/assets/32116877/4694f93a-e5a4-4191-8bc0-4e82ab19d1aa">
 
 ### Relationships:
+
+(note: curr_medications and curr_conditions are currently stretch goals)
 
 - A user can fave many medications
 - A medication can be faved by many users
@@ -74,18 +81,34 @@ tentative routing:
 - Password must be longer than 12 characters.
 - Email must contain '@' symbol.
 
+## Client-Side Routes:
+
+- "/" homepage
+- "/account" user account
+- "/conditions" the list of conditions
+- "/conditions/:id" shows the list of treatments for this condition (aka RXMatch)
+- "/resources" a list of resources and sources used in the creation of the site
+- "/signup" a signup page
+- "login" a login page
+- "/logout" logs the user out
+- "medications?q={query}" displays the medications card(s) matching search criteria
+- "medications/id" displays the information for a specific medication (clickable from the faves list)
+
 ## Stretch Goals:
 
-1. Drug interactions.
-2. Letting users privately rate their experiences with their current medications.
-3. Including commonly prescribed dosages for medications.
-4. Including more than four conditions.
-5. Tracking side effects privately.
-6. Allowing users to leave private notes and ratings about providers.
-7. Allowing users to search by active medications (with a link to Medlineplus.)
-8. Printable/mobile-friendly version of the faved meds page.
+1. Adding users' current medications (curr_medication) and current diagnoses (curr_condition) back in, on both the backend and frontend, to allow users a greater range of functionality.
+2. Showing drug interactions in RXMatch (either manually built or pulled in from the external API built by the National Library of medicine)
+3. Letting users privately rate their experiences with their current medications.
+4. Including commonly prescribed dosages for medications.
+5. Including more than four conditions, and more than fifteen medications.
+6. Tracking side effects privately.
+7. Allowing users to leave private notes and ratings about providers.
+8. Printable and mobile-friendly versions of the faved meds page.
+9. Deploying this application.
 
 ## If Scaling Down is Necessary:
+
+(note: As of 11/6/23, option 1 was executed.)
 
 1. Remove the curr meds and user conditions tables tracking users' current treatment and conditions to instead prioritize developing RXMatch (faved medications.) (If this ends up being done, models used will be Medication, User, Condition, with Faved Med, and Treatment as intermediate tables.) Curr_meds and User Conditions can then be added back in as stretch goals.
 2. Make RXMatch a list, not a Tinder-like UX swipe.
