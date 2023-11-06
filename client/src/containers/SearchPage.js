@@ -12,8 +12,6 @@ export default function SearchPage() {
   const [medications, setMedications] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(query, medicationAPI);
-
   useEffect(() => {
     setLoading(true);
     fetch(medicationAPI, { credentials: "include", mode: "cors" })
@@ -28,7 +26,6 @@ export default function SearchPage() {
     return null;
   }
 
-  console.log(query);
   return (
     <Stack align="center" textAlign="center">
       <Text fontSize="xs">
@@ -41,7 +38,6 @@ export default function SearchPage() {
       </Text>
       <ul className="cards">
         {medications.map((medication, i) => {
-          // console.log(medication);
           return (
             <MedicationsCard key={medication.id} medication={medication} />
           );
