@@ -110,6 +110,7 @@ export default function MedicationsCard({
             icon={<GrDislike />}
             margin={3}
             size="lg"
+            isDisabled={!currentUser}
           >
             Ignore This Med
           </IconButton>
@@ -119,6 +120,7 @@ export default function MedicationsCard({
             margin={3}
             size="lg"
             icon={<GrLike />}
+            isDisabled={!currentUser}
           >
             Fave This Med
           </IconButton>
