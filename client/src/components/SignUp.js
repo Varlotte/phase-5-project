@@ -54,7 +54,9 @@ export default function Login() {
         <Center>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl mt={3} isInvalid={errors.name}>
-              <FormLabel htmlFor="name">Name</FormLabel>
+              <FormLabel htmlFor="name" textAlign={"center"}>
+                Name:
+              </FormLabel>
               <Input
                 id="name"
                 placeholder="name"
@@ -71,7 +73,9 @@ export default function Login() {
               </FormErrorMessage>
             </FormControl>
             <FormControl mt={3} isInvalid={errors.email}>
-              <FormLabel htmlFor="email">Email Address</FormLabel>
+              <FormLabel htmlFor="email" textAlign={"center"}>
+                Email Address:
+              </FormLabel>
               <Input
                 id="email"
                 placeholder="email address"
@@ -89,7 +93,9 @@ export default function Login() {
             </FormControl>
 
             <FormControl mt={3} isInvalid={errors.password}>
-              <FormLabel htmlFor="password">Password</FormLabel>
+              <FormLabel htmlFor="password" textAlign={"center"}>
+                Password:
+              </FormLabel>
               <Input
                 id="password"
                 placeholder="password"
@@ -108,7 +114,9 @@ export default function Login() {
             </FormControl>
 
             <FormControl mt={3} isInvalid={errors.birthday}>
-              <FormLabel htmlFor="birthday">Birthday</FormLabel>
+              <FormLabel htmlFor="birthday" textAlign={"center"}>
+                Birthday:
+              </FormLabel>
               <Input
                 id="birthday"
                 placeholder="birthday"
