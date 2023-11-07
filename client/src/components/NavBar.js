@@ -3,6 +3,7 @@ import Link from "./Link";
 import { CurrentUserContext } from "../utils";
 import { Flex } from "@chakra-ui/react";
 import MedSearch from "./MedSearch";
+import Logo from "./Logo";
 
 function NavBar() {
   //session storage or usecontext here for curr user
@@ -15,7 +16,9 @@ function NavBar() {
       justify="center"
       gap="3"
     >
-      <Link to="/">Home</Link>
+      <Link to="/">
+        <Logo />
+      </Link>
       <Link to="/conditions">Conditions</Link>
 
       {!currentUser ? (

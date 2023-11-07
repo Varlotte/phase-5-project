@@ -19,6 +19,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(
     parseInt(window.sessionStorage.getItem("currentUser"))
   );
+
   return (
     <ChakraProvider>
       <CurrentUserContext.Provider
@@ -29,13 +30,6 @@ function App() {
       >
         <BrowserRouter>
           <NavBar />
-          {/* edit this so it's just the little guy and reupload into navbar
-          <Image
-            src="https://i.imgur.com/FvlIjXo.png"
-            alt="logo"
-            boxSize="150px"
-            m={"-34px auto"}
-          /> */}
           <main className="page-wrapper">
             <Switch>
               <Route path="/conditions/:id">
