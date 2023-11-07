@@ -1,12 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import {
-  Input,
-  Button,
-  IconButton,
-  ButtonGroup,
-  HStack,
-} from "@chakra-ui/react";
+import { Input, IconButton, HStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { GrSearch } from "react-icons/gr";
 

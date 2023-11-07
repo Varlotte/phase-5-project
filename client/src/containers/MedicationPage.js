@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MedicationsCard from "../components/MedicationsCard";
+// import MedicationsCard from "../components/MedicationsCard";
 import { useParams } from "react-router-dom";
 import Link from "../components/Link";
 import { Heading, Text, Stack, Image } from "@chakra-ui/react";

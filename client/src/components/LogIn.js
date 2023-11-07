@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { CurrentUserContext } from "../utils";
 import { useForm } from "react-hook-form";
 import Link from "./Link";

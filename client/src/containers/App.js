@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { ChakraProvider, Image } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import LandingPage from "./LandingPage";
 import Conditions from "./Conditions";
