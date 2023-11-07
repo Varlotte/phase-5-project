@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Image } from "@chakra-ui/react";
 
 import LandingPage from "./LandingPage";
 import Conditions from "./Conditions";
@@ -29,6 +29,13 @@ function App() {
       >
         <BrowserRouter>
           <NavBar />
+          {/* edit this so it's just the little guy and reupload into navbar
+          <Image
+            src="https://i.imgur.com/FvlIjXo.png"
+            alt="logo"
+            boxSize="150px"
+            m={"-34px auto"}
+          /> */}
           <main className="page-wrapper">
             <Switch>
               <Route path="/conditions/:id">

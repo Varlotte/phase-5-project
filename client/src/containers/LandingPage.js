@@ -1,7 +1,7 @@
 //displays either login or signup
 import React from "react";
 import Link from "../components/Link";
-import { Heading, Text, Stack } from "@chakra-ui/react";
+import { Heading, Text, Stack, Image } from "@chakra-ui/react";
 
 function LandingPage() {
   return (
@@ -9,6 +9,13 @@ function LandingPage() {
       <Heading margin={2} as="h1">
         Welcome to RXGnosis
       </Heading>
+
+      <Image
+        src="https://i.imgur.com/FvlIjXo.png"
+        alt="logo"
+        boxSize="150px"
+        m={"-24px auto"}
+      />
 
       <Text margin={2} align="center">
         Did you know most doctor's appointments only last 17 minutes? That's not

@@ -1,12 +1,19 @@
 //static page linking to sources
 import React from "react";
 import Link from "../components/Link";
-import { Heading, Text, Stack } from "@chakra-ui/react";
+import { Heading, Text, Stack, Image } from "@chakra-ui/react";
 
 function Resources() {
   return (
     <Stack spacing={3} align="center">
       <Heading as="h1">Resources</Heading>
+
+      <Image
+        src="https://i.imgur.com/FvlIjXo.png"
+        alt="logo"
+        boxSize="150px"
+        m={"-24px auto"}
+      />
 
       <Text margin={2}>
         Note: RXMatch is not a diagnostic tool. Only a professional can diagnose
