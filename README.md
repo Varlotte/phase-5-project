@@ -1,4 +1,8 @@
 # RXGnosis: Take control of your doctor's appointment
+<img width="383" alt="Screenshot 2023-11-14 at 8 22 11 PM" src="https://github.com/Varlotte/phase-5-project/assets/32116877/68ac3be3-a90e-47ad-aac3-54ed6c7abfa9">
+
+## Video Demo:
+https://youtu.be/UKvkMP40e8U 
 
 ## The Pitch:
 
