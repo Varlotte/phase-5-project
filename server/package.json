@@ -15,6 +15,9 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@prisma/client": "^5.7.1"
+    "@prisma/client": "^5.7.1",
+    "date-fns": "^3.1.0",
+    "prisma-validation-middleware": "^1.1.0",
+    "superstruct": "^1.0.3"
   }
 }
