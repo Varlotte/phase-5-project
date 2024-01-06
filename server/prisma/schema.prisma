@@ -35,11 +35,11 @@ model User {
 model Medication {
   id            Int         @id @default(autoincrement())
   nameBrand     String
-  nameGeneric   String
-  drugClass     String
+  nameGeneric   String      @unique
+  class         String
   prescribedFor String
   sideEffects   String
-  pillImage     String
+  image         String
   // points back to intermediate fave table
   faves         Fave[]
   // implicit many-to-many relationship between medications and treatments
@@ -48,7 +48,7 @@ model Medication {
 
 model Condition {
   id          Int          @id @default(autoincrement())
-  name        String
+  name        String       @unique
   description String
   medications Medication[]
 }

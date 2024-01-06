@@ -5,15 +5,6 @@ import { differenceInYears } from "date-fns";
 
 const client = new PrismaClient()
 
-async function main() {
-  // ... you will write your Prisma Client queries here
-  // const post = await prisma.post.update({
-  //   where: { id: 1 },
-  //   data: { published: true },
-  // })
-  // console.log(post)
-}
-
 function validate<T extends Struct<any, any>>(struct: T) {
   return (data: any) => assert<T, any>(mask(data, struct), struct);
 }
@@ -45,18 +36,12 @@ client.$use(
       ),
       Condition: validate(
         object({
-        name: nonempty(string()),
+          name: nonempty(string()),
         })
       )
     })
   );
 
-main()
-  .then(async () => {
-    await client.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await client.$disconnect()
-    process.exit(1)
-  })
+export default client;
+
+export type { Prisma } from "@prisma/client";
