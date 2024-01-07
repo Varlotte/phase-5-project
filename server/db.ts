@@ -20,10 +20,9 @@ function validate<T extends Struct<any, any>>(struct: T) {
   return (data: any) => assert<T, any>(mask(data, struct), struct);
 }
 
-function isAdult(input: Date) {
-  const now = Date.now();
-
-  return differenceInYears(now, input) >= 18;
+// exported for testing
+export function isAdult(input: Date, currentDate = new Date()) {
+  return differenceInYears(currentDate, input) >= 18;
 }
 
 // validate our data based on business logic
@@ -35,7 +34,7 @@ client.$use(
         name: nonempty(string()),
         password: size(string(), 12, Infinity),
         email: pattern(string(), /@/),
-        birthday: refine(date(), "adult", isAdult),
+        birthday: refine(date(), "adult", (val) => isAdult(val)),
       })
     ),
     Medication: validate(
