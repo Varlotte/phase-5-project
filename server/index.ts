@@ -20,10 +20,23 @@ app.use(express.static(join(__dirname, "..", "client", "build")));
 
 //no auth needed:
 //GET medications by id
+app.get("/api/medications/:id", (req, res) => {
+  res.send(`medicationID: ${req.params.id}`);
+});
 //GET medication by brand and generic name for search
+app.get("/api/medications", (req, res) => {
+  const query = req.query.q;
+  res.send(`nameBrand or nameGeneric: ${query}`);
+});
 
 //GET for all conditions
+app.get("/api/conditions", (req, res) => {
+  res.send("conditions");
+});
 //GET condition by ID for the tinder UI
+app.get("/api/conditions/:id", (req, res) => {
+  res.send(`conditionID: ${req.params.id}`);
+});
 
 // for all other routes, return to the index so the SPA routing can handle it
 app.get("*", (req, res) => {
