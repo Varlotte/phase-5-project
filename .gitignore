@@ -54,3 +54,4 @@ jspm_packages
 __pycache__
 
 server/instance/app.db
+dist/
