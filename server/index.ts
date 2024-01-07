@@ -1,5 +1,6 @@
 import express from "express";
 import { join } from "path";
+import db from "./db";
 
 //instantiating a new app
 const app = express();
@@ -30,8 +31,12 @@ app.get("/api/medications", (req, res) => {
 });
 
 //GET for all conditions
-app.get("/api/conditions", (req, res) => {
-  res.send("conditions");
+app.get("/api/conditions", async (req, res) => {
+  const conditions = await db.condition.findMany({
+    orderBy: [{ id: "asc" }],
+  });
+
+  res.json(conditions);
 });
 //GET condition by ID for the tinder UI
 app.get("/api/conditions/:id", (req, res) => {
