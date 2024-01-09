@@ -21,16 +21,28 @@ app.use(express.static(join(__dirname, "..", "client", "build")));
 
 //no auth needed:
 //GET medications by id
-app.get("/api/medications/:id", (req, res) => {
-  res.send(`medicationID: ${req.params.id}`);
-});
-//GET medication by brand and generic name for search
-app.get("/api/medications", (req, res) => {
-  const query = req.query.q;
-  res.send(`nameBrand or nameGeneric: ${query}`);
+app.get("/api/medications/:id", async (req, res) => {
+  try {
+    const medication = await db.medication.findUniqueOrThrow({
+      where: { id: parseInt(req.params.id) },
+    });
+    res.json(medication);
+  } catch (e) {
+    res.status(404).json({ error: (e as Error).message });
+  }
 });
 
-//GET for all conditions
+//GET medication by brand and generic name for search
+app.get("/api/medications", async (req, res) => {
+  const query = req.query.q;
+  const result = await db.medication.findMany({
+    //somehow include name and generic: {}, query.name = res.params.name?
+  });
+  //   res.send(`nameBrand or nameGeneric: ${query}`);
+  res.json(result);
+});
+
+//GET for all conditions (fully implemented!)
 app.get("/api/conditions", async (req, res) => {
   const conditions = await db.condition.findMany({
     orderBy: [{ id: "asc" }],
@@ -39,8 +51,15 @@ app.get("/api/conditions", async (req, res) => {
   res.json(conditions);
 });
 //GET condition by ID for the tinder UI
-app.get("/api/conditions/:id", (req, res) => {
-  res.send(`conditionID: ${req.params.id}`);
+app.get("/api/conditions/:id", async (req, res) => {
+  try {
+    const condition = await db.condition.findUniqueOrThrow({
+      where: { id: parseInt(req.params.id) },
+    });
+    res.json(condition);
+  } catch (e) {
+    res.status(404).json({ error: (e as Error).message });
+  }
 });
 
 // for all other routes, return to the index so the SPA routing can handle it
