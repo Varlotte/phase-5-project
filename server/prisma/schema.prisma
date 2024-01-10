@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -34,7 +35,7 @@ model User {
 
 model Medication {
   id            Int         @id @default(autoincrement())
-  nameBrand     String
+  nameBrand     String      @unique
   nameGeneric   String      @unique
   class         String
   prescribedFor String

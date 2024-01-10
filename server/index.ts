@@ -34,12 +34,49 @@ app.get("/api/medications/:id", async (req, res) => {
 
 //GET medication by brand and generic name for search
 app.get("/api/medications", async (req, res) => {
-  const query = req.query.q;
-  const result = await db.medication.findMany({
-    //somehow include name and generic: {}, query.name = res.params.name?
-  });
-  //   res.send(`nameBrand or nameGeneric: ${query}`);
-  res.json(result);
+  try {
+    //holds user input
+    const query = req.query.q as string;
+    const result = await db.medication.findMany({
+      //query matches nameBrand or nameGeneric
+      where: {
+        OR: [
+          {
+            nameBrand: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            nameGeneric: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            prescribedFor: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            class: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+          {
+            sideEffects: {
+              search: query,
+            },
+          },
+        ],
+      },
+    });
+    res.json(result);
+  } catch (e) {
+    res.status(404).json({ error: (e as Error).message });
+  }
 });
 
 //GET for all conditions (fully implemented!)
