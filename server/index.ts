@@ -15,9 +15,8 @@ app.use(express.static(join(__dirname, "..", "client", "build")));
 //POST /login
 //POST /logout
 //POST /users (create new user)
-//GET, PATCH, and DELETE /users/id
-//POST and DELETE user faves, protected to only add faves to your own account
-// DELETE fave but not if its not your account
+//GET, PATCH (to update email and password), and DELETE /users/id
+//POST and DELETE user faves, protected to only add and delete faves to your own account
 
 //no auth needed:
 //GET medications by id
