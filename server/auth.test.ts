@@ -1,28 +1,14 @@
 import { vi, expect, it, describe } from "vitest";
-import { verify, verifyPassword, hashPassword } from "./auth";
+import { verifyUser, hashPassword } from "./auth";
 import db from "./db";
 
 import type { Callback } from "./auth";
 
-//creating a dummy version of the database to use for testing
-// vi.mock("./db");
-
-//test verifyPassword
-describe("verifyPassword", () => {
-  //this is a testable password we're running through the hash function
-  const savedPassword = hashPassword("hunter2");
-
-  it("returns true if passwords match", () => {
-    expect(verifyPassword(savedPassword, "hunter2")).toBe(true);
-  });
-
-  it("returns false if passwords don't match", () => {
-    expect(verifyPassword(savedPassword, "hunter3")).toBe(false);
-  });
-});
+// Stub the pepper for our tests
+process.env.ARGON_SECRET = "abc123";
 
 //test verify
-describe("verify", () => {
+describe("verifyUser", () => {
   const email = "name@example.com";
   const password = "hunter2";
 
@@ -31,7 +17,7 @@ describe("verify", () => {
 
     const cb: Callback = (err) => expect(err && err.message).toBe("nope");
 
-    await verify(email, password, cb);
+    await verifyUser(email, password, cb);
   });
 
   it("returns false if user not found", async () => {
@@ -39,7 +25,7 @@ describe("verify", () => {
 
     const cb: Callback = (err, user) => expect(user).toBe(false);
 
-    await verify(email, password, cb);
+    await verifyUser(email, password, cb);
   });
 
   it("returns false if passwords don't match", async () => {
@@ -48,12 +34,12 @@ describe("verify", () => {
       id: 1,
       name: "Test",
       email,
-      password: hashPassword("hunter3"),
+      password: await hashPassword("hunter3"),
     });
 
     const cb: Callback = (err, user) => expect(user).toBe(false);
 
-    await verify(email, password, cb);
+    await verifyUser(email, password, cb);
   });
 
   it("returns user object if passwords match", async () => {
@@ -61,7 +47,7 @@ describe("verify", () => {
       id: 1,
       name: "Test",
       email,
-      password: hashPassword("hunter2"),
+      password: await hashPassword("hunter2"),
     };
 
     // @ts-expect-error
@@ -69,6 +55,6 @@ describe("verify", () => {
 
     const cb: Callback = (err, user) => expect(user).toEqual(userObj);
 
-    await verify(email, password, cb);
+    await verifyUser(email, password, cb);
   });
 });

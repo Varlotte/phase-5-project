@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import { hash, verify, argon2id } from "argon2";
 
 import passport from "passport";
 import LocalStrategy from "passport-local";
@@ -11,29 +11,38 @@ type UserAuth = {
   password: string;
 };
 
-//establishing types for the variables called in verify
+// this is in a separate function so we can override the env variable when testing
+function getSecret() {
+  const secret = process.env.ARGON_SECRET;
+
+  if (!secret) {
+    // make sure we set a password hashing pepper in all environments
+    throw new Error(
+      "Please add a ARGON_SECRET env variable with sufficiently random data",
+    );
+  }
+
+  return secret as string;
+}
+
+// hash the password using a pepper
+// exported for testing
+export async function hashPassword(password: string) {
+  // follow best practices from:
+  // https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+  return hash(password, { secret: Buffer.from(getSecret()) });
+}
+
+// establishing types for the variables called in verify
 export type Callback = (err: Error | null, user?: UserAuth | false) => void;
 
-//hashes the password on the db side
+// checking to see if the user is in the database at all
 // exported for testing
-export function hashPassword(password: string) {
-  return crypto.createHash("sha256").update(password).digest("hex");
-}
-
-//checking password that's passed in against the hashed pw in db
-// exported for testing
-export function verifyPassword(
-  savedPassword: string,
-  submittedPassword: string
+export async function verifyUser(
+  email: string,
+  password: string,
+  cb: Callback,
 ) {
-  const hashed = hashPassword(submittedPassword);
-
-  return hashed === savedPassword;
-}
-
-//checking to see if the user is in the database at all
-// exported for testing
-export async function verify(email: string, password: string, cb: Callback) {
   try {
     const user = await db.user.findUnique({
       where: { email },
@@ -49,7 +58,11 @@ export async function verify(email: string, password: string, cb: Callback) {
       return cb(null, false);
     }
 
-    if (!verifyPassword(user.password, password)) {
+    if (
+      !(await verify(user.password, password, {
+        secret: Buffer.from(getSecret()),
+      }))
+    ) {
       return cb(null, false);
     }
 
