@@ -4,7 +4,7 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import db from "./db";
 
-type UserAuth = {
+export type UserAuth = {
   id: number;
   name: string;
   email: string;
@@ -72,6 +72,6 @@ export async function verifyUser(
   }
 }
 
-passport.use(new LocalStrategy(verifyUser));
+passport.use(new LocalStrategy({ usernameField: "email" }, verifyUser));
 
 export default passport;

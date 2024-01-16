@@ -1,17 +1,43 @@
 import { join } from "path";
 import express from "express";
+import session from "express-session";
 import { parse } from "date-fns";
-import db from "./db";
+import db, { Prisma, validation } from "./db";
 import passport, { hashPassword } from "./auth";
+import type { UserAuth } from "./auth";
 
-//instantiating a new app
+// instantiating a new app
 const app = express();
-//sets 3000 as default port but you can also pass in a specific one in an env variable
+// sets 3000 as default port but you can also pass in a specific one in an env variable
 const port = process.env.PORT || 3000;
 // serve the react app staticly
 app.use(express.static(join(__dirname, "..", "client", "build")));
 // parse json bodies
 app.use(express.json());
+// set up session support
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET as string,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: true },
+  }),
+);
+// set up passport
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser((user, cb) => {
+  process.nextTick(() => {
+    const id = (user as UserAuth).id;
+
+    return cb(null, id);
+  });
+});
+passport.deserializeUser((id: string, cb) => {
+  process.nextTick(() => {
+    return cb(null, id);
+  });
+});
 
 // api routes:
 
@@ -36,21 +62,49 @@ type NewUser = {
 //POST /users (create new user)
 app.post("/api/users", async (req, res) => {
   const data: NewUser = req.body;
-  const birthday = parse(data.birthday, "yyyy-MM-dd", new Date());
-  const created = await db.user.create({
-    data: {
-      ...data,
-      birthday,
-      password: await hashPassword(data.password),
-    },
-  });
+  try {
+    const birthday = parse(data.birthday, "yyyy-MM-dd", new Date());
+    // validate new user before we send to the db
+    validation.User({ ...data, birthday });
 
-  res.status(200).json({
-    name: created.name,
-    email: created.email,
-    birthday: created.birthday,
-    // don't send the password
-  });
+    // send to the db
+    const created = await db.user.create({
+      data: {
+        ...data,
+        birthday,
+        password: await hashPassword(data.password),
+      },
+    });
+
+    // TODO: get cookie on login
+    // log the user in
+    req.logIn(created, (err) => {
+      if (err) res.status(400).send("Cannot create user");
+
+      res.status(201).json({
+        name: created.name,
+        email: created.email,
+        birthday: created.birthday,
+        // don't send the password
+      });
+    });
+  } catch (e) {
+    console.error(e);
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2002") {
+        // unique email validation failed
+        res
+          .status(400)
+          .json({ error: "Cannot create user: Email already exists" });
+      }
+    } else if ((e as Error).name === "DataValidationError") {
+      // failed validation
+      res.status(400).json({ error: (e as Error).message });
+    } else {
+      //blanket error handling (any other error)
+      res.status(400).json({ error: "Cannot create user" });
+    }
+  }
 });
 
 //GET medications by id

@@ -28,9 +28,9 @@ model User {
   email    String   @unique
   password String
   birthday DateTime
-  // somehow only show faves affiliated with this user id
+  // somehow only shows faves affiliated with this user id
   faves    Fave[]
-  // currMeds, currConditions, notes TBD
+  //TODO: currMeds, currConditions, notes TBD
 }
 
 model Medication {
