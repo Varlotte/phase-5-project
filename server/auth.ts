@@ -1,7 +1,7 @@
 import { hash, verify, argon2id } from "argon2";
 
 import passport from "passport";
-import LocalStrategy from "passport-local";
+import { Strategy as LocalStrategy } from "passport-local";
 import db from "./db";
 
 type UserAuth = {
@@ -71,3 +71,7 @@ export async function verifyUser(
     return cb(e as Error);
   }
 }
+
+passport.use(new LocalStrategy(verifyUser));
+
+export default passport;

@@ -1,24 +1,58 @@
-import express from "express";
 import { join } from "path";
+import express from "express";
+import { parse } from "date-fns";
 import db from "./db";
+import passport, { hashPassword } from "./auth";
 
 //instantiating a new app
 const app = express();
 //sets 3000 as default port but you can also pass in a specific one in an env variable
 const port = process.env.PORT || 3000;
-
+// serve the react app staticly
 app.use(express.static(join(__dirname, "..", "client", "build")));
+// parse json bodies
+app.use(express.json());
 
-// api routes TBD
+// api routes:
 
 //these will all need auth:
 //POST /login
+app.post("/api/login", passport.authenticate("local"), async (req, res) => {
+  res.send("ok");
+});
 //POST /logout
-//POST /users (create new user)
 //GET, PATCH (to update email and password), and DELETE /users/id
 //POST and DELETE user faves, protected to only add and delete faves to your own account
 
 //no auth needed:
+
+type NewUser = {
+  birthday: string;
+  name: string;
+  email: string;
+  password: string;
+};
+
+//POST /users (create new user)
+app.post("/api/users", async (req, res) => {
+  const data: NewUser = req.body;
+  const birthday = parse(data.birthday, "yyyy-MM-dd", new Date());
+  const created = await db.user.create({
+    data: {
+      ...data,
+      birthday,
+      password: await hashPassword(data.password),
+    },
+  });
+
+  res.status(200).json({
+    name: created.name,
+    email: created.email,
+    birthday: created.birthday,
+    // don't send the password
+  });
+});
+
 //GET medications by id
 app.get("/api/medications/:id", async (req, res) => {
   try {
