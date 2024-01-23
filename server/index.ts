@@ -1,10 +1,13 @@
 import { join } from "path";
 import express from "express";
 import session from "express-session";
+import { ensureLoggedIn } from "connect-ensure-login";
 import { parse } from "date-fns";
+import _ from "lodash";
 import db, { Prisma, validation } from "./db";
 import passport, { hashPassword } from "./auth";
 import type { UserAuth } from "./auth";
+import type { Request, Response, NextFunction } from "express";
 
 // instantiating a new app
 const app = express();
@@ -47,8 +50,105 @@ app.post("/api/login", passport.authenticate("local"), async (req, res) => {
   res.send("ok");
 });
 //POST /logout
+app.post("/api/logout", ensureLoggedIn(), async (req, res) => {
+  req.logOut((err) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.send("ok");
+    }
+  });
+});
 //GET, PATCH (to update email and password), and DELETE /users/id
+
+function ensureCurrentUser(errorMessage: string) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const id = parseInt(req.params.id);
+
+    if (req.user !== id) {
+      res.status(401).json({ error: errorMessage });
+    } else {
+      next();
+    }
+  };
+}
+
+//show all of user account info except the hashed password
+app.get(
+  "/api/users/:id",
+  ensureLoggedIn(),
+  ensureCurrentUser("Cannot fetch data for other users"),
+  async (req, res) => {
+    try {
+      const user = await db.user.findUniqueOrThrow({
+        where: { id: parseInt(req.params.id) },
+      });
+      res.json(_.omit(user, ["password"]));
+    } catch (e) {
+      res.status(404).json({ error: (e as Error).message });
+    }
+  },
+);
+
+//patch the email and password for the user and hash the new password
+type UpdateUser = {
+  email?: string;
+  password?: string;
+};
+
+app.patch(
+  "/api/users/:id",
+  ensureLoggedIn(),
+  ensureCurrentUser("Cannot update other users"),
+  async (req, res) => {
+    const id = parseInt(req.params.id);
+    const data: UpdateUser = req.body;
+
+    if (data.password) {
+      data.password = await hashPassword(data.password);
+    }
+
+    try {
+      const currentUser = await db.user.findUniqueOrThrow({
+        where: { id },
+      });
+
+      validation.User({ ...currentUser, ...data });
+
+      const user = await db.user.update({
+        where: { id },
+        data: {
+          ...currentUser,
+          ...data,
+        },
+      });
+      res.json(_.omit(user, ["password"]));
+    } catch (e) {
+      res.status(404).json({ error: (e as Error).message });
+    }
+  },
+);
+
+//delete the whole user account
+app.delete(
+  "/api/users/:id",
+  ensureLoggedIn(),
+  ensureCurrentUser("Cannot delete other users"),
+  async (req, res) => {
+    try {
+      const user = await db.user.delete({
+        where: { id: parseInt(req.params.id) },
+      });
+      res.json(_.omit(user, ["password"]));
+    } catch (e) {
+      res.status(404).json({ error: (e as Error).message });
+    }
+  },
+);
+
 //POST and DELETE user faves, protected to only add and delete faves to your own account
+//api/faves? (post to add a fave and assocate them with a user) (if !loggedin it won't work)
+//delete/faves? delete to remove a fave from a user (if !loggedin it won't work)
 
 //no auth needed:
 
@@ -76,7 +176,6 @@ app.post("/api/users", async (req, res) => {
       },
     });
 
-    // TODO: get cookie on login
     // log the user in
     req.logIn(created, (err) => {
       if (err) res.status(400).send("Cannot create user");
