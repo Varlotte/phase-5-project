@@ -8,12 +8,10 @@ export default function Logout() {
   const history = useHistory();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/logout", {
+    fetch("/api/logout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      mode: "cors",
-      body: "",
     }).then(() => {
       setCurrentUser(null);
       clearCurrentUser();

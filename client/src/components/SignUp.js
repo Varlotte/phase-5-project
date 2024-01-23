@@ -25,11 +25,10 @@ export default function Login() {
   } = useForm();
 
   function onSubmit(values) {
-    fetch("http://127.0.0.1:5555/users", {
+    fetch("/api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      mode: "cors",
       body: JSON.stringify(values),
     })
       .then((res) => res.json())

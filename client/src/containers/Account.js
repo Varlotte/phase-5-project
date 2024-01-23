@@ -23,9 +23,8 @@ function Account() {
 
   useEffect(() => {
     if (!currentUser) return;
-    fetch(`http://127.0.0.1:5555/users/${currentUser}`, {
+    fetch(`/api/users/${currentUser}`, {
       credentials: "include",
-      mode: "cors",
     })
       .then((r) => r.json())
       .then((user) => {
@@ -41,12 +40,11 @@ function Account() {
   if (!accountData) return null;
 
   const addEmail = (newEmail) => {
-    fetch(`http://127.0.0.1:5555/users/${currentUser}`, {
+    fetch(`/api/users/${currentUser}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newEmail),
       credentials: "include",
-      mode: "cors",
     })
       .then((r) => r.json())
       .then((data) => {
@@ -69,10 +67,9 @@ function Account() {
 
     if (!shouldDelete) return;
     // console.log(currentUser);
-    fetch(`http://127.0.0.1:5555/users/${currentUser}`, {
+    fetch(`/api/users/${currentUser}`, {
       method: "DELETE",
       credentials: "include",
-      mode: "cors",
     })
       .then(() => alert("Delete successful"))
       .catch((error) => console.error("Error deleting account:", error));
@@ -82,10 +79,9 @@ function Account() {
   };
 
   const handleUnFaveClick = (medicationId) => {
-    fetch(`http://127.0.0.1:5555/faves/${medicationId}`, {
+    fetch(`/api/faves/${medicationId}`, {
       method: "DELETE",
       credentials: "include",
-      mode: "cors",
     })
       .then(() =>
         toast({
@@ -100,7 +96,7 @@ function Account() {
       .then(() => {
         setAccountData({
           ...accountData,
-          faved_medications: accountData.faved_medications.filter(
+          favedMedications: accountData.favedMedications?.filter(
             (medication) => medication.id !== medicationId
           ),
         });
@@ -117,15 +113,15 @@ function Account() {
         Your current account email is: {accountData.email}
       </Text>{" "}
       <EmailForm align="center" addEmail={addEmail} email={accountData.email} />
-      {accountData.faved_medications.length ? (
+      {accountData.favedMedications?.length ? (
         <>
           <Text align="center">Your faved meds are: </Text>
           <Center>
             <ul>
-              {accountData.faved_medications.map((medication) => (
+              {accountData.favedMedications.map((medication) => (
                 <li key={medication.id}>
                   <Link to={`/medications/${medication.id}`}>
-                    {medication.name_generic} ({medication.name_brand})
+                    {medication.nameGeneric} ({medication.nameBrand})
                   </Link>{" "}
                   <Button
                     mt={0}

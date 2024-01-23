@@ -9,13 +9,13 @@ import { Heading, Text, Stack } from "@chakra-ui/react";
 function RXMatch() {
   let { id } = useParams();
   // console.log(id);
-  const conditionAPI = `http://127.0.0.1:5555/conditions/${id}`;
+  const conditionAPI = `/api/conditions/${id}`;
   const { currentUser } = useContext(CurrentUserContext);
   const [medicationsData, setMedicationsData] = useState([]);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    fetch(conditionAPI, { credentials: "include", mode: "cors" })
+    fetch(conditionAPI, { credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
         setMedicationsData(data.medications);

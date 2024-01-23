@@ -21,23 +21,22 @@ export default function MedicationsCard({
 }) {
   const { currentUser } = useContext(CurrentUserContext);
   const {
-    name_brand,
-    name_generic,
-    drug_class,
-    prescribed_for,
-    side_effects,
-    pill_image,
+    nameBrand,
+    nameGeneric,
+    class: drugClass,
+    prescribedFor,
+    sideEffects,
+    image,
   } = medication;
 
   const toast = useToast();
 
   const handleFaveClick = () => {
     const newFave = { user_id: currentUser, medication_id: medication.id };
-    fetch("http://127.0.0.1:5555/faves", {
+    fetch("/api/faves", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      mode: "cors",
       body: JSON.stringify(newFave),
     })
       .then((res) => res.json())
@@ -83,21 +82,21 @@ export default function MedicationsCard({
   return (
     <Card>
       <CardBody>
-        <Text>Brand Name: {name_brand}</Text>
-        <Text>Generic Name: {name_generic}</Text>
+        <Text>Brand Name: {nameBrand}</Text>
+        <Text>Generic Name: {nameGeneric}</Text>
         <Text margin={1} fontSize="smaller">
-          Drug Class: {drug_class}
+          Drug Class: {drugClass}
         </Text>
         <Text margin={1} fontSize="small">
-          Also Treats: {prescribed_for}
+          Also Treats: {prescribedFor}
         </Text>
         <Text margin={4} fontSize="small">
-          Common Side Effects: {side_effects}
+          Common Side Effects: {sideEffects}
         </Text>
         <Center>
           <Image
-            src={pill_image}
-            alt={name_generic}
+            src={image}
+            alt={nameGeneric}
             boxSize="150px"
             borderRadius="full"
             padding={2}

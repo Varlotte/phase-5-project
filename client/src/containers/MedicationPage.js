@@ -6,11 +6,11 @@ import { Heading, Text, Stack, Image } from "@chakra-ui/react";
 
 export default function MedicationPage() {
   let { id } = useParams();
-  const medicationAPI = `http://127.0.0.1:5555/medications/${id}`;
+  const medicationAPI = `/api/medications/${id}`;
   const [medication, setMedication] = useState(null);
 
   useEffect(() => {
-    fetch(medicationAPI, { credentials: "include", mode: "cors" })
+    fetch(medicationAPI, { credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
         setMedication(data);
@@ -22,12 +22,12 @@ export default function MedicationPage() {
   }
 
   const {
-    name_brand,
-    name_generic,
-    drug_class,
-    prescribed_for,
-    side_effects,
-    pill_image,
+    nameBrand,
+    nameGeneric,
+    class: drugClass,
+    prescribedFor,
+    sideEffects,
+    image,
   } = medication;
 
   return (
@@ -40,17 +40,17 @@ export default function MedicationPage() {
           www.medlineplus.gov.
         </Link>
       </Text>
-      <Heading as="h1">Generic Name: {name_generic}</Heading>
-      <Heading as="h2">Brand Name: {name_brand}</Heading>
+      <Heading as="h1">Generic Name: {nameGeneric}</Heading>
+      <Heading as="h2">Brand Name: {nameBrand}</Heading>
       <Text fontWeight="bold">Drug Class:</Text>
-      <Text> {drug_class}</Text>
+      <Text> {drugClass}</Text>
       <Text fontWeight="bold">Also Treats:</Text>
-      <Text>{prescribed_for}</Text>
+      <Text>{prescribedFor}</Text>
       <Text fontWeight="bold">Common Side Effects Include:</Text>
-      <Text>{side_effects}</Text>
+      <Text>{sideEffects}</Text>
       <Image
-        src={pill_image}
-        alt={name_generic}
+        src={image}
+        alt={nameGeneric}
         boxSize="150px"
         borderRadius="full"
       />

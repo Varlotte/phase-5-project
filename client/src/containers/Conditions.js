@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import ConditionsCard from "../components/ConditionsCards";
 import { Heading, Text, Stack, Accordion } from "@chakra-ui/react";
 
-const conditionsAPI = "http://127.0.0.1:5555/conditions";
+const conditionsAPI = "/api/conditions";
 
 function Conditions() {
   const [conditionsData, setConditionsData] = useState([]);
 
   useEffect(() => {
-    fetch(conditionsAPI, { credentials: "include", mode: "cors" })
+    fetch(conditionsAPI, { credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
         setConditionsData(data);

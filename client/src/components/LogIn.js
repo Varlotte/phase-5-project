@@ -25,20 +25,19 @@ export default function Login() {
   } = useForm();
 
   function onSubmit(values) {
-    fetch("http://127.0.0.1:5555/login", {
+    fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      mode: "cors",
       body: JSON.stringify(values),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.id) {
-          window.sessionStorage.setItem("currentUser", data.id);
-          setCurrentUser(data.id);
           //this passes current user to context
           //sets current logged in user id so any other component can use it
+          window.sessionStorage.setItem("currentUser", data.id);
+          setCurrentUser(data.id);
           //user id for the rest of the app is going to be sessionStorage.getItem('currentUser')
           history.push("/account");
         } else {

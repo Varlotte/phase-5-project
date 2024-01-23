@@ -8,19 +8,19 @@ export default function SearchPage() {
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const query = params.get("q");
-  const medicationAPI = `http://127.0.0.1:5555/medications?q=${query}`;
+  const medicationsAPI = `/api/medications?q=${query}`;
   const [medications, setMedications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    fetch(medicationAPI, { credentials: "include", mode: "cors" })
+    fetch(medicationsAPI, { credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
         setMedications(data);
         setLoading(false);
       });
-  }, [medicationAPI]);
+  }, [medicationsAPI]);
 
   if (query && loading) {
     return null;
