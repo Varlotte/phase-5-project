@@ -34,6 +34,7 @@ export default function Login() {
       .then((res) => res.json())
       .then((data) => {
         if (data.id) {
+          console.log(data.id);
           //this passes current user to context
           //sets current logged in user id so any other component can use it
           window.sessionStorage.setItem("currentUser", data.id);

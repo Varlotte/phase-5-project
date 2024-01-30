@@ -11,6 +11,7 @@ import {
   mask,
   Struct,
   refine,
+  type as typeStruct,
 } from "superstruct";
 import { differenceInYears } from "date-fns";
 import type { StructError } from "superstruct";
@@ -38,7 +39,7 @@ export function isAdult(input: Date, currentDate = new Date()) {
 
 export const validation = {
   User: validate(
-    object({
+    typeStruct({
       // user fields
       name: nonempty(string()),
       password: size(string(), 12, Infinity),

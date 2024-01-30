@@ -47,7 +47,7 @@ passport.deserializeUser((id: string, cb) => {
 //these will all need auth:
 //POST /login
 app.post("/api/login", passport.authenticate("local"), async (req, res) => {
-  res.json({ id: req.user });
+  res.json({ id: (req.user as UserAuth).id });
 });
 //POST /logout
 app.post("/api/logout", ensureLoggedIn(), async (req, res) => {
@@ -65,7 +65,7 @@ function ensureCurrentUser(errorMessage: string) {
   return (req: Request, res: Response, next: NextFunction) => {
     const id = parseInt(req.params.id);
 
-    if (req.user !== id) {
+    if ((req.user as UserAuth).id !== id) {
       res.status(401).json({ error: errorMessage });
     } else {
       next();
@@ -82,6 +82,9 @@ app.get(
     try {
       const user = await db.user.findUniqueOrThrow({
         where: { id: parseInt(req.params.id) },
+        include: {
+          faves: true,
+        },
       });
       res.json(_.omit(user, ["password"]));
     } catch (e) {
@@ -96,6 +99,9 @@ type UpdateUser = {
   password?: string;
 };
 
+//combining updating faves with updating user
+//create a new fave or update (rather than delete) the fave by adding unfavedOn
+//doing this within the patch ensures only logged in users can fave for themselves only
 app.patch(
   "/api/users/:id",
   ensureLoggedIn(),
@@ -115,11 +121,16 @@ app.patch(
 
       validation.User({ ...currentUser, ...data });
 
+      console.log("Saving user", data);
+
       const user = await db.user.update({
         where: { id },
         data: {
           ...currentUser,
           ...data,
+        },
+        include: {
+          faves: true,
         },
       });
       res.json(_.omit(user, ["password"]));
@@ -145,10 +156,6 @@ app.delete(
     }
   },
 );
-
-//POST and DELETE user faves, protected to only add and delete faves to your own account
-//api/faves? (post to add a fave and assocate them with a user) (if !loggedin it won't work)
-//delete/faves? delete to remove a fave from a user (if !loggedin it won't work)
 
 //no auth needed:
 

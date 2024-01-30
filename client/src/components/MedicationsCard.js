@@ -32,9 +32,14 @@ export default function MedicationsCard({
   const toast = useToast();
 
   const handleFaveClick = () => {
-    const newFave = { user_id: currentUser, medication_id: medication.id };
-    fetch("/api/faves", {
-      method: "POST",
+    const newFave = {
+      faves: {
+        create: { userId: currentUser, medicationId: medication.id },
+      },
+    };
+
+    fetch(`/api/users/${currentUser}`, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify(newFave),
