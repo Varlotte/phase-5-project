@@ -279,6 +279,9 @@ app.get("/api/conditions/:id", async (req, res) => {
   try {
     const condition = await db.condition.findUniqueOrThrow({
       where: { id: parseInt(req.params.id) },
+      include: {
+        medications: true,
+      },
     });
     res.json(condition);
   } catch (e) {

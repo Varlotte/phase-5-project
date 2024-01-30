@@ -1,6 +1,6 @@
 //for the four conditions to go into rxmatch
 import React, { useEffect, useState } from "react";
-import ConditionsCard from "../components/ConditionsCards";
+import ConditionsCard from "../components/ConditionsCard";
 import { Heading, Text, Stack, Accordion } from "@chakra-ui/react";
 
 const conditionsAPI = "/api/conditions";
