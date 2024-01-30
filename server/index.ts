@@ -47,7 +47,7 @@ passport.deserializeUser((id: string, cb) => {
 //these will all need auth:
 //POST /login
 app.post("/api/login", passport.authenticate("local"), async (req, res) => {
-  res.send("ok");
+  res.json({ id: req.user });
 });
 //POST /logout
 app.post("/api/logout", ensureLoggedIn(), async (req, res) => {
@@ -181,6 +181,7 @@ app.post("/api/users", async (req, res) => {
       if (err) res.status(400).send("Cannot create user");
 
       res.status(201).json({
+        id: created.id,
         name: created.name,
         email: created.email,
         birthday: created.birthday,
