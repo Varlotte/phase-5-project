@@ -19,6 +19,7 @@ export type Fave = {
   medication: Medication;
 };
 
+/** User info from db. This is different than the User we get from Firebase. */
 export type User = {
   uid: string;
   name: string;

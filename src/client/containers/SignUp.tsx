@@ -27,7 +27,7 @@ type FormValues = {
 
 export default function Login() {
   const navigate = useNavigate();
-  const { currentUser, createAccount } = useAuth();
+  const { currentUser, createAccount, updateAccount } = useAuth();
   const {
     handleSubmit,
     register,
@@ -41,29 +41,36 @@ export default function Login() {
 
   async function onSubmit(values: FormValues) {
     try {
+      // Create user account in firebase.
       const user = await createAccount(values.email, values.password);
-      console.log('created account for', user);
-      // TODO: get some data to link firebase and db accounts
-      // - pass that data to db when creating a user
-      // - remove password from db
-      // - login and logout should go through firebase
-      // - all authenticated api calls need current user token
-      // - make sure signup form is disabled when submitting (prevent double user creation)
+      // Add their name to firebase.
+      await updateAccount(user, values.name);
+      // Then create the user in our database.
       const res = await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify(omit(values, ['email', 'password'])),
+        body: JSON.stringify({
+          uid: user.uid,
+          name: values.name,
+          email: values.email,
+          birthday: values.birthday,
+        }),
       });
       const json = await res.json();
 
-      if (json.id) {
-        navigate('/account');
+      if (json.error) {
+        throw new Error(json.error);
       } else {
-        throw new Error('Cannot create account!');
+        navigate('/account');
       }
     } catch (e: any) {
-      alert(`Unable to create account: ${e.message}`);
+      console.error(
+        'Unable to create account:',
+        omit(values, ['password']),
+        e.message,
+      );
+      alert('Unable to create account!');
     }
   }
 

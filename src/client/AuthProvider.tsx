@@ -6,6 +6,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import type { ReactNode } from 'react';
@@ -17,23 +18,64 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 async function createAccount(email: string, password: string) {
-  const userCredential = await createUserWithEmailAndPassword(
-    auth,
-    email,
-    password,
-  );
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
 
-  return userCredential.user;
+    return userCredential.user;
+  } catch (e: any) {
+    // Handle specific errors from firebase, rethrowing them with messages
+    // we can pass along to users.
+    // https://firebase.google.com/docs/reference/node/firebase.auth.Auth#createuserwithemailandpassword
+    if (e.code === 'auth/email-already-in-use') {
+      throw new Error('Email already in use!');
+    } else if (e.code === 'auth/invalid-email') {
+      throw new Error('Email is invalid!');
+    } else if (e.code === 'auth/weak-password') {
+      throw new Error('Password is not strong enough!');
+    } else {
+      throw new Error(e.message);
+    }
+  }
 }
 
 async function login(email: string, password: string) {
-  const userCredential = await signInWithEmailAndPassword(
-    auth,
-    email,
-    password,
-  );
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
 
-  return userCredential.user;
+    return userCredential.user;
+  } catch (e: any) {
+    // Handle specific errors from firebase, rethrowing them with messages
+    // we can pass along to users.
+    // https://firebase.google.com/docs/reference/node/firebase.auth.Auth#signinwithemailandpassword
+    if (
+      [
+        'auth/user-disabled',
+        'auth/invalid-email',
+        'auth/user-not-found',
+      ].includes(e.code)
+    ) {
+      // We want to show the same error for invalid emails as well as if
+      // the user has been disabled or doesn't exist, because otherwise someone
+      // could probe our login to get a list of current users.
+      throw new Error('Email is invalid!');
+    } else if (e.code === 'auth/wrong-password') {
+      throw new Error('Password is incorrect!');
+    } else {
+      throw new Error(e.message);
+    }
+  }
+}
+
+async function updateAccount(user: User, displayName: string) {
+  await updateProfile(user, { displayName });
 }
 
 async function logout() {
@@ -43,6 +85,7 @@ async function logout() {
 type AuthContextType = {
   currentUser: User | null;
   createAccount: typeof createAccount;
+  updateAccount: typeof updateAccount;
   login: typeof login;
   logout: typeof logout;
 };
@@ -50,6 +93,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({
   currentUser: null,
   createAccount,
+  updateAccount,
   login,
   logout,
 });
@@ -75,6 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     currentUser,
     login,
     createAccount,
+    updateAccount,
     logout,
   };
 
