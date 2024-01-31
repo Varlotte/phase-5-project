@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import {
   Button,
@@ -11,11 +11,12 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { omit } from 'lodash';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { CurrentUserContext } from '../utils';
-import Link from './Link';
+import { useAuth } from '../AuthProvider';
+import Link from '../components/Link';
 
 type FormValues = {
   name: string;
@@ -26,33 +27,44 @@ type FormValues = {
 
 export default function Login() {
   const navigate = useNavigate();
-  const { setCurrentUser } = useContext(CurrentUserContext);
+  const { currentUser, createAccount } = useAuth();
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>();
 
-  function onSubmit(values: FormValues) {
-    fetch('/api/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(values),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.id) {
-          window.sessionStorage.setItem('currentUser', data.id);
-          setCurrentUser(data.id);
-          //this passes current user to context
-          //sets current logged in user id so any other component can use it
-          //user id for the rest of the app is going to be sessionStorage.getItem('currentUser')
-          navigate('/account');
-        } else {
-          alert('Unable to create account.');
-        }
+  useEffect(() => {
+    // If the user is already logged in, redirect them to their account page.
+    if (currentUser) navigate('/account');
+  }, [currentUser, navigate]);
+
+  async function onSubmit(values: FormValues) {
+    try {
+      const user = await createAccount(values.email, values.password);
+      console.log('created account for', user);
+      // TODO: get some data to link firebase and db accounts
+      // - pass that data to db when creating a user
+      // - remove password from db
+      // - login and logout should go through firebase
+      // - all authenticated api calls need current user token
+      // - make sure signup form is disabled when submitting (prevent double user creation)
+      const res = await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(omit(values, ['email', 'password'])),
       });
+      const json = await res.json();
+
+      if (json.id) {
+        navigate('/account');
+      } else {
+        throw new Error('Cannot create account!');
+      }
+    } catch (e: any) {
+      alert(`Unable to create account: ${e.message}`);
+    }
   }
 
   return (

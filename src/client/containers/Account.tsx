@@ -1,5 +1,5 @@
 //displays account information
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -11,19 +11,19 @@ import {
 } from '@chakra-ui/react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
+import { useAuth } from '../AuthProvider';
 import EmailForm from '../components/EmailForm';
 import Link from '../components/Link';
-import { clearCurrentUser, CurrentUserContext } from '../utils';
 import type { EmailFormValues } from '../components/EmailForm';
 import type { User } from '../types';
 
 function Account() {
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { currentUser } = useAuth();
   const [accountData, setAccountData] = useState<User | null>(null);
   const navigate = useNavigate();
   const toast = useToast();
 
-  // console.log("load account with id:", currentUser);
+  console.log('load account with id:', currentUser);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -37,7 +37,7 @@ function Account() {
       });
   }, [currentUser]);
 
-  // console.log("account data:", accountData);
+  console.log('account data:', accountData);
 
   if (!currentUser) {
     return <Navigate to="/login" />;
@@ -79,8 +79,6 @@ function Account() {
     })
       .then(() => alert('Delete successful'))
       .catch((error) => console.error('Error deleting account:', error));
-    setCurrentUser(null);
-    clearCurrentUser();
     navigate('/');
   };
 

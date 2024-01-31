@@ -1,19 +1,19 @@
 //displays rx match
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Heading, Stack, Text } from '@chakra-ui/react';
 import { Navigate, useParams } from 'react-router-dom';
 
+import { useAuth } from '../AuthProvider';
 import Link from '../components/Link';
 import MedicationsCard from '../components/MedicationCard';
-import { CurrentUserContext } from '../utils';
 import type { Medication } from '../types';
 
 function RXMatch() {
   let { id } = useParams();
   // console.log(id);
   const conditionAPI = `/api/conditions/${id}`;
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser } = useAuth();
   const [medicationsData, setMedicationsData] = useState<Medication[]>([]);
   const [index, setIndex] = useState(0);
 

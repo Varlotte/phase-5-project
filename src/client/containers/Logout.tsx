@@ -1,22 +1,18 @@
 //this will display on logout
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { clearCurrentUser, CurrentUserContext } from '../utils';
-
 export default function Logout() {
-  const { setCurrentUser } = useContext(CurrentUserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
+    // TODO: use firebase to log out
     fetch('/api/logout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     }).then(() => {
-      setCurrentUser(null);
-      clearCurrentUser();
       navigate('/');
     });
   }, []);
