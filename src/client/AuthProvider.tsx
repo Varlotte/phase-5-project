@@ -3,9 +3,11 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { initializeApp } from 'firebase/app';
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
   getAuth,
   signInWithEmailAndPassword,
   signOut,
+  updateEmail,
   updateProfile,
 } from 'firebase/auth';
 import type { User } from 'firebase/auth';
@@ -42,6 +44,25 @@ async function createAccount(email: string, password: string) {
   }
 }
 
+type UpdateFirebaseProfile = {
+  /** Updating name will call updateProfile() in Firebase. */
+  name?: string;
+  /** Updating email will call updateEmail() in Firebase. */
+  email?: string;
+};
+
+async function updateAccount(user: User, account: UpdateFirebaseProfile) {
+  if (account.name) {
+    await updateProfile(user, { displayName: account.name });
+  } else if (account.email) {
+    await updateEmail(user, account.email);
+  }
+}
+
+async function deleteAccount(user: User) {
+  await deleteUser(user);
+}
+
 async function login(email: string, password: string) {
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -74,10 +95,6 @@ async function login(email: string, password: string) {
   }
 }
 
-async function updateAccount(user: User, displayName: string) {
-  await updateProfile(user, { displayName });
-}
-
 async function logout() {
   await signOut(auth);
 }
@@ -86,6 +103,7 @@ type AuthContextType = {
   currentUser: User | null;
   createAccount: typeof createAccount;
   updateAccount: typeof updateAccount;
+  deleteAccount: typeof deleteAccount;
   login: typeof login;
   logout: typeof logout;
 };
@@ -94,6 +112,7 @@ const AuthContext = createContext<AuthContextType>({
   currentUser: null,
   createAccount,
   updateAccount,
+  deleteAccount,
   login,
   logout,
 });
@@ -117,9 +136,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const value: AuthContextType = {
     currentUser,
-    login,
     createAccount,
     updateAccount,
+    deleteAccount,
+    login,
     logout,
   };
 

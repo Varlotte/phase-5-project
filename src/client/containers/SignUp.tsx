@@ -45,7 +45,7 @@ export default function Login() {
       // Create user account in firebase.
       const user = await createAccount(values.email, values.password);
       // Add their name to firebase.
-      await updateAccount(user, values.name);
+      await updateAccount(user, { name: values.name });
       // Then create the user in our database.
       await post(
         '/api/users',

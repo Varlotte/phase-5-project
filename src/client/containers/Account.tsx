@@ -19,12 +19,10 @@ import type { EmailFormValues } from '../components/EmailForm';
 import type { User } from '../types';
 
 function Account() {
-  const { currentUser } = useAuth();
+  const { currentUser, updateAccount, deleteAccount, logout } = useAuth();
   const [accountData, setAccountData] = useState<User | null>(null);
   const navigate = useNavigate();
   const toast = useToast();
-
-  console.log('load account with id:', currentUser);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -34,8 +32,6 @@ function Account() {
     });
   }, [currentUser]);
 
-  console.log('account data:', accountData);
-
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
@@ -43,23 +39,32 @@ function Account() {
   if (!accountData) return null;
 
   const addEmail = async (newEmail: EmailFormValues) => {
-    const updated = await patch(
-      `/api/users/${currentUser.uid}`,
-      newEmail,
-      true,
-    );
-
-    setAccountData((prevAccount) => ({
-      ...prevAccount,
-      ...updated,
-    }));
-    toast({
-      title: 'Email updated.',
-      description: 'Thanks for updating your account!',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
+    // When changing an email, we have to update it in both Firebase and
+    // our own database.
+    try {
+      await updateAccount(currentUser, { email: newEmail.email });
+      const updated = await patch(
+        `/api/users/${currentUser.uid}`,
+        newEmail,
+        true,
+      );
+      setAccountData((prevAccount) => ({
+        ...prevAccount,
+        ...updated,
+      }));
+      toast({
+        title: 'Email updated.',
+        description: 'Thanks for updating your account!',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (e: any) {
+      console.error(
+        `Cannot update email from ${currentUser.email} to ${newEmail.email}: ${e.message}`,
+      );
+      alert('Error updating email!');
+    }
   };
 
   const handleDeleteAccount = async () => {
@@ -68,7 +73,11 @@ function Account() {
     if (!shouldDelete) return;
 
     try {
+      // When deleting an account, we want to remove it from Firebase and
+      // our own database, then log the user out.
       await remove(`/api/users/${currentUser.uid}`, true);
+      await deleteAccount(currentUser);
+      await logout();
       alert('Delete successful');
       navigate('/');
     } catch (e: any) {
