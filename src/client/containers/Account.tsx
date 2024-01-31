@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
+import { get } from '../api';
 import { useAuth } from '../AuthProvider';
 import EmailForm from '../components/EmailForm';
 import Link from '../components/Link';
@@ -28,13 +29,9 @@ function Account() {
   useEffect(() => {
     if (!currentUser) return;
 
-    fetch(`/api/users/${currentUser.uid}`, {
-      credentials: 'include',
-    })
-      .then((r) => r.json())
-      .then((user: User) => {
-        setAccountData(user);
-      });
+    get(`/api/users/${currentUser.uid}`, true).then((user: User) => {
+      setAccountData(user);
+    });
   }, [currentUser]);
 
   console.log('account data:', accountData);

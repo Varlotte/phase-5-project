@@ -15,6 +15,7 @@ import { omit } from 'lodash';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { post } from '../api';
 import { useAuth } from '../AuthProvider';
 import Link from '../components/Link';
 
@@ -46,24 +47,17 @@ export default function Login() {
       // Add their name to firebase.
       await updateAccount(user, values.name);
       // Then create the user in our database.
-      const res = await fetch('/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
+      await post(
+        '/api/users',
+        {
           uid: user.uid,
           name: values.name,
           email: values.email,
           birthday: values.birthday,
-        }),
-      });
-      const json = await res.json();
-
-      if (json.error) {
-        throw new Error(json.error);
-      } else {
-        navigate('/account');
-      }
+        },
+        true,
+      );
+      navigate('/account');
     } catch (e: any) {
       console.error(
         'Unable to create account:',
