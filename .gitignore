@@ -19,3 +19,7 @@ dist-ssr
 
 # Environment variables
 .env
+
+# Client and server Firebase credentials
+src/server/firebase.json
+src/client/firebase.json

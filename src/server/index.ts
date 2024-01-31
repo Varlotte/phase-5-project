@@ -1,14 +1,10 @@
-import { ensureLoggedIn } from 'connect-ensure-login';
 import { parse } from 'date-fns';
 import express from 'express';
-import session from 'express-session';
-import _ from 'lodash';
 import ViteExpress from 'vite-express';
-import type { NextFunction, Request, Response } from 'express';
 
-import passport, { ensureCurrentUser, hashPassword } from './auth';
+import { ensureCurrentUser, ensureLoggedIn } from './auth';
 import db, { Prisma, validation } from './db';
-import type { NewUser, UpdateUser, UserAuth } from './types';
+import type { NewUser, UpdateUser } from './types';
 
 // Initial setup:
 
@@ -17,53 +13,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 // parse json bodies
 app.use(express.json());
-// set up session support
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET as string,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false },
-  }),
-);
-// set up passport
-app.use(passport.initialize());
-app.use(passport.session());
-passport.serializeUser((user, cb) => {
-  process.nextTick(() => {
-    const id = (user as UserAuth).id;
-
-    return cb(null, id);
-  });
-});
-passport.deserializeUser((id: string, cb) => {
-  process.nextTick(() => {
-    return cb(null, id);
-  });
-});
 
 // API routes:
-
-// User login
-app.post('/api/login', passport.authenticate('local'), async (req, res) => {
-  res.json({ id: (req.user as UserAuth).id });
-});
-
-// User logout
-app.post('/api/logout', ensureLoggedIn(), async (req, res) => {
-  req.logOut((err) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.send('ok');
-    }
-  });
-});
 
 // Get user info. Show all of user account info except the hashed password.
 app.get(
   '/api/users/:id',
-  ensureLoggedIn(),
+  ensureLoggedIn,
   ensureCurrentUser('Cannot fetch data for other users'),
   async (req, res) => {
     try {
@@ -74,7 +30,7 @@ app.get(
         },
       });
 
-      res.json(_.omit(user, ['password']));
+      res.json(user);
     } catch (e) {
       res.status(404).json({ error: (e as Error).message });
     }
@@ -87,15 +43,11 @@ app.get(
 //doing this within the patch ensures only logged in users can fave for themselves only
 app.patch(
   '/api/users/:id',
-  ensureLoggedIn(),
+  ensureLoggedIn,
   ensureCurrentUser('Cannot update other users'),
   async (req, res) => {
     const id = parseInt(req.params.id);
     const data: UpdateUser = req.body;
-
-    if (data.password) {
-      data.password = await hashPassword(data.password);
-    }
 
     try {
       const currentUser = await db.user.findUniqueOrThrow({
@@ -117,7 +69,7 @@ app.patch(
         },
       });
 
-      res.json(_.omit(user, ['password']));
+      res.json(user);
     } catch (e) {
       res.status(404).json({ error: (e as Error).message });
     }
@@ -127,14 +79,14 @@ app.patch(
 // Delete the whole user account
 app.delete(
   '/api/users/:id',
-  ensureLoggedIn(),
+  ensureLoggedIn,
   ensureCurrentUser('Cannot delete other users'),
   async (req, res) => {
     try {
       const user = await db.user.delete({
         where: { id: parseInt(req.params.id) },
       });
-      res.json(_.omit(user, ['password']));
+      res.json(user);
     } catch (e) {
       res.status(404).json({ error: (e as Error).message });
     }
@@ -157,22 +109,10 @@ app.post('/api/users', async (req, res) => {
       data: {
         ...data,
         birthday,
-        password: await hashPassword(data.password),
       },
     });
 
-    // Log the user in
-    req.logIn(created, (err) => {
-      if (err) res.status(400).send('Cannot create user');
-
-      res.status(201).json({
-        id: created.id,
-        name: created.name,
-        email: created.email,
-        birthday: created.birthday,
-        // Don't send the password
-      });
-    });
+    res.status(201).json(created);
   } catch (e) {
     console.error(e);
     if (e instanceof Prisma.PrismaClientKnownRequestError) {

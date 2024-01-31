@@ -1,82 +1,56 @@
-import { hash, verify } from 'argon2';
-import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-import type { NextFunction, Request, Response } from 'express';
+import { cert, initializeApp } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
+import type { NextFunction, Response } from 'express';
 
-import db from './db';
-import type { UserAuth } from './types';
+import serviceAccount from './firebase.json';
+import type { Request, RequestUser } from './types';
 
-// this is in a separate function so we can override the env variable when testing
-function getSecret() {
-  const secret = process.env.ARGON_SECRET;
+const app = initializeApp({
+  credential: cert({
+    projectId: serviceAccount.project_id,
+    clientEmail: serviceAccount.client_email,
+    privateKey: serviceAccount.private_key,
+  }),
+});
 
-  if (!secret) {
-    // make sure we set a password hashing pepper in all environments
-    throw new Error(
-      'Please add a ARGON_SECRET env variable with sufficiently random data',
-    );
-  }
+const auth = getAuth(app);
 
-  return secret as string;
-}
+export default auth;
 
-// hash the password using a pepper
-// exported for testing
-export async function hashPassword(password: string) {
-  // follow best practices from:
-  // https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
-  return hash(password, { secret: Buffer.from(getSecret()) });
-}
-
-// establishing types for the variables called in verify
-export type Callback = (err: Error | null, user?: UserAuth | false) => void;
-
-// checking to see if the user is in the database at all
-// exported for testing
-export async function verifyUser(
-  email: string,
-  password: string,
-  cb: Callback,
+/** Check to make sure user is authenticated. */
+export async function ensureLoggedIn(
+  req: Request,
+  res: Response,
+  next: NextFunction,
 ) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  const token = authHeader.replace('Bearer ', '');
+
   try {
-    const user = await db.user.findUnique({
-      where: { email },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        password: true,
-      },
-    });
+    const decodeValue = await auth.verifyIdToken(token);
 
-    if (!user) {
-      return cb(null, false);
+    if (decodeValue) {
+      req.user = decodeValue as unknown as RequestUser;
+      return next();
     }
-
-    if (
-      !(await verify(user.password, password, {
-        secret: Buffer.from(getSecret()),
-      }))
-    ) {
-      return cb(null, false);
-    }
-
-    return cb(null, user);
-  } catch (e) {
-    return cb(e as Error);
+  } catch (e: any) {
+    // Log the full error on the server, but respond with a generic error.
+    console.error(`Error when verifying auth token: ${e.message}`);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
-
-passport.use(new LocalStrategy({ usernameField: 'email' }, verifyUser));
-
-export default passport;
 
 /** Make sure the current user is logged in when accessing routes under /user/:id */
 export function ensureCurrentUser(errorMessage: string) {
   return (req: Request, res: Response, next: NextFunction) => {
     const id = parseInt(req.params.id);
 
-    if (req.user !== id) {
+    if (req.user?.id !== id) {
       res.status(401).json({ error: errorMessage });
     } else {
       next();
