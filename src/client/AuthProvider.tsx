@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  signOut,
 } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 import type { ReactNode } from 'react';
@@ -35,16 +36,22 @@ async function login(email: string, password: string) {
   return userCredential.user;
 }
 
+async function logout() {
+  await signOut(auth);
+}
+
 type AuthContextType = {
   currentUser: User | null;
   createAccount: typeof createAccount;
   login: typeof login;
+  logout: typeof logout;
 };
 
 const AuthContext = createContext<AuthContextType>({
   currentUser: null,
   createAccount,
   login,
+  logout,
 });
 
 export function useAuth() {
@@ -64,10 +71,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return unsubscribe;
   }, []);
 
-  const value = {
+  const value: AuthContextType = {
     currentUser,
     login,
     createAccount,
+    logout,
   };
 
   return (
