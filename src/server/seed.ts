@@ -1,6 +1,5 @@
 import { readFileSync } from 'fs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { join } from 'path';
 
 import { parse } from 'yaml';
 
@@ -19,7 +18,6 @@ type SeedData = {
 
 function parseData(): SeedData {
   try {
-    const __dirname = dirname(fileURLToPath(import.meta.url));
     const filepath = join(__dirname, 'seed.yml');
     const contents = readFileSync(filepath, 'utf8');
 

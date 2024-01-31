@@ -2,7 +2,7 @@ import { hash, verify } from 'argon2';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 
-import db from './db.js';
+import db from './db';
 
 export type UserAuth = {
   id: number;

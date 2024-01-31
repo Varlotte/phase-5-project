@@ -6,9 +6,9 @@ import _ from 'lodash';
 import ViteExpress from 'vite-express';
 import type { NextFunction, Request, Response } from 'express';
 
-import passport, { hashPassword } from './auth.js';
-import db, { Prisma, validation } from './db.js';
-import type { UserAuth } from './auth.js';
+import passport, { hashPassword } from './auth';
+import db, { Prisma, validation } from './db';
+import type { UserAuth } from './auth';
 
 // instantiating a new app
 const app = express();

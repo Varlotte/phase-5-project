@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { isAdult } from './db.js';
+import { isAdult } from './db';
 
 describe('isAdult', () => {
   const currentDate = new Date('2020-01-01T12:00:00');
