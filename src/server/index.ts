@@ -6,11 +6,12 @@ import _ from 'lodash';
 import ViteExpress from 'vite-express';
 import type { NextFunction, Request, Response } from 'express';
 
-import passport, { hashPassword } from './auth';
+import passport, { ensureCurrentUser, hashPassword } from './auth';
 import db, { Prisma, validation } from './db';
-import type { UserAuth } from './auth';
+import type { NewUser, UpdateUser, UserAuth } from './types';
 
-// instantiating a new app
+// Initial setup:
+
 const app = express();
 // sets 3000 as default port but you can also pass in a specific one in an env variable
 const port = process.env.PORT || 3000;
@@ -41,14 +42,14 @@ passport.deserializeUser((id: string, cb) => {
   });
 });
 
-// api routes:
+// API routes:
 
-//these will all need auth:
-//POST /login
+// User login
 app.post('/api/login', passport.authenticate('local'), async (req, res) => {
   res.json({ id: (req.user as UserAuth).id });
 });
-//POST /logout
+
+// User logout
 app.post('/api/logout', ensureLoggedIn(), async (req, res) => {
   req.logOut((err) => {
     if (err) {
@@ -58,21 +59,8 @@ app.post('/api/logout', ensureLoggedIn(), async (req, res) => {
     }
   });
 });
-//GET, PATCH (to update email and password), and DELETE /users/id
 
-function ensureCurrentUser(errorMessage: string) {
-  return (req: Request, res: Response, next: NextFunction) => {
-    const id = parseInt(req.params.id);
-
-    if ((req.user as UserAuth).id !== id) {
-      res.status(401).json({ error: errorMessage });
-    } else {
-      next();
-    }
-  };
-}
-
-//show all of user account info except the hashed password
+// Get user info. Show all of user account info except the hashed password.
 app.get(
   '/api/users/:id',
   ensureLoggedIn(),
@@ -85,6 +73,7 @@ app.get(
           faves: true,
         },
       });
+
       res.json(_.omit(user, ['password']));
     } catch (e) {
       res.status(404).json({ error: (e as Error).message });
@@ -93,11 +82,6 @@ app.get(
 );
 
 //patch the email and password for the user and hash the new password
-type UpdateUser = {
-  email?: string;
-  password?: string;
-};
-
 //combining updating faves with updating user
 //create a new fave or update (rather than delete) the fave by adding unfavedOn
 //doing this within the patch ensures only logged in users can fave for themselves only
@@ -132,6 +116,7 @@ app.patch(
           faves: true,
         },
       });
+
       res.json(_.omit(user, ['password']));
     } catch (e) {
       res.status(404).json({ error: (e as Error).message });
@@ -139,7 +124,7 @@ app.patch(
   },
 );
 
-//delete the whole user account
+// Delete the whole user account
 app.delete(
   '/api/users/:id',
   ensureLoggedIn(),
@@ -158,22 +143,15 @@ app.delete(
 
 //no auth needed:
 
-type NewUser = {
-  birthday: string;
-  name: string;
-  email: string;
-  password: string;
-};
-
-//POST /users (create new user)
+// Create a new account
 app.post('/api/users', async (req, res) => {
   const data: NewUser = req.body;
   try {
     const birthday = parse(data.birthday, 'yyyy-MM-dd', new Date());
-    // validate new user before we send to the db
+    // Validate new user before we send to the db
     validation.User({ ...data, birthday });
 
-    // send to the db
+    // Send to the db
     const created = await db.user.create({
       data: {
         ...data,
@@ -182,7 +160,7 @@ app.post('/api/users', async (req, res) => {
       },
     });
 
-    // log the user in
+    // Log the user in
     req.logIn(created, (err) => {
       if (err) res.status(400).send('Cannot create user');
 
@@ -191,7 +169,7 @@ app.post('/api/users', async (req, res) => {
         name: created.name,
         email: created.email,
         birthday: created.birthday,
-        // don't send the password
+        // Don't send the password
       });
     });
   } catch (e) {
@@ -213,7 +191,7 @@ app.post('/api/users', async (req, res) => {
   }
 });
 
-//GET medications by id
+// Get a single medication
 app.get('/api/medications/:id', async (req, res) => {
   try {
     const medication = await db.medication.findUniqueOrThrow({
@@ -225,13 +203,13 @@ app.get('/api/medications/:id', async (req, res) => {
   }
 });
 
-//GET medication by brand and generic name for search
+// Search for medications by brand or generic name
 app.get('/api/medications', async (req, res) => {
   try {
     //holds user input
     const query = req.query.q as string;
     const result = await db.medication.findMany({
-      //query matches nameBrand or nameGeneric
+      // Query matches nameBrand or nameGeneric
       where: {
         OR: [
           {
@@ -266,13 +244,14 @@ app.get('/api/medications', async (req, res) => {
         ],
       },
     });
+
     res.json(result);
   } catch (e) {
     res.status(404).json({ error: (e as Error).message });
   }
 });
 
-//GET for all conditions (fully implemented!)
+// Get all conditions
 app.get('/api/conditions', async (req, res) => {
   const conditions = await db.condition.findMany({
     orderBy: [{ id: 'asc' }],
@@ -280,7 +259,8 @@ app.get('/api/conditions', async (req, res) => {
 
   res.json(conditions);
 });
-//GET condition by ID for the tinder UI
+
+// Get single condition (with medications) for RxMatch
 app.get('/api/conditions/:id', async (req, res) => {
   try {
     const condition = await db.condition.findUniqueOrThrow({
@@ -289,14 +269,17 @@ app.get('/api/conditions/:id', async (req, res) => {
         medications: true,
       },
     });
+
     res.json(condition);
   } catch (e) {
     res.status(404).json({ error: (e as Error).message });
   }
 });
 
+// Start the server!
 const server = app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });
 
+// For all other routes, serve the client-side app.
 ViteExpress.bind(app, server);

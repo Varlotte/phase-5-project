@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { hashPassword, verifyUser } from './auth.js';
-import db from './db.js';
-import type { Callback } from './auth.js';
+import { hashPassword, verifyUser } from './auth';
+import db from './db';
+import type { Callback } from './auth';
 
 // Stub the pepper for our tests
 process.env.ARGON_SECRET = 'abc123';

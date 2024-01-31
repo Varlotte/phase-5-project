@@ -1,15 +1,10 @@
 import { hash, verify } from 'argon2';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import type { NextFunction, Request, Response } from 'express';
 
 import db from './db';
-
-export type UserAuth = {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-};
+import type { UserAuth } from './types';
 
 // this is in a separate function so we can override the env variable when testing
 function getSecret() {
@@ -75,3 +70,16 @@ export async function verifyUser(
 passport.use(new LocalStrategy({ usernameField: 'email' }, verifyUser));
 
 export default passport;
+
+/** Make sure the current user is logged in when accessing routes under /user/:id */
+export function ensureCurrentUser(errorMessage: string) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const id = parseInt(req.params.id);
+
+    if ((req.user as UserAuth).id !== id) {
+      res.status(401).json({ error: errorMessage });
+    } else {
+      next();
+    }
+  };
+}

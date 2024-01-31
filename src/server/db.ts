@@ -73,4 +73,5 @@ client.$use(
 
 export default client;
 
+// Export prisma types from the generated client.
 export { Prisma } from '@prisma/client';
