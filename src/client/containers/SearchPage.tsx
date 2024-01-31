@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Stack, Text } from '@chakra-ui/react';
 import { useLocation } from 'react-router-dom';
 
+import { get } from '../api';
 import Link from '../components/Link';
 import MedicationCard from '../components/MedicationCard';
 import type { Medication } from '../types';
@@ -17,12 +18,10 @@ export default function SearchPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(medicationsAPI, { credentials: 'include' })
-      .then((r) => r.json())
-      .then((data) => {
-        setMedications(data);
-        setLoading(false);
-      });
+    get(medicationsAPI).then((data) => {
+      setMedications(data);
+      setLoading(false);
+    });
   }, [medicationsAPI]);
 
   if (query && loading) {

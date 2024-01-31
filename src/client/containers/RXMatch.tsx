@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Heading, Stack, Text } from '@chakra-ui/react';
 import { Navigate, useParams } from 'react-router-dom';
 
+import { get } from '../api';
 import { useAuth } from '../AuthProvider';
 import Link from '../components/Link';
 import MedicationsCard from '../components/MedicationCard';
@@ -18,12 +19,9 @@ function RXMatch() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    fetch(conditionAPI, { credentials: 'include' })
-      .then((r) => r.json())
-      .then((data) => {
-        setMedicationsData(data.medications);
-        // console.log(data);
-      });
+    get(conditionAPI).then((data) => {
+      setMedicationsData(data.medications);
+    });
   }, [conditionAPI]);
 
   if (!currentUser) {

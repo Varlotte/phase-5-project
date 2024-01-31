@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Heading, Image, Stack, Text } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
+import { get } from '../api';
 import Link from '../components/Link';
 import type { Medication } from '../types';
 
@@ -12,11 +13,9 @@ export default function MedicationPage() {
   const [medication, setMedication] = useState<Medication | null>(null);
 
   useEffect(() => {
-    fetch(medicationAPI, { credentials: 'include' })
-      .then((r) => r.json())
-      .then((data) => {
-        setMedication(data);
-      });
+    get(medicationAPI).then((data) => {
+      setMedication(data);
+    });
   }, [medicationAPI]);
 
   if (id || !medication) {

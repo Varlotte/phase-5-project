@@ -3,16 +3,14 @@ import React, { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { useAuth } from '../AuthProvider';
+
 export default function Logout() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   useEffect(() => {
-    // TODO: use firebase to log out
-    fetch('/api/logout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    }).then(() => {
+    logout().then(() => {
       navigate('/');
     });
   }, []);

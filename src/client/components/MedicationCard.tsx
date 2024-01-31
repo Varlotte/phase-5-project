@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { GrDislike, GrLike } from 'react-icons/gr';
 
+import { patch } from '../api';
 import { useAuth } from '../AuthProvider';
 import type { Medication } from '../types';
 
@@ -41,43 +42,36 @@ export default function MedicationsCard({
 
   const toast = useToast();
 
-  const handleFaveClick = () => {
+  const handleFaveClick = async () => {
     const newFave = {
       faves: {
         create: { userId: currentUser, medicationId: medication.id },
       },
     };
 
-    fetch(`/api/users/${currentUser}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(newFave),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          toast({
-            title: 'Medication Already Faved.',
-            description: "Can't fave the same med twice.",
-            status: 'error',
-            duration: 2000,
-            position: 'bottom-left',
-            isClosable: true,
-          });
-          setIndex && setIndex((prevIndex) => prevIndex + 1);
-        } else {
-          setIndex && setIndex((prevIndex) => prevIndex + 1);
-          toast({
-            title: 'Medication Faved.',
-            description: 'Check your account to see your faves.',
-            status: 'success',
-            duration: 2000,
-            position: 'bottom-right',
-            isClosable: true,
-          });
-        }
+    // TODO: refactor for new fave api
+    try {
+      await patch(`/api/users/${currentUser}`, newFave, true);
+      setIndex && setIndex((prevIndex) => prevIndex + 1);
+      toast({
+        title: 'Medication Faved.',
+        description: 'Check your account to see your faves.',
+        status: 'success',
+        duration: 2000,
+        position: 'bottom-right',
+        isClosable: true,
       });
+    } catch (e: any) {
+      setIndex && setIndex((prevIndex) => prevIndex + 1);
+      toast({
+        title: 'Medication Already Faved.',
+        description: "Can't fave the same med twice.",
+        status: 'error',
+        duration: 2000,
+        position: 'bottom-left',
+        isClosable: true,
+      });
+    }
   };
   //setIndex to index +1
   //index is array.length,show "no more meds to display"

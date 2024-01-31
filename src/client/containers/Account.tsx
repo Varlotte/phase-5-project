@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-import { get } from '../api';
+import { get, patch, remove } from '../api';
 import { useAuth } from '../AuthProvider';
 import EmailForm from '../components/EmailForm';
 import Link from '../components/Link';
@@ -42,20 +42,17 @@ function Account() {
 
   if (!accountData) return null;
 
-  const addEmail = (newEmail: EmailFormValues) => {
-    fetch(`/api/users/${currentUser.uid}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newEmail),
-      credentials: 'include',
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        setAccountData((prevAccount) => ({
-          ...prevAccount,
-          ...data,
-        }));
-      });
+  const addEmail = async (newEmail: EmailFormValues) => {
+    const updated = await patch(
+      `/api/users/${currentUser.uid}`,
+      newEmail,
+      true,
+    );
+
+    setAccountData((prevAccount) => ({
+      ...prevAccount,
+      ...updated,
+    }));
     toast({
       title: 'Email updated.',
       description: 'Thanks for updating your account!',
@@ -65,44 +62,42 @@ function Account() {
     });
   };
 
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = async () => {
     const shouldDelete = window.confirm('Are you sure you want to delete?');
 
     if (!shouldDelete) return;
-    // console.log(currentUser);
-    fetch(`/api/users/${currentUser.uid}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    })
-      .then(() => alert('Delete successful'))
-      .catch((error) => console.error('Error deleting account:', error));
-    navigate('/');
+
+    try {
+      await remove(`/api/users/${currentUser.uid}`, true);
+      alert('Delete successful');
+      navigate('/');
+    } catch (e: any) {
+      console.error('Error deleting account:', e);
+      alert('Error deleting account!');
+    }
   };
 
-  const handleUnFaveClick = (medicationId: number) => {
-    fetch(`/api/faves/${medicationId}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    })
-      .then(() =>
-        toast({
-          title: 'Medication Unfaved.',
-          description: 'Thank you for updating your faves!',
-          status: 'info',
-          duration: 2000,
-          position: 'bottom-left',
-          isClosable: true,
-        }),
-      )
-      .then(() => {
-        setAccountData({
-          ...accountData,
-          faves: accountData.faves?.filter(
-            (fave) => fave.medication.id !== medicationId,
-          ),
-        });
-      })
-      .catch((error) => console.error('Error deleting fave', error));
+  const handleUnFaveClick = async (medicationId: number) => {
+    try {
+      // TODO: refactor for new faves api
+      await remove(`/api/faves/${medicationId}`, true);
+      toast({
+        title: 'Medication Unfaved.',
+        description: 'Thank you for updating your faves!',
+        status: 'info',
+        duration: 2000,
+        position: 'bottom-left',
+        isClosable: true,
+      });
+      setAccountData({
+        ...accountData,
+        faves: accountData.faves?.filter(
+          (fave) => fave.medication.id !== medicationId,
+        ),
+      });
+    } catch (e: any) {
+      console.error('Error deleting fave', e);
+    }
   };
 
   return (
