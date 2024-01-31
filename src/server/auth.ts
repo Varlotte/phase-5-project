@@ -76,7 +76,7 @@ export function ensureCurrentUser(errorMessage: string) {
   return (req: Request, res: Response, next: NextFunction) => {
     const id = parseInt(req.params.id);
 
-    if ((req.user as UserAuth).id !== id) {
+    if (req.user !== id) {
       res.status(401).json({ error: errorMessage });
     } else {
       next();

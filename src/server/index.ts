@@ -146,6 +146,7 @@ app.delete(
 // Create a new account
 app.post('/api/users', async (req, res) => {
   const data: NewUser = req.body;
+
   try {
     const birthday = parse(data.birthday, 'yyyy-MM-dd', new Date());
     // Validate new user before we send to the db
