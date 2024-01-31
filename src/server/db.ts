@@ -41,8 +41,8 @@ export const validation = {
   User: validate(
     typeStruct({
       // user fields
+      uid: nonempty(string()),
       name: nonempty(string()),
-      password: size(string(), 12, Infinity),
       email: pattern(string(), /@/),
       birthday: refine(date(), 'adult', (val) => isAdult(val)),
     }),
@@ -52,6 +52,10 @@ export const validation = {
       //medication fields
       nameBrand: nonempty(string()),
       nameGeneric: nonempty(string()),
+      drugClass: nonempty(string()),
+      prescribedFor: nonempty(string()),
+      sideEffects: nonempty(string()),
+      image: nonempty(string()),
     }),
   ),
   Condition: validate(

@@ -1,38 +1,21 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Post` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Profile` table. If the table is not empty, all the data it contains will be lost.
-  - Added the required column `birthday` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `password` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Made the column `name` on table `User` required. This step will fail if there are existing NULL values in that column.
-
-*/
--- DropForeignKey
-ALTER TABLE "Post" DROP CONSTRAINT "Post_authorId_fkey";
-
--- DropForeignKey
-ALTER TABLE "Profile" DROP CONSTRAINT "Profile_userId_fkey";
-
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "birthday" TIMESTAMP(3) NOT NULL,
-ADD COLUMN     "password" TEXT NOT NULL,
-ALTER COLUMN "name" SET NOT NULL;
-
--- DropTable
-DROP TABLE "Post";
-
--- DropTable
-DROP TABLE "Profile";
-
 -- CreateTable
 CREATE TABLE "Fave" (
-    "faved_on" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "unfaved_on" TIMESTAMP(3),
-    "userId" INTEGER NOT NULL,
+    "favedOn" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "unfavedOn" TIMESTAMP(3),
+    "userUid" TEXT NOT NULL,
     "medicationId" INTEGER NOT NULL,
 
-    CONSTRAINT "Fave_pkey" PRIMARY KEY ("userId","medicationId")
+    CONSTRAINT "Fave_pkey" PRIMARY KEY ("userUid","medicationId")
+);
+
+-- CreateTable
+CREATE TABLE "User" (
+    "uid" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "birthday" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("uid")
 );
 
 -- CreateTable
@@ -43,7 +26,7 @@ CREATE TABLE "Medication" (
     "drugClass" TEXT NOT NULL,
     "prescribedFor" TEXT NOT NULL,
     "sideEffects" TEXT NOT NULL,
-    "pillImage" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
 
     CONSTRAINT "Medication_pkey" PRIMARY KEY ("id")
 );
@@ -64,13 +47,25 @@ CREATE TABLE "_ConditionToMedication" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Medication_nameBrand_key" ON "Medication"("nameBrand");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Medication_nameGeneric_key" ON "Medication"("nameGeneric");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Condition_name_key" ON "Condition"("name");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_ConditionToMedication_AB_unique" ON "_ConditionToMedication"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_ConditionToMedication_B_index" ON "_ConditionToMedication"("B");
 
 -- AddForeignKey
-ALTER TABLE "Fave" ADD CONSTRAINT "Fave_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Fave" ADD CONSTRAINT "Fave_userUid_fkey" FOREIGN KEY ("userUid") REFERENCES "User"("uid") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Fave" ADD CONSTRAINT "Fave_medicationId_fkey" FOREIGN KEY ("medicationId") REFERENCES "Medication"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

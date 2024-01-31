@@ -26,7 +26,7 @@ export default function MedicationPage() {
   const {
     nameBrand,
     nameGeneric,
-    class: drugClass,
+    drugClass,
     prescribedFor,
     sideEffects,
     image,

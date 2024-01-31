@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { GrDislike, GrLike } from 'react-icons/gr';
 
-import { CurrentUserContext } from '../utils';
+import { useAuth } from '../AuthProvider';
 import type { Medication } from '../types';
 
 type MedicationCardProps = {
@@ -29,11 +29,11 @@ export default function MedicationsCard({
   index,
   total,
 }: MedicationCardProps) {
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser } = useAuth();
   const {
     nameBrand,
     nameGeneric,
-    class: drugClass,
+    drugClass,
     prescribedFor,
     sideEffects,
     image,

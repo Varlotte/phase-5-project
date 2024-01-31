@@ -28,7 +28,7 @@ function Account() {
   useEffect(() => {
     if (!currentUser) return;
 
-    fetch(`/api/users/${currentUser}`, {
+    fetch(`/api/users/${currentUser.uid}`, {
       credentials: 'include',
     })
       .then((r) => r.json())
@@ -46,7 +46,7 @@ function Account() {
   if (!accountData) return null;
 
   const addEmail = (newEmail: EmailFormValues) => {
-    fetch(`/api/users/${currentUser}`, {
+    fetch(`/api/users/${currentUser.uid}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newEmail),
@@ -73,7 +73,7 @@ function Account() {
 
     if (!shouldDelete) return;
     // console.log(currentUser);
-    fetch(`/api/users/${currentUser}`, {
+    fetch(`/api/users/${currentUser.uid}`, {
       method: 'DELETE',
       credentials: 'include',
     })
@@ -100,8 +100,8 @@ function Account() {
       .then(() => {
         setAccountData({
           ...accountData,
-          favedMedications: accountData.favedMedications?.filter(
-            (medication) => medication.id !== medicationId,
+          faves: accountData.faves?.filter(
+            (fave) => fave.medication.id !== medicationId,
           ),
         });
       })
@@ -117,22 +117,22 @@ function Account() {
         Your current account email is: {accountData.email}
       </Text>{' '}
       <EmailForm addEmail={addEmail} email={accountData.email} />
-      {accountData.favedMedications?.length ? (
+      {accountData.faves?.length ? (
         <>
           <Text align="center">Your faved meds are: </Text>
           <Center>
             <ul>
-              {accountData.favedMedications.map((medication) => (
-                <li key={medication.id}>
-                  <Link to={`/medications/${medication.id}`}>
-                    {medication.nameGeneric} ({medication.nameBrand})
+              {accountData.faves.map((fave) => (
+                <li key={fave.medication.id}>
+                  <Link to={`/medications/${fave.medication.id}`}>
+                    {fave.medication.nameGeneric} ({fave.medication.nameBrand})
                   </Link>{' '}
                   <Button
                     mt={0}
                     colorScheme="teal"
                     size="xs"
                     className="unFave"
-                    onClick={() => handleUnFaveClick(medication.id)}
+                    onClick={() => handleUnFaveClick(fave.medication.id)}
                   >
                     Unfave Med
                   </Button>

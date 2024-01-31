@@ -18,13 +18,13 @@ app.use(express.json());
 
 // Get user info. Show all of user account info except the hashed password.
 app.get(
-  '/api/users/:id',
+  '/api/users/:uid',
   ensureLoggedIn,
   ensureCurrentUser('Cannot fetch data for other users'),
   async (req, res) => {
     try {
       const user = await db.user.findUniqueOrThrow({
-        where: { id: parseInt(req.params.id) },
+        where: { uid: req.params.uid },
         include: {
           faves: true,
         },
@@ -42,16 +42,16 @@ app.get(
 //create a new fave or update (rather than delete) the fave by adding unfavedOn
 //doing this within the patch ensures only logged in users can fave for themselves only
 app.patch(
-  '/api/users/:id',
+  '/api/users/:uid',
   ensureLoggedIn,
   ensureCurrentUser('Cannot update other users'),
   async (req, res) => {
-    const id = parseInt(req.params.id);
+    const uid = req.params.uid;
     const data: UpdateUser = req.body;
 
     try {
       const currentUser = await db.user.findUniqueOrThrow({
-        where: { id },
+        where: { uid },
       });
 
       validation.User({ ...currentUser, ...data });
@@ -59,7 +59,7 @@ app.patch(
       console.log('Saving user', data);
 
       const user = await db.user.update({
-        where: { id },
+        where: { uid },
         data: {
           ...currentUser,
           ...data,
@@ -78,13 +78,13 @@ app.patch(
 
 // Delete the whole user account
 app.delete(
-  '/api/users/:id',
+  '/api/users/:uid',
   ensureLoggedIn,
   ensureCurrentUser('Cannot delete other users'),
   async (req, res) => {
     try {
       const user = await db.user.delete({
-        where: { id: parseInt(req.params.id) },
+        where: { uid: req.params.uid },
       });
       res.json(user);
     } catch (e) {
@@ -172,7 +172,7 @@ app.get('/api/medications', async (req, res) => {
             },
           },
           {
-            class: {
+            drugClass: {
               contains: query,
               mode: 'insensitive',
             },

@@ -12,7 +12,8 @@
     "format": "prettier . --write",
     "prisma:generate": "npx prisma generate",
     "prisma:reset": "npx prisma migrate reset",
-    "prisma:seed": "tsx src/server/seed.ts"
+    "prisma:seed": "tsx src/server/seed.ts",
+    "prisma:migrate": "npx prisma migrate dev"
   },
   "prisma": {
     "schema": "./src/server/prisma/schema.prisma",

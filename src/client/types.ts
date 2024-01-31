@@ -8,21 +8,20 @@ export type Medication = {
   id: number;
   nameBrand: string;
   nameGeneric: string;
-  class: string;
+  drugClass: string;
   prescribedFor: string;
   sideEffects: string;
   image: string;
 };
 
-export type User = {
-  id: number;
-  name: string;
-  email: string;
-  favedMedications: Medication[];
+export type Fave = {
+  favedOn: Date;
+  medication: Medication;
 };
 
-/** Current user ID, used with CurrentUserContext */
-export type CurrentUser = {
-  currentUser: number | null;
-  setCurrentUser: (id: number | null) => void;
+export type User = {
+  uid: string;
+  name: string;
+  email: string;
+  faves: Fave[];
 };

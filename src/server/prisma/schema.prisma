@@ -12,21 +12,21 @@ datasource db {
 }
 
 model Fave {
-  favedOn     DateTime   @default(now())
-  unfavedOn   DateTime?
-  user         User       @relation(fields: [userId], references: [id])
-  userId       Int
+  favedOn      DateTime   @default(now())
+  unfavedOn    DateTime?
+  user         User       @relation(fields: [userUid], references: [uid])
+  userUid      String
   medication   Medication @relation(fields: [medicationId], references: [id])
   medicationId Int
 
-  @@id([userId, medicationId])
+  @@id([userUid, medicationId])
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
+  // uid is this firebase user's unique id
+  uid      String   @id
   name     String
   email    String   @unique
-  password String
   birthday DateTime
   // somehow only shows faves affiliated with this user id
   faves    Fave[]
@@ -37,7 +37,7 @@ model Medication {
   id            Int         @id @default(autoincrement())
   nameBrand     String      @unique
   nameGeneric   String      @unique
-  class         String
+  drugClass     String
   prescribedFor String
   sideEffects   String
   image         String

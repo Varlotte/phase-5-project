@@ -2,20 +2,21 @@ import type { Request as ExpressRequest } from 'express';
 
 export type UpdateUser = {
   email?: string;
-  password?: string;
+  name?: string;
 };
 
 export type NewUser = {
+  uid: string;
   birthday: string;
   name: string;
   email: string;
-  password: string;
 };
 
 /** req.user object */
 export type RequestUser = {
-  id: number;
-  email: string;
+  uid: string;
+  email?: string;
+  displayName?: string;
 };
 
 /** Extend the Express Request object to add user data from Firebase. */

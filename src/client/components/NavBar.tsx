@@ -2,14 +2,13 @@ import React, { useContext } from 'react';
 
 import { Flex } from '@chakra-ui/react';
 
-import { CurrentUserContext } from '../utils';
+import { useAuth } from '../AuthProvider';
 import Link from './Link';
 import Logo from './Logo';
 import MedSearch from './MedSearch';
 
 function NavBar() {
-  //session storage or usecontext here for curr user
-  const { currentUser } = useContext(CurrentUserContext);
+  const { currentUser } = useAuth();
   return (
     <Flex
       as="nav"

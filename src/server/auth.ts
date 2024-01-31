@@ -48,9 +48,9 @@ export async function ensureLoggedIn(
 /** Make sure the current user is logged in when accessing routes under /user/:id */
 export function ensureCurrentUser(errorMessage: string) {
   return (req: Request, res: Response, next: NextFunction) => {
-    const id = parseInt(req.params.id);
+    const uid = req.params.uid;
 
-    if (req.user?.id !== id) {
+    if (req.user?.uid !== uid) {
       res.status(401).json({ error: errorMessage });
     } else {
       next();
