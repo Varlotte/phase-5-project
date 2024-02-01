@@ -146,6 +146,8 @@ tentative backend routing:
 
 -Temporarily: if you're seeing localhost:5555 errors, do npm run build instead of npm start for the front end (dev note)
 
+-There are firebase.json files in the gitignore for both server and client
+
 ## Contributing
 
 1. clone the repo and `cd` into it
