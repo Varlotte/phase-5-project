@@ -41,6 +41,8 @@ function Account() {
   const addEmail = async (newEmail: EmailFormValues) => {
     // When changing an email, we have to update it in both Firebase and
     // our own database.
+    // TODO: need to add email verification so users can update their email.
+    // Otherwise, this logic should work
     try {
       await updateAccount(currentUser, { email: newEmail.email });
       const updated = await patch(
@@ -88,8 +90,25 @@ function Account() {
 
   const handleUnFaveClick = async (medicationId: number) => {
     try {
-      // TODO: refactor for new faves api
-      await remove(`/api/faves/${medicationId}`, true);
+      await patch(
+        `/api/users/${currentUser.uid}`,
+        {
+          faves: {
+            update: {
+              where: {
+                userUid_medicationId: {
+                  userUid: currentUser.uid,
+                  medicationId,
+                },
+              },
+              data: {
+                unfavedOn: new Date(),
+              },
+            },
+          },
+        },
+        true,
+      );
       toast({
         title: 'Medication Unfaved.',
         description: 'Thank you for updating your faves!',
@@ -105,7 +124,15 @@ function Account() {
         ),
       });
     } catch (e: any) {
-      console.error('Error deleting fave', e);
+      console.error(`Error removing fave: ${e.message}`);
+      toast({
+        title: 'Error removing fave',
+        description: 'Please refresh and try again!',
+        status: 'error',
+        duration: 2000,
+        position: 'bottom-left',
+        isClosable: true,
+      });
     }
   };
 

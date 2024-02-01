@@ -43,16 +43,28 @@ export default function MedicationsCard({
   const toast = useToast();
 
   const handleFaveClick = async () => {
+    const ids = {
+      userUid: currentUser?.uid,
+      medicationId: medication.id,
+    };
     const newFave = {
       faves: {
-        create: { userId: currentUser, medicationId: medication.id },
+        upsert: {
+          where: {
+            userUid_medicationId: ids,
+          },
+          create: {
+            medication: {
+              connect: { id: medication.id },
+            },
+          },
+          update: { unfavedOn: null },
+        },
       },
     };
 
-    // TODO: refactor for new fave api
     try {
-      await patch(`/api/users/${currentUser}`, newFave, true);
-      setIndex && setIndex((prevIndex) => prevIndex + 1);
+      await patch(`/api/users/${currentUser?.uid}`, newFave, true);
       toast({
         title: 'Medication Faved.',
         description: 'Check your account to see your faves.',
@@ -62,7 +74,7 @@ export default function MedicationsCard({
         isClosable: true,
       });
     } catch (e: any) {
-      setIndex && setIndex((prevIndex) => prevIndex + 1);
+      console.error(`Error adding fave: ${e.message}`);
       toast({
         title: 'Medication Already Faved.',
         description: "Can't fave the same med twice.",
@@ -71,10 +83,12 @@ export default function MedicationsCard({
         position: 'bottom-left',
         isClosable: true,
       });
+    } finally {
+      // Advance the array to show the next medication. If we're at the end
+      // of the array, it will show "no more medications".
+      setIndex && setIndex((prevIndex) => prevIndex + 1);
     }
   };
-  //setIndex to index +1
-  //index is array.length,show "no more meds to display"
 
   const handleIgnoreClick = () => {
     setIndex && setIndex((prevIndex) => prevIndex + 1);

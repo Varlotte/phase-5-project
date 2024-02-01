@@ -26,7 +26,14 @@ app.get(
       const user = await db.user.findUniqueOrThrow({
         where: { uid: req.params.uid },
         include: {
-          faves: true,
+          faves: {
+            where: {
+              unfavedOn: null,
+            },
+            include: {
+              medication: true,
+            },
+          },
         },
       });
 
@@ -37,10 +44,13 @@ app.get(
   },
 );
 
-//patch the email and password for the user and hash the new password
-//combining updating faves with updating user
-//create a new fave or update (rather than delete) the fave by adding unfavedOn
-//doing this within the patch ensures only logged in users can fave for themselves only
+/**
+ * Update a user, including adding and removing faves.
+ * When adding a fave, it's created if it doesn't already exist. If it does
+ * exist, we set unfavedOn to null.
+ * When removing a fave, we set unfavedOn to null. Users cannot remove a fave
+ * they haven't already added.
+ */
 app.patch(
   '/api/users/:uid',
   ensureLoggedIn,
@@ -65,7 +75,14 @@ app.patch(
           ...data,
         },
         include: {
-          faves: true,
+          faves: {
+            where: {
+              unfavedOn: null,
+            },
+            include: {
+              medication: true,
+            },
+          },
         },
       });
 

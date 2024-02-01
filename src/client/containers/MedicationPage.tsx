@@ -18,7 +18,7 @@ export default function MedicationPage() {
     });
   }, [medicationAPI]);
 
-  if (id || !medication) {
+  if (!medication) {
     return null;
   }
 
