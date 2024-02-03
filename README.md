@@ -149,3 +149,7 @@ tentative backend routing:
 1. clone the repo and `cd` into it
 2. `npm install`
 3. `npm run prisma:generate` to generate the prisma client and types
+
+## Note:
+
+- npm run dev instead of npm start
