@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import { parse } from 'date-fns';
 import express from 'express';
 import ViteExpress from 'vite-express';
