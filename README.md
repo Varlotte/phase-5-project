@@ -1,8 +1,10 @@
 # RXGnosis: Take control of your doctor's appointment
+
 <img width="383" alt="Screenshot 2023-11-14 at 8 22 11 PM" src="https://github.com/Varlotte/phase-5-project/assets/32116877/68ac3be3-a90e-47ad-aac3-54ed6c7abfa9">
 
 ## Video Demo:
-https://youtu.be/UKvkMP40e8U 
+
+https://youtu.be/UKvkMP40e8U
 
 ## The Pitch:
 
@@ -140,4 +142,14 @@ tentative backend routing:
 
 ## A Quick Note:
 
--If the python shell is having trouble with flask-restful and won't run the command "python server/app.py", try running it with "pipenv run python server/app.py"
+-There are firebase.json files in the gitignore for both server and client
+
+## Contributing
+
+1. clone the repo and `cd` into it
+2. `npm install`
+3. `npm run prisma:generate` to generate the prisma client and types
+
+## Note:
+
+- npm run dev instead of npm start

@@ -1,0 +1,156 @@
+medications:
+  - nameBrand: Prozac
+    nameGeneric: Fluoxetine
+    drugClass: Selective Serotonin Reuptake Inhibitor(SSRI)
+    prescribedFor: Obsessive-Compulsive Disorder, Post-Traumatic Stress Disorder (PTSD), some eating disorders, panic attacks, premenstrual dysphoric disorder (PMDD), and some symptoms of Bipolar I Disorder.
+    sideEffects: Nervousness, difficulty sleeping, diarrhea, dry mouth, heartburn, weakness, shaking, appetite loss, unusual dreams, decreased sex drive, stuffy nose, excessive sweating, and difficulty concentrating.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_6239.JPG
+    conditions:
+      - depression
+      - ptsd
+  - nameBrand: Cymbalta
+    nameGeneric: Duloxetine
+    drugClass: Selective serotonin and norepinephrine reuptake inhibitor (SNRI)
+    prescribedFor: Anxiety, Nerve pain related to diabetic neuropathy, fibromyalgia, and ongoing bone and muscle pain.
+    sideEffects: Nausea, vomiting, constipation, diarrhea, weight changes, heartburn, stomach pain, decreased appetite, dry mouth, increased urination, night sweats, dizziness, headache, drowsiness, muscle cramps, decreased sex drive, and shaking.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_34241.JPG
+    conditions:
+      - depression
+      - anxiety
+  - nameBrand: Wellbutrin
+    nameGeneric: Bupropion
+    drugClass: Atypical Antidepressant (norepinephrine-dopamine reuptake inhibitor (NDRI)
+    prescribedFor: ADHD, Seasonal Affective Disorder (SAD), and Smoking Cessation.
+    sideEffects: Drowsiness, anxiety, difficulty sleeping, dizziness, dry mouth, headache, nausea, vomiting, stomach pain, shaking, loss of appetite, weight loss, constipation, sweating, ringing in the ears, changes in sense of taste, frequent urination, and sore throat.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/cwf_tms/DrugItem_22970.PNG?width=384&quality=75
+    conditions:
+      - depression
+      - adhd
+  - nameBrand: Viibryd
+    nameGeneric: Vilazodone
+    drugClass: Atypical serotonin modulator, sometimes also classified as SSRI
+    prescribedFor: N/A
+    sideEffects: Dry mouth, increased appetite, weight changes, heartburn, gas, dizziness, pain or tingling in hands or feet, shaking, unusual dreams, tiredness, joint pain, and decreased sex drive.
+    image: https://www.viibryd.com/Content/images/logo.png
+    conditions:
+      - depression
+  - nameBrand: Lamictal
+    nameGeneric: Lamotrigine
+    drugClass: Anticonvulsant
+    prescribedFor: Seizures (experienced as symptoms of Epilepsy or Lennox-Gastaut syndrome,) and Bipolar I Disorder.
+    sideEffects: Loss of balance or coordination, double or blurred vision, difficulty thinking, speaking, or concentrating. Headache, drowsiness, dizziness, diarrhea, constipation, loss of appetite, weight loss, stomach pain, back pain, heartburn, nausea, vomiting, dry mouth, joint pain, missed or painful menstrual periods, vaginal irritation, and shaking.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_33018.JPG
+    conditions:
+      - depression
+  - nameBrand: Silenor
+    nameGeneric: Doxepin
+    drugClass: Tricyclic Antidepressant
+    prescribedFor: Depression, Insomnia, and some skin conditions.
+    sideEffects: Nausea, dizziness.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_29421.JPG
+    conditions:
+      - anxiety
+      - depression
+  - nameBrand: Effexor
+    nameGeneric: Venlafaxine
+    drugClass: Selective Serotonin and Norepinephrine Reuptake Inhibitor (SNRI)
+    prescribedFor: Depression, Panic Disorder, and Post-Traumatic Stress Disorder (PTSD.)
+    sideEffects: Drowsiness, weakness or tiredness, dizziness, headache, nightmares, nausea, vomiting, stomach pain, constipation, diarrhea, gas, heartburn, dry mouth, changes in sense of taste, loss of appetite, weight loss, shaking, sweating, hot flashes, pain or tingling in body parts, frequent or difficulty urinating, sore throat or chills, ringing in ears, decreased sex drive, and enlarged pupils.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_10912.JPG
+    conditions:
+      - anxiety
+      - depression
+      - ptsd
+  - nameBrand: Xanax
+    nameGeneric: Alprazolam
+    drugClass: Benzodiazepine
+    prescribedFor: Post-Traumatic Stress Disorder (PTSD), and Panic Disorder.
+    sideEffects: Drowsiness, light-headedness, headache, dizziness, irritability, talkativeness, difficulty concentrating, dry mouth, increased saliva, changes in sex drive, nausea, constipation, changes in appetite or weight, difficulty urinating, and joint pain.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_34501.JPG
+    conditions:
+      - anxiety
+      - ptsd
+  - nameBrand: Buspar
+    nameGeneric: Buspirone
+    drugClass: Anxiolytics
+    prescribedFor: Depression, and Behavioral Problems Following Brain Damage.
+    sideEffects: Dizziness, nausea, diarrhea, headache, excitement, confusion, fatigue, nervousness, difficulty sleeping, feelings of anger or hostility, lightheadedness, weakness, numbness, and increased sweating.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_18004.JPG
+    conditions:
+      - anxiety
+      - depression
+  - nameBrand: Zoloft
+    nameGeneric: Sertraline
+    drugClass: Selective Serotonin Reuptake Inhibitor (SSRI)
+    prescribedFor: Depression, Obsessive-Compulsive Disorder (OCD), Panic Disorder, and Premenstrual Dysphoric Disorder (PMDD.)
+    sideEffects: Nausea, diarrhea, constipation, vomiting, difficulty sleeping, dry mouth, heartburn, loss of appetite, weight changes, dizziness, excessive tiredness, headache, nervousness, shaking, decreased sex drive, and excessive sweating.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_16124.JPG
+    conditions:
+      - ptsd
+      - depression
+  - nameBrand: Paxil
+    nameGeneric: Paroxetine
+    drugClass: Selective Serotonin Reuptake Inhibitor (SSRI)
+    prescribedFor: Depression, Panic Disorder, Anxiety, Obsessive Compulsive Disorder, Premenstrual Dysphoric Disorder (PMDD), and Hot Flashes.
+    sideEffects: Headache, dizziness, weakness, difficulty concentrating, nervousness, forgetfulness, confusion, sleepiness, nausea, vomiting, diarrhea, constipation, gas, stomach pain, heartburn, changes in sense of taste, decreased appetite, weight changes, decreased sex drive, dry mouth, sweating, muscle pain, and joint tenderness or swelling.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_19285.JPG
+    conditions:
+      - ptsd
+      - depression
+      - anxiety
+  - nameBrand: Norpramin
+    nameGeneric: Desipramine hydrochloride
+    drugClass: Tricyclic Antidepressant
+    prescribedFor: Depression
+    sideEffects: Nausea, drowsiness, weakness or tiredness, nightmares, dry mouth, increased skin sensitivity to sunlight, weight and appetite changes, frequent or difficult urination, changes in sex drive, and sweating.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/DrugItem_26713.JPG
+    conditions:
+      - adhd
+      - depression
+  - nameBrand: Vyvanse
+    nameGeneric: Lisdexamfetamine dimesylate
+    drugClass: Central Nervous System Stimulant
+    prescribedFor: Binge Eating Disorder
+    sideEffects: Sleepiness, dizziness, headache, dry mouth, constipation, diarrhea, nausea, and weight loss.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/Package_30070.JPG
+    conditions:
+      - adhd
+  - nameBrand: Ritalin
+    nameGeneric: Methylphenidate hydrochloride
+    drugClass: Central Nervous System Stimulant
+    prescribedFor: Narcolepsy
+    sideEffects: Nervousness, irritability, difficulty sleeping, dizziness, nausea, vomiting, loss of appetite, weight loss, stomach pain, diarrhea, heartburn, dry mouth, headache, muscle tightness, drowsiness, uncontrollable movement of a body part, restlessness, decreased sex drive, heavy sweating, and back pain.
+    image: https://www.drugs.com/images/pills/fio/NVR04411/ritalin.JPG
+    conditions:
+      - adhd
+  - nameBrand: Qelbree
+    nameGeneric: Viloxazine
+    drugClass: Selective Norepinephrine Reuptake Inhibitor
+    prescribedFor: N/A
+    sideEffects: Loss of appetite, tiredness, nausea, vomiting, and headache.
+    image: https://www.grxstatic.com/d4fuqqd5l3dbz/products/tms/Package_27014.JPG
+    conditions:
+      - adhd
+
+conditions:
+  depression:
+    name: Depression
+    description: |
+      <p> Depression is a serious medical illness. It's more than just a feeling of being sad for a few days. If you are one of the more than 19 million teens and adults in the United States who have depression, the feelings do not go away. They persist and interfere with your everyday life. </p>
+      <p> Symptoms can include: <ul> <li>feeling sad or "empty"</li> <li>loss of interest in favorite activities </li> <li> overeating, or not wanting to eat at all </li> <li> not being able to sleep, or sleeping too much </li> <li> feeling very tired </li> <li>feeling hopeless, irritable, anxious, or guilty</li> <li> aches or pains </li> <li>digestive problems</li> <li> and thoughts of death or suicide.</li> </ul> </p>
+      <p> Depression is a disorder of the brain. There are a variety of causes, including genetic, biological, environmental, and psychological factors. Depression can happen at any age, but it often begins in teens and young adults. It is much more common in women. Women can also get postpartum depression after the birth of a baby. Some people get seasonal affective disorder in the winter. Depression is one part of bipolar disorder.</p>
+  anxiety:
+    name: Anxiety
+    description: |
+      <p> Anxiety is a feeling of fear, dread, and uneasiness. It might cause you to sweat, feel restless and tense, and have a rapid heartbeat. </p> <p>It can be a normal reaction to stress. For example, you might feel anxious when faced with a difficult problem at work, before taking a test, or before making an important decision. The anxiety may give you a boost of energy or help you focus.</p> <p> But for people with anxiety disorders, the fear is not temporary and can be overwhelming.
+      Anxiety disorders are conditions in which you have anxiety that does not go away and can get worse over time. The symptoms can interfere with daily activities such as job performance, schoolwork, and relationships.</p>
+  ptsd:
+    name: Post-Traumatic Stress Disorder (PTSD)
+    description: |
+      <p>Post-traumatic stress disorder (PTSD) is a mental health disorder that can be developed at any age. Some people develop it after they experience or see a traumatic event. The traumatic event may be life-threatening, but the event is not necessarily a physically dangerous one.</p>
+      <p>It's normal to feel afraid during and after a traumatic situation. The fear triggers a "fight-or-flight" response. This is your body's way of helping to protect itself from possible harm. It causes changes in your body such as the release of certain hormones and increases in alertness, blood pressure, heart rate, and breathing.</p>
+      <p>In time, most people recover from this naturally. But people with PTSD don't feel better. They feel stressed and frightened long after the trauma is over. In some cases, the PTSD symptoms may start later on. They might also come and go over time.</p>
+  adhd:
+    name: Attention Deficit Hyperactivity Disorder (ADHD)
+    description: |
+      <p>ADHD is a neurodevelopmental disorder. It is usually first diagnosed in childhood and often lasts into adulthood. But some people don't get diagnosed with ADHD until they are adults.</p> <p> ADHD symptoms can include: <ul> <li> having trouble paying attention (inattention)</li> <li> having trouble controlling impulsive behaviors (impulsivity)</li>  <li>and being overly active (hyperactivity.)</li> </ul> </p>
