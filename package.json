@@ -8,12 +8,13 @@
     "test": "vitest",
     "dev": "nodemon -w src/server -x tsx src/server/index.ts",
     "start": "NODE_ENV=production tsx src/server/index.ts",
-    "build": "vite build",
+    "build": "vite build && prisma migrate deploy",
     "format": "prettier . --write",
     "prisma:generate": "npx prisma generate",
     "prisma:reset": "npx prisma migrate reset",
     "prisma:seed": "tsx src/server/seed.ts",
-    "prisma:migrate": "npx prisma migrate dev"
+    "prisma:migrate": "npx prisma migrate dev",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "schema": "./src/server/prisma/schema.prisma",
@@ -27,6 +28,7 @@
     "@emotion/styled": "^11.11.0",
     "@prisma/client": "^5.9.0",
     "date-fns": "^3.3.1",
+    "dotenv": "^16.4.4",
     "express": "^4.18.2",
     "firebase": "^10.7.2",
     "firebase-admin": "^12.0.0",
