@@ -13,7 +13,8 @@
     "prisma:generate": "npx prisma generate",
     "prisma:reset": "npx prisma migrate reset",
     "prisma:seed": "tsx src/server/seed.ts",
-    "prisma:migrate": "npx prisma migrate dev"
+    "prisma:migrate": "npx prisma migrate dev",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "schema": "./src/server/prisma/schema.prisma",
