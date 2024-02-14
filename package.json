@@ -8,7 +8,7 @@
     "test": "vitest",
     "dev": "nodemon -w src/server -x tsx src/server/index.ts",
     "start": "NODE_ENV=production tsx src/server/index.ts",
-    "build": "vite build && prisma migrate deploy",
+    "build": "vite build && prisma migrate deploy && npm run prisma:seed",
     "format": "prettier . --write",
     "prisma:generate": "npx prisma generate",
     "prisma:reset": "npx prisma migrate reset",
