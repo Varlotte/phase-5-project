@@ -12,6 +12,7 @@ lib-cov
 
 # Dependency directories
 node_modules
+.vite
 
 # Generated js
 dist
