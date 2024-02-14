@@ -41,6 +41,7 @@ app.get(
 
       res.json(user);
     } catch (e) {
+      console.error(e);
       res.status(404).json({ error: (e as Error).message });
     }
   },
