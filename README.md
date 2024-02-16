@@ -6,6 +6,9 @@
 
 https://youtu.be/UKvkMP40e8U
 
+## Production URL:
+https://rxgnosis.onrender.com
+
 ## The Pitch:
 
 Statistically, most doctors' appointments in this country last an average of 17.4 minutes.
@@ -21,6 +24,11 @@ Enter RXGnosis: a tool that empowers patients to come to doctor's appointments w
 - Users will be able to show their faved meds list to providers in appointments to better advocate for their own care and be a more informed part of a greater healthcare conversation.
 - Users can remove faves from their saved faves list in their account.
 - Users can use the seach tool in the RXGNosis navbar to search for a medication by name (generic or brand name) regardless of whether or not they are logged in. If the user is logged in, they can also save medications to their account from this named search.
+
+## Production Notes: 
+
+- While this project was originally written in Python, Flask-SQLAlchemy, yaml, and React for Flatiron Capstone requirements (and notes below about API contract may still reflect that formatting,) for production it was converted into Node, Express, Typescript, and Prisma on the backend, with Postgres added for database and Firebase added for more secure auth. Yaml seed data still exists and routes as described in API contract still work. 
+- This project is deployed on Render. Production url here: https://rxgnosis.onrender.com 
 
 ## Caveats:
 
@@ -132,7 +140,7 @@ tentative backend routing:
 ## Risks:
 
 - Hopefully the National Library of Medicine/National Institutes of Health/FDA APIs have everything I need for drug info.
-- In the real world, this would take maneuvering for HIPAAA compatibility.
+- In the real world, this would take maneuvering for HIPAA compatibility.
 - There might be too many relationships for this stage of the project (see above for things I can cut.)
 
 ## How Work Is Tracked:
