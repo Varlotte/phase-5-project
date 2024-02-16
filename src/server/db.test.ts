@@ -20,4 +20,8 @@ describe('isAdult', () => {
   it('returns false if birthday is in the future', () => {
     expect(isAdult(new Date('2024-01-07T12:00:00'), currentDate)).toBe(false);
   });
+
+  it('fails PRs when tests fail', () => {
+    expect(false).toBe(true);
+  });
 });
