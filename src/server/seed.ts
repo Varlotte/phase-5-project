@@ -2,6 +2,7 @@ import { readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
+import { parse as parseDate } from 'date-fns';
 import { parse } from 'yaml';
 
 import client, { Prisma } from './db.js';
@@ -15,6 +16,7 @@ type Condition = Prisma.ConditionCreateInput;
 type SeedData = {
   medications: Medication[];
   conditions: Record<string, Condition>;
+  testUser: Prisma.UserCreateInput;
 };
 
 function parseData(): SeedData {
@@ -69,6 +71,19 @@ async function main() {
       });
     }),
   );
+
+  // seed the test user into the db
+  const birthday = parseDate(
+    yaml.testUser.birthday as string,
+    'yyyy-MM-dd',
+    new Date(),
+  );
+
+  await client.user.upsert({
+    where: { uid: yaml.testUser.uid },
+    update: { ...yaml.testUser, birthday },
+    create: { ...yaml.testUser, birthday },
+  });
 }
 
 main()

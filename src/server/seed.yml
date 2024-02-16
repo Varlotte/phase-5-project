@@ -154,3 +154,9 @@ conditions:
     name: Attention Deficit Hyperactivity Disorder (ADHD)
     description: |
       <p>ADHD is a neurodevelopmental disorder. It is usually first diagnosed in childhood and often lasts into adulthood. But some people don't get diagnosed with ADHD until they are adults.</p> <p> ADHD symptoms can include: <ul> <li> having trouble paying attention (inattention)</li> <li> having trouble controlling impulsive behaviors (impulsivity)</li>  <li>and being overly active (hyperactivity.)</li> </ul> </p>
+
+testUser:
+  uid: 7BRWhfijakRHg6h7zb8zbZtfRuC2
+  name: Tony Soprano
+  email: yoshokatana@gmail.com
+  birthday: "1957-08-22"
