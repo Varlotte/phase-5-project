@@ -21,7 +21,9 @@ export default function FormKofi() {
           <Link href="https://nelson.codes"> Nelson Pecora</Link>. If you like
           it, please consider throwing us a few bucks{' '}
           <Link href="https://ko-fi.com/charlottebush">here.</Link> Report bugs
-          and request features <Link href="form">here!</Link> Thank you!
+          and request features{' '}
+          <Link href="https://forms.gle/nAUdeLSdzhXbSHN88">here!</Link> Thank
+          you!
         </Text>
       </Stack>
     </Box>
