@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   deleteUser,
   getAuth,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
   updateEmail,
@@ -111,6 +112,7 @@ type AuthContextType = {
   deleteAccount: typeof deleteAccount;
   login: typeof login;
   logout: typeof logout;
+  sendEmailVerification: typeof sendEmailVerification;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -120,6 +122,7 @@ const AuthContext = createContext<AuthContextType>({
   deleteAccount,
   login,
   logout,
+  sendEmailVerification,
 });
 
 export function useAuth() {
@@ -146,6 +149,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     deleteAccount,
     login,
     logout,
+    sendEmailVerification,
   };
 
   return (

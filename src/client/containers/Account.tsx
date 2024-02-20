@@ -9,6 +9,8 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import { GoShieldX } from 'react-icons/go';
+import { MdOutlineVerifiedUser } from 'react-icons/md';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 import { get, patch, remove } from '../api';
@@ -19,7 +21,13 @@ import type { EmailFormValues } from '../components/EmailForm';
 import type { User } from '../types';
 
 function Account() {
-  const { currentUser, updateAccount, deleteAccount, logout } = useAuth();
+  const {
+    currentUser,
+    updateAccount,
+    deleteAccount,
+    logout,
+    sendEmailVerification,
+  } = useAuth();
   const [accountData, setAccountData] = useState<User | null>(null);
   const navigate = useNavigate();
   const toast = useToast();
@@ -41,8 +49,6 @@ function Account() {
   const addEmail = async (newEmail: EmailFormValues) => {
     // When changing an email, we have to update it in both Firebase and
     // our own database.
-    // TODO: need to add email verification so users can update their email.
-    // Otherwise, this logic should work
     try {
       await updateAccount(currentUser, { email: newEmail.email });
       const updated = await patch(
@@ -55,7 +61,7 @@ function Account() {
         ...updated,
       }));
       toast({
-        title: 'Email updated.',
+        title: 'Email updated',
         description: 'Thanks for updating your account!',
         status: 'success',
         duration: 3000,
@@ -65,7 +71,13 @@ function Account() {
       console.error(
         `Cannot update email from ${currentUser.email} to ${newEmail.email}: ${e.message}`,
       );
-      alert('Error updating email!');
+      toast({
+        title: 'Error updating email',
+        description: `Cannot update email: ${e.message}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -80,11 +92,23 @@ function Account() {
       await remove(`/api/users/${currentUser.uid}`, true);
       await deleteAccount(currentUser);
       await logout();
-      alert('Delete successful');
+      toast({
+        title: 'Account deleted',
+        description: "We'll miss you!",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
       navigate('/');
     } catch (e: any) {
       console.error('Error deleting account:', e);
-      alert('Error deleting account!');
+      toast({
+        title: 'Error deleting account',
+        description: `Cannot delete account: ${e.message}`,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -136,6 +160,16 @@ function Account() {
     }
   };
 
+  const verifyEmail = async () => {
+    await sendEmailVerification(currentUser);
+    toast({
+      title: 'Email Verification sent',
+      description: 'Please check your email and click the link to verify',
+      status: 'success',
+      duration: 2000,
+    });
+  };
+
   return (
     <Stack>
       <Heading margin={2} align="center" as="h1">
@@ -144,7 +178,33 @@ function Account() {
       <Text align="center">
         Your current account email is: {accountData.email}
       </Text>{' '}
-      <EmailForm addEmail={addEmail} email={accountData.email} />
+      <Text align="center">
+        {currentUser.emailVerified ? (
+          <span>
+            <MdOutlineVerifiedUser
+              color="green"
+              style={{ display: 'inline-block', marginRight: '5px' }}
+            />
+            Email is <strong>verified</strong>
+          </span>
+        ) : (
+          <span>
+            <GoShieldX
+              color="red"
+              style={{ display: 'inline-block', marginRight: '5px' }}
+            />
+            Email is <strong>not verified</strong>.{' '}
+            <Button variant="link" onClick={verifyEmail}>
+              Send verification email?
+            </Button>
+          </span>
+        )}
+      </Text>
+      <EmailForm
+        addEmail={addEmail}
+        email={accountData.email}
+        isVerified={currentUser.emailVerified}
+      />
       {accountData.faves?.length ? (
         <>
           <Text align="center">Your faved meds are: </Text>
