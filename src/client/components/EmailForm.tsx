@@ -19,9 +19,14 @@ export type EmailFormValues = {
 type EmailFormProps = {
   addEmail: (values: EmailFormValues) => void;
   email: string;
+  isVerified: boolean;
 };
 
-export default function EmailForm({ addEmail, email }: EmailFormProps) {
+export default function EmailForm({
+  addEmail,
+  email,
+  isVerified,
+}: EmailFormProps) {
   const {
     handleSubmit,
     register,
@@ -35,6 +40,9 @@ export default function EmailForm({ addEmail, email }: EmailFormProps) {
       <Text fontWeight={'bold'}>Update your email:</Text>
       <form
         onSubmit={handleSubmit((values) => {
+          if (!isVerified) return;
+
+          // If email is verified, users may update it.
           addEmail(values);
         })}
       >
@@ -62,6 +70,7 @@ export default function EmailForm({ addEmail, email }: EmailFormProps) {
             mt={4}
             colorScheme="teal"
             isLoading={isSubmitting}
+            isDisabled={!isVerified}
             type="submit"
           >
             Update
