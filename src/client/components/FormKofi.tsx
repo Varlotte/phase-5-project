@@ -20,8 +20,8 @@ export default function FormKofi() {
           <Link href="https://femmefaust.us/dev">Charlotte Bush</Link> and{' '}
           <Link href="https://nelson.codes"> Nelson Pecora</Link>. If you like
           it, please consider throwing us a few bucks{' '}
-          <Link href="ko-fi">here.</Link> Report bugs and request features{' '}
-          <Link href="form">here!</Link> Thank you!
+          <Link href="https://ko-fi.com/charlottebush">here.</Link> Report bugs
+          and request features <Link href="form">here!</Link> Thank you!
         </Text>
       </Stack>
     </Box>
