@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { AuthProvider } from '../AuthProvider';
+import FormKofi from '../components/FormKofi';
 import NavBar from '../components/NavBar';
 import Account from './Account';
 import Conditions from './Conditions';
@@ -35,6 +36,7 @@ function App() {
               <Route path="/logout" element={<Logout />} />
               <Route path="/" element={<LandingPage />} />
             </Routes>
+            <FormKofi />
           </main>
         </BrowserRouter>
       </AuthProvider>
