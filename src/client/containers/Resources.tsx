@@ -30,8 +30,8 @@ function Resources() {
       <Text margin={2}>
         All information available on RXMatch was made available through Medline
         Plus, a free public health information resource for patients and
-        providers from the National Library of Medicine, a subsidiary of the
-        National Institutes of Health.
+        providers from the National Library of Medicine, one of the institutes
+        of the National Institutes of Health.
       </Text>
       <Text margin={2}>
         Reliable public health information is out there- RXGnosis recommends
