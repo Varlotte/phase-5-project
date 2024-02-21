@@ -7,7 +7,7 @@
 https://youtu.be/UKvkMP40e8U
 
 ## Production URL:
-https://rxgnosis.onrender.com
+https://rxgnosis.com
 
 ## The Pitch:
 
