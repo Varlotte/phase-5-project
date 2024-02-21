@@ -35,7 +35,7 @@ function Resources() {
       </Text>
       <Text margin={2}>
         Reliable public health information is out there- RXGnosis recommends
-        using tools from the NLM, NIH, and FDA. Don't use WebMd!
+        using tools from the NLM, NIH, and FDA.
       </Text>
       <Text margin={2}>
         Are you a developer looking for free public health databases? Check out{' '}
