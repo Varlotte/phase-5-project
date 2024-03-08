@@ -28,7 +28,7 @@ Enter RXGnosis: a tool that empowers patients to come to doctor's appointments w
 ## Production Notes: 
 
 - While this project was originally written in Python, Flask-SQLAlchemy, yaml, and React for Flatiron Capstone requirements (and notes below about API contract may still reflect that formatting,) for production it was converted into Node, Express, Typescript, and Prisma on the backend, with Postgres added for database and Firebase added for more secure auth. Yaml seed data still exists and routes as described in API contract still work. 
-- This project is deployed on Render. Production url here: https://rxgnosis.onrender.com 
+
 
 ## Caveats:
 
